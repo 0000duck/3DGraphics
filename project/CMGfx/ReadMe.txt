@@ -1,42 +1,6 @@
-3DGraphics
-==========
-
-Repository for VGP 240 - 3D Graphics and Applications.
-
-
-
-
-Build Instructions
-------------------
-
-###### Requires Visual Studio 2012
-
-1. Open the Visual Studio 2012 solution file in "project/CMGfx.sln"
-2. Build the solution within Visual Studio
-3. Run the application within the editor (F5), or launch the executable in "bin/<build configuration>/CMGfx.exe"
-
-
-
-
-Directory Structure
--------------------
-
-* bin - Intermediate directory
-  * Configuration(s) - Output files for selected build configuration
-* build - Output directory
-  * Configuration - Output files for selected build configuration
-* project - Visual Studio 2012 solution file
-  * CMGfx - Visual Studio 2012 project files
-* scripts - Shader scripts
-* setup - Microsoft .rc files and MFC
-  * res - Resource files
-* source - Project source files (C++)
-
-
-
-
-MICROSOFT FOUNDATION CLASS LIBRARY : CMGfx Project Overview
------------------------------------------------------------
+================================================================================
+    MICROSOFT FOUNDATION CLASS LIBRARY : CMGfx Project Overview
+===============================================================================
 
 The application wizard has created this CMGfx application for 
 you.  This application not only demonstrates the basics of using the Microsoft 

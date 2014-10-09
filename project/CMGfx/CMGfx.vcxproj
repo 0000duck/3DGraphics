@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{84C61F48-8950-4E51-B2A7-EB939C2C2B61}</ProjectGuid>
+    <RootNamespace>CMGfx-Full</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\..\bin\$(Configuration)\</OutDir>
+    <IntDir>..\..\build\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\..\bin\$(Configuration)\</OutDir>
+    <IntDir>..\..\build\$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>false</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>./;../../source/</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>false</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>./;../../source/</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\ChildFrm.cpp" />
+    <ClCompile Include="..\..\source\CLog.cpp" />
+    <ClCompile Include="..\..\source\CmdColor.cpp" />
+    <ClCompile Include="..\..\source\CmdDrawBegin.cpp" />
+    <ClCompile Include="..\..\source\CmdDrawEnd.cpp" />
+    <ClCompile Include="..\..\source\CmdDrawPixel.cpp" />
+    <ClCompile Include="..\..\source\CmdFillMode.cpp" />
+    <ClCompile Include="..\..\source\CmdVertex2.cpp" />
+    <ClCompile Include="..\..\source\CMGfx.cpp" />
+    <ClCompile Include="..\..\source\CMGfxDoc.cpp" />
+    <ClCompile Include="..\..\source\CMGfxView.cpp" />
+    <ClCompile Include="..\..\source\CntrItem.cpp" />
+    <ClCompile Include="..\..\source\FillModes.cpp" />
+    <ClCompile Include="..\..\source\Line.cpp" />
+    <ClCompile Include="..\..\source\MainFrm.cpp" />
+    <ClCompile Include="..\..\source\oglMFCDialogDlg.cpp" />
+    <ClCompile Include="..\..\source\OpenGLControl.cpp" />
+    <ClCompile Include="..\..\source\Primitive.cpp" />
+    <ClCompile Include="..\..\source\PrimitiveTypes.cpp" />
+    <ClCompile Include="..\..\source\PrimManager.cpp" />
+    <ClCompile Include="..\..\source\Rasterizer.cpp" />
+    <ClCompile Include="..\..\source\ScriptParser.cpp" />
+    <ClCompile Include="..\..\source\StateManager.cpp" />
+    <ClCompile Include="..\..\source\stdafx.cpp" />
+    <ClCompile Include="..\..\source\Triangle.cpp" />
+    <ClCompile Include="..\..\source\Vector2.cpp" />
+    <ClCompile Include="..\..\source\Vector3.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\ChildFrm.h" />
+    <ClInclude Include="..\..\source\CLog.h" />
+    <ClInclude Include="..\..\source\CmdColor.h" />
+    <ClInclude Include="..\..\source\CmdCommand.h" />
+    <ClInclude Include="..\..\source\CmdDrawBegin.h" />
+    <ClInclude Include="..\..\source\CmdDrawEnd.h" />
+    <ClInclude Include="..\..\source\CmdDrawPixel.h" />
+    <ClInclude Include="..\..\source\CmdFillMode.h" />
+    <ClInclude Include="..\..\source\CmdVertex2.h" />
+    <ClInclude Include="..\..\source\CMGfx.h" />
+    <ClInclude Include="..\..\source\CMGfxDoc.h" />
+    <ClInclude Include="..\..\source\CMGfxView.h" />
+    <ClInclude Include="..\..\source\CntrItem.h" />
+    <ClInclude Include="..\..\source\Color.h" />
+    <ClInclude Include="..\..\source\Common.h" />
+    <ClInclude Include="..\..\source\FillModes.h" />
+    <ClInclude Include="..\..\source\Line.h" />
+    <ClInclude Include="..\..\source\MainFrm.h" />
+    <ClInclude Include="..\..\source\MiniMath.h" />
+    <ClInclude Include="..\..\source\oglMFCDialogDlg.h" />
+    <ClInclude Include="..\..\source\OpenGLControl.h" />
+    <ClInclude Include="..\..\source\Plane2.h" />
+    <ClInclude Include="..\..\source\Primitive.h" />
+    <ClInclude Include="..\..\source\PrimitiveTypes.h" />
+    <ClInclude Include="..\..\source\PrimManager.h" />
+    <ClInclude Include="..\..\source\Rasterizer.h" />
+    <ClInclude Include="..\..\source\resource.h" />
+    <ClInclude Include="..\..\source\ScriptParser.h" />
+    <ClInclude Include="..\..\source\StateManager.h" />
+    <ClInclude Include="..\..\source\stdafx.h" />
+    <ClInclude Include="..\..\source\Triangle.h" />
+    <ClInclude Include="..\..\source\Vector2.h" />
+    <ClInclude Include="..\..\source\Vector3.h" />
+    <ClInclude Include="..\..\source\Vertex2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md" />
+    <None Include="..\..\setup\CMGfx.aps" />
+    <None Include="..\..\setup\CMGfx.reg" />
+    <None Include="..\..\setup\res\CMGfx.rc2" />
+    <None Include="..\..\setup\res\Thumbs.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\setup\CMGfx.rc">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\source\;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\source\;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ResourceOutputFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\build\$(IntDir)%(Filename).res</ResourceOutputFileName>
+      <ResourceOutputFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\build\$(IntDir)%(Filename).res</ResourceOutputFileName>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\setup\res\CMGfx.ico" />
+    <Image Include="..\..\setup\res\CMGfxDoc.ico" />
+    <Image Include="..\..\setup\res\Toolbar.bmp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="CMGfx.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

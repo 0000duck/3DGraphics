@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Display">
+      <UniqueIdentifier>{04b46e8f-2db5-4d4b-8c03-99d08a088951}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{b24ca101-e1b9-4d81-8350-019d07d99730}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{280f5d2e-1941-481d-a2dc-4984ea5bdf7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework">
+      <UniqueIdentifier>{e1d03771-5abe-446a-b4a5-fba243c0b3e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Primitives">
+      <UniqueIdentifier>{52e4498e-cf4f-4968-8168-e45adf7a629f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{dff5bc18-a521-41e0-8f2f-372e13f20247}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Setup">
+      <UniqueIdentifier>{8fb26104-9332-45ad-b517-34a993c44355}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\ChildFrm.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CMGfx.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CMGfxDoc.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CMGfxView.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CntrItem.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\MainFrm.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\oglMFCDialogDlg.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\OpenGLControl.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Rasterizer.cpp">
+      <Filter>Display</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CLog.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Line.cpp">
+      <Filter>Common\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Primitive.cpp">
+      <Filter>Common\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\PrimitiveTypes.cpp">
+      <Filter>Common\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Triangle.cpp">
+      <Filter>Common\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\FillModes.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Vector2.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Vector3.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdColor.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdDrawBegin.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdDrawEnd.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdDrawPixel.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdFillMode.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdVertex2.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\PrimManager.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\ScriptParser.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\StateManager.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\stdafx.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\ChildFrm.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CMGfx.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CMGfxDoc.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CMGfxView.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CntrItem.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\MainFrm.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\oglMFCDialogDlg.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\OpenGLControl.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\resource.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Rasterizer.h">
+      <Filter>Display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CLog.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Triangle.h">
+      <Filter>Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Line.h">
+      <Filter>Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Primitive.h">
+      <Filter>Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\PrimitiveTypes.h">
+      <Filter>Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Color.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Common.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\FillModes.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\MiniMath.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Plane2.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Vector2.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Vector3.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Vertex2.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdColor.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdDrawBegin.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdDrawEnd.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdDrawPixel.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdFillMode.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdVertex2.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\PrimManager.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ScriptParser.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\StateManager.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\stdafx.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\setup\CMGfx.aps">
+      <Filter>Setup</Filter>
+    </None>
+    <None Include="..\..\setup\CMGfx.reg">
+      <Filter>Setup</Filter>
+    </None>
+    <None Include="..\..\setup\res\CMGfx.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\setup\res\Thumbs.db">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\setup\CMGfx.rc">
+      <Filter>Setup</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\setup\res\CMGfx.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\setup\res\CMGfxDoc.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\setup\res\Toolbar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
