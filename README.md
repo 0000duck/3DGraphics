@@ -5,6 +5,13 @@ Repository for VGP 240 - 3D Graphics and Applications.
 
 
 
+Branch Info
+-----------
+
+This branch contains the project in a completed state for the deliverables required for assignment 2.
+
+
+
 
 Build Instructions
 ------------------
