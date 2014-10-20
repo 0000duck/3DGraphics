@@ -5,15 +5,17 @@
 
 CLine::CLine() 
 	:	CPrimitive(PrimType::Line)
-	,	mVertIndex(0)
+	,	mVertCount(0)
+	,	mSlope(0)
 {}
 
 CLine::CLine(const CVertex2& p1, const CVertex2& p2)
 	:	CPrimitive(PrimType::Line)
-	,	mVertIndex(2)
+	,	mVertCount(2)
 {
-	mVerticies[0] = p1;
-	mVerticies[1] = p2;
+	mVertA = p1;
+	mVertB = p2;
+	mSlope = CalcSlope(p1.point, p2.point);
 }
 
 CLine::CLine(const CLine& rhs)
@@ -26,11 +28,9 @@ CLine& CLine::operator=(const CLine& rhs)
 {
 	if (this != &rhs)
 	{
-		// Copy verticies over
-		for (int i=0; i < rhs.mVertIndex; ++i)
-		{
-			mVerticies[i] = rhs.mVerticies[i];
-		}
+		mVertCount = rhs.mVertCount;
+		mVertA = rhs.mVertA;
+		mVertB = rhs.mVertB;
 	}
 	return *this;
 }
@@ -38,7 +38,7 @@ CLine& CLine::operator=(const CLine& rhs)
 bool CLine::IsValid() const
 {
 	// Check that we have the correct number of verticies
-	if (mVertIndex != kVerts)
+	if (mVertCount != kVerts)
 	{
 		return false;
 	}
@@ -47,15 +47,15 @@ bool CLine::IsValid() const
 
 void CLine::AddVertex(const CVertex2& vert)
 {
-	if (mVertIndex < kVerts)
-	{
-		mVerticies[mVertIndex++] = vert;
-	}
+	if (mVertCount == 0)
+		mVertA = vert;
+	else if (mVertCount > 0 && mVertCount < kVerts)
+		mVertB = vert;
 }
 
 const int CLine::VertexCount() const
 {
-	return mVertIndex;
+	return mVertCount;
 }
 
 const int CLine::MaxVerticies() const
@@ -75,6 +75,7 @@ void CLine::Draw()
 		DrawSolid();
 		break;
 	case FillMode::Fill:
+		Fill();
 		break;
 	}
 }
@@ -82,12 +83,12 @@ void CLine::Draw()
 void CLine::DrawSolid()
 {
 	// Cache the points
-	Coord2D p1 = ToCoord2D(mVerticies[0].point);
-	Coord2D p2 = ToCoord2D(mVerticies[1].point);
+	CVector2 p1 = mVertA.point;
+	CVector2 p2 = mVertB.point;
 
 	// Store vertex colors
-	CColor c1 = mVerticies[0].color;
-	CColor c2 = mVerticies[1].color;
+	CColor c1 = mVertA.color;
+	CColor c2 = mVertB.color;
 	CColor pixelColor = c1;
 	bool lerpcolor = DoColorLerp();
 
@@ -97,7 +98,18 @@ void CLine::DrawSolid()
 	float t = 0.0f;
 	float divisor = 0.0f;
 
-	if (m > 1 || p1.x == p2.x)
+	if (p1.x == p2.x)
+	{
+		DrawHorizontalLine(mVertA, mVertA);
+		return;
+	}
+	else if (p1.y == p2.y)
+	{
+		DrawVerticalLine(mVertA, mVertB);
+		return;
+	}
+
+	if (m > 1/* || p1.x == p2.x && p1.y != p2.y*/)
 	{
 		// Cache time divisor
 		int ydiff = p2.y - p1.y;
@@ -137,25 +149,63 @@ void CLine::DrawSolid()
 		}
 	}
 }
+
+void CLine::DrawVerticalLine(const CVertex2& p1, const CVertex2& p2)
+{
+	int x = p1.point.x;
+	int inc = 1;
+	if ((p2.point.y - p1.point.y) < 0)
+		inc = -1;
+
+	for (int y = p1.point.y; y <= p2.point.y; y += inc)
+	{
+		DrawVertex(x, y, colorWhite);
+	}
+}
+
+void CLine::DrawHorizontalLine(const CVertex2& p1, const CVertex2& p2)
+{
+	int inc = 1;
+	if ((p2.point.x - p1.point.x) < 0)
+		inc = -1;
+
+	int y = p1.point.y;
+	for (int x = p1.point.x; x <= p2.point.x; x += inc)
+	{
+		DrawVertex(x, y, colorWhite);
+	}
+}
+
+void CLine::DrawHorizontalLine(int x1, int y1, int x2, int y2)
+{
+	int inc = 1;
+	if ((x2 - x1) < 0)
+		inc = -1;
+
+	int y = y1;
+	for (int x = x1; x <= x2; x += inc)
+	{
+		DrawVertex(x, y, colorWhite);
+	}
+}
+
 void CLine::DrawPoints()
 {
-	Coord2D p1 = ToCoord2D(mVerticies[0].point);
-	Coord2D p2 = ToCoord2D(mVerticies[1].point);
-	CColor c1 = mVerticies[0].color;
-	CColor c2 = mVerticies[1].color;
+	CColor c1 = mVertA.color;
+	CColor c2 = mVertB.color;
 
-	DrawVertex(p1.x, p1.y, c1);
-	DrawVertex(p2.x, p2.y, c2);
+	DrawVertex(mVertA.point.x, mVertA.point.y, c1);
+	DrawVertex(mVertB.point.x, mVertB.point.y, c2);
 }
 
 bool CLine::DoColorLerp()
 {
 	// If the colors are the same for both verticies we don't need
 	// to interpolate.
-	return (mVerticies[0].color != mVerticies[1].color);
+	return (mVertA.color != mVertB.color);
 }
 
-float CLine::CalcSlope(const Coord2D& p1, const Coord2D& p2)
+float CLine::CalcSlope(const CVector2& p1, const CVector2& p2)
 {
 	float m = 0.0f;
 	float dy = static_cast<float>(p2.y - p1.y);		// rise
@@ -169,11 +219,50 @@ float CLine::CalcSlope(const Coord2D& p1, const Coord2D& p2)
 
 CVector2 CLine::Direction()
 {
-	if (mVertIndex == kVerts)
+	if (mVertCount == kVerts)
 	{
-		CVector2& v1 = mVerticies[0].point;
-		CVector2& v2 = mVerticies[1].point;
+		CVector2& v1 = mVertA.point;
+		CVector2& v2 = mVertB.point;
 		return CVector2(v1.x - v2.x, v1.y - v2.y);
 	}
 	return CVector2(0.0f, 0.0f);
+}
+
+int CLine::GetMaxLeftX(int y)
+{
+	float b = y - (mSlope * mVertA.point.x);
+	float slope = CalcSlope(mVertA.point, mVertB.point);
+	if (mSlope > 1)
+	{
+	//	// Only a single point at this Y
+		return RoundPixel((y - b) / mSlope);
+	}
+	return RoundPixel((y - b) / slope);
+}
+
+int CLine::GetMaxRightX(int y)
+{
+	float b = y - (mSlope * mVertA.point.x);
+	float slope = CalcSlope(mVertA.point, mVertB.point);
+	return RoundPixel((y - b) / slope);
+}
+
+void DrawLine(const CVertex2& p1, const CVertex2& p2)
+{
+	CLine line(p1, p2);
+	line.Draw();
+}
+
+void DrawLine(int x1, int y1, int x2, int y2)
+{
+	CVertex2 v1, v2;
+	v1.color = colorWhite;
+	v1.point.x = x1;
+	v1.point.y = y1;
+
+	v2.color = colorWhite;
+	v2.point.x = x2;
+	v2.point.y = y2;
+
+	DrawLine(v1, v2);
 }

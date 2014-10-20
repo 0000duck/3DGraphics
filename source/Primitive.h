@@ -57,6 +57,7 @@ protected:
 	virtual void DrawSolid() = 0;
 	// Draw only the verticies
 	virtual void DrawPoints() = 0;
+	virtual void Fill() {};
 
 protected:
 	const PrimType::Type mType;
