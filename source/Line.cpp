@@ -97,7 +97,7 @@ void CLine::DrawSolid()
 	float t = 0.0f;
 	float divisor = 0.0f;
 
-	if (m > 1)
+	if (m > 1 || p1.x == p2.x)
 	{
 		// Cache time divisor
 		int ydiff = p2.y - p1.y;
@@ -106,7 +106,10 @@ void CLine::DrawSolid()
 		// Iterate over y pixels
 		for (int y = p1.y; y < p2.y; ++y)
 		{
-			int x = RoundPixel((y - b) / m);
+			int x = p1.x;
+			if (p1.x != p2.x)
+				x = RoundPixel((y - b) / m);
+
 			if (lerpcolor)
 			{
 				// Calculate how far along the line we are
