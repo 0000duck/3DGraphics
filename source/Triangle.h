@@ -38,6 +38,9 @@ protected:
 
 	// Called when fill mode is point
 	virtual void DrawPoints();
+	virtual void Fill();
+
+	int GetTopPointIndex();
 
 private:
 	int mVertIndex;					// Current number of verticies
