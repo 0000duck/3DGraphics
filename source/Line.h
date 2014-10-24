@@ -12,8 +12,9 @@
 
 #include "Primitive.h"
 
+// Global helpers
 void DrawLine(const CVertex2& p1, const CVertex2& p2);
-void DrawLine(int x1, int y1, int x2, int y2);
+void DrawLine(int x1, int y1, int x2, int y2, const CColor& c1, const CColor& c2);
 
 
 class CLine : public CPrimitive
@@ -34,19 +35,14 @@ public:
 	virtual const int MaxVerticies() const;
 	virtual void Draw();
 
-	// Helpers
-	void DrawVerticalLine(const CVertex2& p1, const CVertex2& p2);
-	void DrawHorizontalLine(const CVertex2& p1, const CVertex2& p2);
-	void DrawHorizontalLine(int x1, int y1, int x2, int y2);
-
 	// Returns the slope of the line
 	float CalcSlope(const CVector2& p1, const CVector2& p2);
-	
-	// Returns the direction of the line
-	CVector2 Direction();
 
+	int CalcY(int x);
+	int CalcX(int y);
 	int GetMaxLeftX(int y);
 	int GetMaxRightX(int y);
+	CColor GetColorAtY(int y);
 
 protected:
 	// Called when fill mode is line
@@ -63,7 +59,7 @@ private:
 	CVertex2 mVertA;
 	CVertex2 mVertB;
 
-	int mSlope;
+	float mSlope;
 };
 
 #endif

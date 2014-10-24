@@ -41,6 +41,7 @@ protected:
 	virtual void Fill();
 
 	int GetTopPointIndex();
+	void SortVerts(CVertex2& p1, CVertex2& p2, CVertex2& p3);
 
 private:
 	int mVertIndex;					// Current number of verticies

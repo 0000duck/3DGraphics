@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Line.h"
 #include "StateManager.h"
+#include "Common.h"
 
 
 CLine::CLine() 
@@ -72,10 +73,8 @@ void CLine::Draw()
 		DrawPoints();
 		break;
 	case FillMode::Line:
-		DrawSolid();
-		break;
 	case FillMode::Fill:
-		Fill();
+		DrawSolid();
 		break;
 	}
 }
@@ -89,103 +88,58 @@ void CLine::DrawSolid()
 	// Store vertex colors
 	CColor c1 = mVertA.color;
 	CColor c2 = mVertB.color;
-	CColor pixelColor = c1;
-	bool lerpcolor = DoColorLerp();
 
 	// Get slope and y intercept
 	float m = CalcSlope(p1, p2);
 	float b = p1.y - (m * p1.x);
 	float t = 0.0f;
 	float divisor = 0.0f;
+	int inc = 1;
 
-	if (p1.x == p2.x)
+	// If the slope is greater than 1, we want to iterate over the Y
+	if (m > 1)
 	{
-		DrawHorizontalLine(mVertA, mVertA);
-		return;
-	}
-	else if (p1.y == p2.y)
-	{
-		DrawVerticalLine(mVertA, mVertB);
-		return;
-	}
+		// Cache time divisor so we can use multiplication
+		float divisor = CalcTimeDivisor(p1.y, p2.y);
 
-	if (m > 1/* || p1.x == p2.x && p1.y != p2.y*/)
-	{
-		// Cache time divisor
-		int ydiff = p2.y - p1.y;
-		if (ydiff) { divisor = 1.0f / ydiff; }
+		// Check if we need to increment in the positive or negative
+		if (divisor < 0.0f)
+			inc = -1;
 
 		// Iterate over y pixels
-		for (int y = p1.y; y < p2.y; ++y)
+		for (int y = (int)p1.y; y != (int)p2.y; y += inc)
 		{
-			int x = p1.x;
-			if (p1.x != p2.x)
-				x = RoundPixel((y - b) / m);
+			// Calculate the x
+			int x = RoundPixel((y - b) / m);
 
-			if (lerpcolor)
-			{
-				// Calculate how far along the line we are
-				t = (y - p1.y) * divisor;
-				pixelColor = LerpColor(c1, c2, t);
-			}
+			// Calculate how far along the line we are and lerp the colors
+			t = (y - p1.y) * divisor;
+			CColor pixelColor = LerpColor(c1, c2, t);
+
 			DrawVertex(x, y, pixelColor);
 		}
 	}
 	else
 	{
-		int xdiff = p2.x - p1.x;
-		if (xdiff) { divisor = 1.0f / xdiff; }
+		// Cache time divisor
+		float divisor = CalcTimeDivisor(p1.x, p2.x);
+
+		// Check if we need to increment in the positive or negative
+		if (divisor < 0.0f)
+			inc = -1;
 
 		// Iterate over x pixels
-		for (int x = p1.x; x < p2.x; ++x)
+		for (int x = (int)p1.x; x != (int)p2.x; x += inc)
 		{
+			// Calculate the Y
 			int y = RoundPixel((m * x) + b);
-			if (lerpcolor)
-			{
-				t = (x - p1.x) * divisor;
-				pixelColor = LerpColor(c1, c2, t);
-			}
+
+			// Calculate how far along the line we are and lerp the colors
+			t = (x - p1.x) * divisor;
+			CColor pixelColor = LerpColor(c1, c2, t);
+			
 			DrawVertex(x, y, pixelColor);
 		}
-	}
-}
-
-void CLine::DrawVerticalLine(const CVertex2& p1, const CVertex2& p2)
-{
-	int x = p1.point.x;
-	int inc = 1;
-	if ((p2.point.y - p1.point.y) < 0)
-		inc = -1;
-
-	for (int y = p1.point.y; y <= p2.point.y; y += inc)
-	{
-		DrawVertex(x, y, colorWhite);
-	}
-}
-
-void CLine::DrawHorizontalLine(const CVertex2& p1, const CVertex2& p2)
-{
-	int inc = 1;
-	if ((p2.point.x - p1.point.x) < 0)
-		inc = -1;
-
-	int y = p1.point.y;
-	for (int x = p1.point.x; x <= p2.point.x; x += inc)
-	{
-		DrawVertex(x, y, colorWhite);
-	}
-}
-
-void CLine::DrawHorizontalLine(int x1, int y1, int x2, int y2)
-{
-	int inc = 1;
-	if ((x2 - x1) < 0)
-		inc = -1;
-
-	int y = y1;
-	for (int x = x1; x <= x2; x += inc)
-	{
-		DrawVertex(x, y, colorWhite);
 	}
 }
 
@@ -194,8 +148,8 @@ void CLine::DrawPoints()
 	CColor c1 = mVertA.color;
 	CColor c2 = mVertB.color;
 
-	DrawVertex(mVertA.point.x, mVertA.point.y, c1);
-	DrawVertex(mVertB.point.x, mVertB.point.y, c2);
+	DrawVertex((int)mVertA.point.x, (int)mVertA.point.y, c1);
+	DrawVertex((int)mVertB.point.x, (int)mVertB.point.y, c2);
 }
 
 bool CLine::DoColorLerp()
@@ -217,35 +171,62 @@ float CLine::CalcSlope(const CVector2& p1, const CVector2& p2)
 	return m;
 }
 
-CVector2 CLine::Direction()
+int CLine::CalcY(int x)
 {
-	if (mVertCount == kVerts)
-	{
-		CVector2& v1 = mVertA.point;
-		CVector2& v2 = mVertB.point;
-		return CVector2(v1.x - v2.x, v1.y - v2.y);
-	}
-	return CVector2(0.0f, 0.0f);
+	float m = CalcSlope(mVertA.point, mVertB.point);
+	float b = mVertA.point.y - (m * mVertA.point.x);
+	return RoundPixel(m * x + b);
+}
+
+int CLine::CalcX(int y)
+{
+	float m = CalcSlope(mVertA.point, mVertB.point);
+	float b = mVertA.point.y - (m * mVertA.point.x);
+	return RoundPixel((y - b) / m);
 }
 
 int CLine::GetMaxLeftX(int y)
 {
-	float b = y - (mSlope * mVertA.point.x);
-	float slope = CalcSlope(mVertA.point, mVertB.point);
-	if (mSlope > 1)
-	{
-	//	// Only a single point at this Y
-		return RoundPixel((y - b) / mSlope);
-	}
-	return RoundPixel((y - b) / slope);
+	int x = CalcX(y);
+	int minX = x, maxX = x;
+	int x1 = x, y1 = y;
+
+	do {
+		x1--;
+		y1 = CalcY(x1);
+		if (y1 == y)
+			minX = x1;
+	} while (y1 == y);
+
+	return minX;
 }
 
 int CLine::GetMaxRightX(int y)
 {
-	float b = y - (mSlope * mVertA.point.x);
-	float slope = CalcSlope(mVertA.point, mVertB.point);
-	return RoundPixel((y - b) / slope);
+	int x = CalcX(y);
+	int minX = x, maxX = x;
+	int x1 = x, y1 = y;
+
+	do {
+		x1++;
+		y1 = CalcY(x1);
+		if (y1 == y)
+			maxX = x1;
+	} while (y1 == y);
+
+	return maxX;
 }
+
+CColor CLine::GetColorAtY(int y)
+{
+	// Calling CalcTimeDivisor saves us from handling divide by 0
+	float divisor = CalcTimeDivisor(mVertA.point.y, mVertB.point.y);
+
+	float t = (y - mVertA.point.y) * divisor;
+	return LerpColor(mVertA.color, mVertB.color, t);
+}
+
+// Global helper definitions
 
 void DrawLine(const CVertex2& p1, const CVertex2& p2)
 {
@@ -253,16 +234,10 @@ void DrawLine(const CVertex2& p1, const CVertex2& p2)
 	line.Draw();
 }
 
-void DrawLine(int x1, int y1, int x2, int y2)
+void DrawLine(int x1, int y1, int x2, int y2, const CColor& c1, const CColor& c2)
 {
-	CVertex2 v1, v2;
-	v1.color = colorWhite;
-	v1.point.x = x1;
-	v1.point.y = y1;
-
-	v2.color = colorWhite;
-	v2.point.x = x2;
-	v2.point.y = y2;
-
+	CVertex2 v1((float)x1, (float)x2, c1), 
+			 v2((float)x2, (float)x2, c2); 
+	
 	DrawLine(v1, v2);
 }
