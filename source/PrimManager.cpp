@@ -123,7 +123,7 @@ void PrimManager::ClearPrimitive()
 void PrimManager::ClearAll()
 {
 	// Clear out the primitive list and the current primitive
-	for (int i=0; i < mPrimitiveList.size(); ++i)
+	for (unsigned int i=0; i < mPrimitiveList.size(); ++i)
 	{
 		mPrimitiveList.pop();
 	}
@@ -135,7 +135,7 @@ void PrimManager::DrawAll()
 	// Check if the current primitive is valid
 	VerifyCurrentPrimitive();
 
-	for (int i=0; i < mPrimitiveList.size(); ++i)
+	for (unsigned int i=0; i < mPrimitiveList.size(); ++i)
 	{
 		// Draw the primitive then remove it from the list
 		mPrimitiveList.front()->Draw();

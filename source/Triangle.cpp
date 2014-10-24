@@ -103,48 +103,58 @@ void CTriangle::DrawPoints()
 
 void CTriangle::Fill()
 {
-	// Find the point in our list of verts that has the lowest Y
-	const int index = GetTopPointIndex();
-	if (index > mVertIndex || mVertIndex < kVerts)
-		return;
-
-	CVertex2 p1 = mVerticies[index];
+	CVertex2 p1;
 	CVertex2 p2;
 	CVertex2 p3;
-	
-	// TODO: Do this better
-	if (index == 0)
-	{
-		p2 = mVerticies[1];
-		p3 = mVerticies[2];
-	}
-	else if (index == 1)
-	{
-		p2 = mVerticies[0];
-		p3 = mVerticies[2];
-	}
-	else if (index == 2)
-	{
-		p2 = mVerticies[0];
-		p3 = mVerticies[1];
-	}
+	SortVerts(p1, p2, p3);
 
 	CLine l1(p1, p2);
 	CLine l2(p1, p3);
 
-	int y = p1.point.y;
-	while (y != p2.point.y && y != p3.point.y)
-	{
-		int leftX = l1.GetMaxLeftX(y);
-		int rightX = l2.GetMaxRightX(y);
-		l1.DrawHorizontalLine(leftX, y, rightX, y);
-		++y;
-	}
+	// temp: so we can see where the actual edges are
+	//l1.Draw();
+	//l2.Draw();
 
-	//int riseA = p2.point.y - p1.point.y;
-	//int riseB = p3.point.y - p1.point.y;
-	//int runA = p2.point.x - p1.point.x;
-	//int runB = p3.point.x - p1.point.x;
+	int y = (int)p1.point.y;
+	while (y != (int)p2.point.y)
+	{
+		int x1 = l1.GetMaxLeftX(y);
+		int x2 = l2.GetMaxRightX(y);
+
+		CVertex2 v1((float)x1, (float)y, l1.GetColorAtY(y)), 
+				 v2((float)x2, (float)y, l2.GetColorAtY(y)); 
+
+		DrawLine(v1, v2);
+
+		y++;
+	}
+}
+
+void CTriangle::SortVerts(CVertex2& p1, CVertex2& p2, CVertex2& p3)
+{
+	// Get the index of the point that is the highest on the screen
+	const int index = GetTopPointIndex();
+	if (index > mVertIndex || mVertIndex < kVerts)
+		return;
+
+	p1 = mVerticies[index];
+	
+	bool p2Occupied = false;
+	for (int i=0; i < mVertIndex; ++i)
+	{
+		if (i != index)
+		{
+			if (!p2Occupied)
+			{
+				p2 = mVerticies[i];
+				p2Occupied = true;
+			}
+			else
+			{
+				p3 = mVerticies[i];
+			}
+		}
+	}
 }
 
 int CTriangle::GetTopPointIndex()
@@ -156,7 +166,7 @@ int CTriangle::GetTopPointIndex()
 		// 0,0 is top left, so a higher Y would mean it has a lower value
 		if (mVerticies[i].point.y < maxy)
 		{
-			maxy = mVerticies[i].point.y;
+			maxy = (int)mVerticies[i].point.y;
 			index = i;
 		}
 	}

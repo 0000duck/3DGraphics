@@ -8,6 +8,12 @@ struct CVertex2
 {
 	CColor color;
 	CVector2 point;
+
+	CVertex2() {}
+	CVertex2(const CVector2& p, const CColor& c)
+		:	point(p), color(c) {}
+	CVertex2(float x, float y, const CColor& c)
+		:	point(x, y), color(c) {}
 };
 
 inline void Vertex2Round( CVertex2 &v )
