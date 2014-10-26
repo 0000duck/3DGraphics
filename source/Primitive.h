@@ -13,17 +13,6 @@
 #include "PrimitiveTypes.h"
 #include <vector>
 
-struct Coord2D
-{
-	Coord2D() {}
-	Coord2D(int _x, int _y)
-		: x(_x), y(_y) {}
-	int x;
-	int y;
-};
-
-Coord2D ToCoord2D(const CVector2& v);
-
 class CPrimitive
 {
 public:
@@ -55,9 +44,12 @@ protected:
 
 	// Draw the primitive with solid edges
 	virtual void DrawSolid() = 0;
+
 	// Draw only the verticies
 	virtual void DrawPoints() = 0;
-	virtual void Fill() {};
+
+	// Fill the area with color (prim needs 3+ verts)
+	virtual void Fill() {ASSERT(false);};
 
 protected:
 	const PrimType::Type mType;

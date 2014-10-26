@@ -2,15 +2,6 @@
 #include "Primitive.h"
 #include "Rasterizer.h"
 
-Coord2D ToCoord2D(const CVector2& v)
-{
-	return Coord2D
-		(
-			static_cast<int>(v.x),
-			static_cast<int>(v.y)
-		);
-}
-
 CPrimitive::CPrimitive(const PrimType::Type type) 
 	:	mType(type) 
 {}

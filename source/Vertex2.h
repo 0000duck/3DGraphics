@@ -14,6 +14,22 @@ struct CVertex2
 		:	point(p), color(c) {}
 	CVertex2(float x, float y, const CColor& c)
 		:	point(x, y), color(c) {}
+
+	friend bool operator==(const CVertex2& lhs, const CVertex2& rhs)
+	{
+		if (lhs.point.x == rhs.point.x &&
+			lhs.point.y == rhs.point.y &&
+			lhs.color == rhs.color)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	friend bool operator!=(const CVertex2& lhs, const CVertex2& rhs)
+	{
+		return !(lhs == rhs);
+	}
 };
 
 inline void Vertex2Round( CVertex2 &v )

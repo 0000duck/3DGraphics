@@ -38,14 +38,18 @@ protected:
 
 	// Called when fill mode is point
 	virtual void DrawPoints();
+
+	// Called when fill mode is fill
 	virtual void Fill();
 
-	int GetTopPointIndex();
+	// Assigns the verts to the params based on ascending order of the y coord.
 	void SortVerts(CVertex2& p1, CVertex2& p2, CVertex2& p3);
 
 private:
 	int mVertIndex;					// Current number of verticies
-	CVertex2 mVerticies[kVerts];
+	CVertex2 mV1;
+	CVertex2 mV2;
+	CVertex2 mV3;
 };
 
 #endif

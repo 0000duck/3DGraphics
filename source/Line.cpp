@@ -14,8 +14,8 @@ CLine::CLine(const CVertex2& p1, const CVertex2& p2)
 	:	CPrimitive(PrimType::Line)
 	,	mVertCount(2)
 {
-	mVertA = p1;
-	mVertB = p2;
+	mV1 = p1;
+	mV2 = p2;
 	mSlope = CalcSlope(p1.point, p2.point);
 }
 
@@ -30,8 +30,8 @@ CLine& CLine::operator=(const CLine& rhs)
 	if (this != &rhs)
 	{
 		mVertCount = rhs.mVertCount;
-		mVertA = rhs.mVertA;
-		mVertB = rhs.mVertB;
+		mV1 = rhs.mV1;
+		mV2 = rhs.mV2;
 	}
 	return *this;
 }
@@ -49,9 +49,9 @@ bool CLine::IsValid() const
 void CLine::AddVertex(const CVertex2& vert)
 {
 	if (mVertCount == 0)
-		mVertA = vert;
+		mV1 = vert;
 	else if (mVertCount > 0 && mVertCount < kVerts)
-		mVertB = vert;
+		mV2 = vert;
 }
 
 const int CLine::VertexCount() const
@@ -74,89 +74,102 @@ void CLine::Draw()
 		break;
 	case FillMode::Line:
 	case FillMode::Fill:
-		DrawSolid();
+		if (!IsVertical())
+			DrawSolid();
+		else
+			DrawVertical();
 		break;
 	}
 }
 
 void CLine::DrawSolid()
 {
-	// Cache the points
-	CVector2 p1 = mVertA.point;
-	CVector2 p2 = mVertB.point;
-
-	// Store vertex colors
-	CColor c1 = mVertA.color;
-	CColor c2 = mVertB.color;
-
 	// Get slope and y intercept
-	float m = CalcSlope(p1, p2);
-	float b = p1.y - (m * p1.x);
-	float t = 0.0f;
-	float divisor = 0.0f;
-	int inc = 1;
+	float m = CalcSlope(mV1.point, mV2.point);
+	float b = mV1.point.y - (m * mV1.point.x);
 
 	// If the slope is greater than 1, we want to iterate over the Y
 	if (m > 1)
 	{
+		const int y1 = RoundPixel(mV1.point.y);
+		const int y2 = RoundPixel(mV2.point.y);
+
 		// Cache time divisor so we can use multiplication
-		float divisor = CalcTimeDivisor(p1.y, p2.y);
+		float divisor = CalcTimeDivisor((float)y1, (float)y2);
 
 		// Check if we need to increment in the positive or negative
-		if (divisor < 0.0f)
-			inc = -1;
+		int inc = (divisor < 0.0f) ? -1 : 1;
 
 		// Iterate over y pixels
-		for (int y = (int)p1.y; y != (int)p2.y; y += inc)
+		for (int y = y1; y != y2; y += inc)
 		{
 			// Calculate the x
 			int x = RoundPixel((y - b) / m);
 
 			// Calculate how far along the line we are and lerp the colors
-			t = (y - p1.y) * divisor;
-			CColor pixelColor = LerpColor(c1, c2, t);
-
+			float t = (y - y1) * divisor;
+			CColor pixelColor = LerpColor(mV1.color, mV2.color, t);
 			DrawVertex(x, y, pixelColor);
 		}
 	}
 	else
 	{
+		const int x1 = RoundPixel(mV1.point.x);
+		const int x2 = RoundPixel(mV2.point.x);
+
 		// Cache time divisor
-		float divisor = CalcTimeDivisor(p1.x, p2.x);
+		float divisor = CalcTimeDivisor((float)x1, (float)x2);
 
 		// Check if we need to increment in the positive or negative
-		if (divisor < 0.0f)
-			inc = -1;
+		int inc = (divisor < 0.0f) ? -1 : 1;
 
 		// Iterate over x pixels
-		for (int x = (int)p1.x; x != (int)p2.x; x += inc)
+		for (int x = x1; x != x2; x += inc)
 		{
 			// Calculate the Y
 			int y = RoundPixel((m * x) + b);
 
 			// Calculate how far along the line we are and lerp the colors
-			t = (x - p1.x) * divisor;
-			CColor pixelColor = LerpColor(c1, c2, t);
-			
+			float t = (x - x1) * divisor;
+			CColor pixelColor = LerpColor(mV1.color, mV2.color, t);
 			DrawVertex(x, y, pixelColor);
 		}
 	}
 }
 
+void CLine::DrawVertical()
+{
+	ASSERT(mV1.point.x == mV2.point.x, "X values don't match; not a vertical line");
+
+	const int x = RoundPixel(mV1.point.x);
+	const int y1 = RoundPixel(mV1.point.y);
+	const int y2 = RoundPixel(mV2.point.y);
+
+	// Cache time divisor
+	float divisor = CalcTimeDivisor((float)y1, (float)y2);
+
+	// Check if we need to increment in the positive or negative
+	int inc = (divisor < 0.0f) ? -1 : 1;
+
+	for (int y = y1; y != y2; y += inc)
+	{
+		float t = (y - y1) * divisor;
+		CColor pixelColor = LerpColor(mV1.color, mV2.color, t);
+		DrawVertex(x, y, pixelColor);
+	}
+}
+
 void CLine::DrawPoints()
 {
-	CColor c1 = mVertA.color;
-	CColor c2 = mVertB.color;
-
-	DrawVertex((int)mVertA.point.x, (int)mVertA.point.y, c1);
-	DrawVertex((int)mVertB.point.x, (int)mVertB.point.y, c2);
+	DrawVertex((int)mV1.point.x, (int)mV1.point.y, mV1.color);
+	DrawVertex((int)mV2.point.x, (int)mV2.point.y, mV2.color);
 }
 
 bool CLine::DoColorLerp()
 {
 	// If the colors are the same for both verticies we don't need
 	// to interpolate.
-	return (mVertA.color != mVertB.color);
+	return (mV1.color != mV2.color);
 }
 
 float CLine::CalcSlope(const CVector2& p1, const CVector2& p2)
@@ -173,15 +186,25 @@ float CLine::CalcSlope(const CVector2& p1, const CVector2& p2)
 
 int CLine::CalcY(int x)
 {
-	float m = CalcSlope(mVertA.point, mVertB.point);
-	float b = mVertA.point.y - (m * mVertA.point.x);
+	float m = CalcSlope(mV1.point, mV2.point);
+	if (m == 0.0f)
+	{
+		// Avoid dividing by 0.
+		return NULL;
+	}
+	float b = mV1.point.y - (m * mV1.point.x);
 	return RoundPixel(m * x + b);
 }
 
 int CLine::CalcX(int y)
 {
-	float m = CalcSlope(mVertA.point, mVertB.point);
-	float b = mVertA.point.y - (m * mVertA.point.x);
+	float m = CalcSlope(mV1.point, mV2.point);
+	if (m == 0.0f || m == -INT_MAX)
+	{
+		// 
+		return NULL;
+	}
+	float b = mV1.point.y - (m * mV1.point.x);
 	return RoundPixel((y - b) / m);
 }
 
@@ -220,10 +243,48 @@ int CLine::GetMaxRightX(int y)
 CColor CLine::GetColorAtY(int y)
 {
 	// Calling CalcTimeDivisor saves us from handling divide by 0
-	float divisor = CalcTimeDivisor(mVertA.point.y, mVertB.point.y);
+	float divisor = CalcTimeDivisor(mV1.point.y, mV2.point.y);
 
-	float t = (y - mVertA.point.y) * divisor;
-	return LerpColor(mVertA.color, mVertB.color, t);
+	float t = (y - mV1.point.y) * divisor;
+	return LerpColor(mV1.color, mV2.color, t);
+}
+
+float CLine::MinX()
+{
+	float x1 = mV1.point.x;
+	float x2 = mV2.point.x;
+	return (x1 < x2) ? x1 : x2;
+}
+
+float CLine::MinY()
+{
+	float y1 = mV1.point.y;
+	float y2 = mV2.point.y;
+	return (y1 < y2) ? y1 : y2;
+}
+
+float CLine::MaxX()
+{
+	float x1 = mV1.point.x;
+	float x2 = mV2.point.x;
+	return (x1 > x2) ? x1 : x2;
+}
+
+float CLine::MaxY()
+{
+	float y1 = mV1.point.y;
+	float y2 = mV2.point.y;
+	return (y1 > y2) ? y1 : y2;
+}
+
+bool CLine::IsVertical()
+{
+	return (mV1.point.x == mV2.point.x);
+}
+
+bool CLine::IsHorizontal()
+{
+	return (mV1.point.y == mV2.point.y);
 }
 
 // Global helper definitions
@@ -240,4 +301,20 @@ void DrawLine(int x1, int y1, int x2, int y2, const CColor& c1, const CColor& c2
 			 v2((float)x2, (float)x2, c2); 
 	
 	DrawLine(v1, v2);
+}
+
+bool operator==(const CLine& lhs, const CLine& rhs)
+{
+	if (lhs.mVertCount == rhs.mVertCount &&
+		lhs.mV1 == rhs.mV1 &&
+		lhs.mV2 == rhs.mV2)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool operator!=(const CLine& lhs, const CLine& rhs)
+{
+	return !(lhs == rhs);
 }

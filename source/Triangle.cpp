@@ -5,8 +5,8 @@
 #include "Line.h"
 
 CTriangle::CTriangle() 
-	: CPrimitive(PrimType::Triangle)
-	, mVertIndex(0)
+	:	CPrimitive(PrimType::Triangle)
+	,	mVertIndex(0)
 {
 }
 
@@ -21,10 +21,9 @@ CTriangle& CTriangle::operator=(const CTriangle& rhs)
 	if (this != &rhs)
 	{
 		// Copy verticies over
-		for (int i=0; i < rhs.mVertIndex; ++i)
-		{
-			mVerticies[i] = rhs.mVerticies[i];
-		}
+		mV1 = rhs.mV1;
+		mV2 = rhs.mV2;
+		mV3 = rhs.mV3;
 	}
 	return *this;
 }
@@ -36,14 +35,31 @@ bool CTriangle::IsValid() const
 	{
 		return false;
 	}
+	else
+	{
+		// Ensure no more than 2 verticies are parallel
+		if (mV1.point.x == mV2.point.x &&
+			mV1.point.x == mV3.point.x ||
+			mV1.point.y == mV2.point.y &&
+			mV1.point.y == mV3.point.y)
+		{
+			return false;
+		}
+	}
 	return (CPrimitive::IsValid());
 }
 
 void CTriangle::AddVertex(const CVertex2& vert)
 {
-	if (mVertIndex < kVerts)
+	ASSERT(mVertIndex < kVerts);
+	switch (mVertIndex++)
 	{
-		mVerticies[mVertIndex++] = vert;
+	case 0:
+		mV1 = vert;
+	case 1:
+		mV2 = vert;
+	case 2:
+		mV3 = vert;
 	}
 }
 
@@ -77,13 +93,9 @@ void CTriangle::Draw()
 void CTriangle::DrawSolid()
 {
 	// Cache the points
-	CVertex2 p1 = mVerticies[0];
-	CVertex2 p2 = mVerticies[1];
-	CVertex2 p3 = mVerticies[2];
-
-	CLine l1(p1, p2);
-	CLine l2(p2, p3);
-	CLine l3(p1, p3);
+	CLine l1(mV1, mV2);
+	CLine l2(mV2, mV3);
+	CLine l3(mV1, mV3);
 
 	l1.Draw();
 	l2.Draw();
@@ -92,38 +104,83 @@ void CTriangle::DrawSolid()
 
 void CTriangle::DrawPoints()
 {
-	CVertex2 p1 = mVerticies[0];
-	CVertex2 p2 = mVerticies[1];
-	CVertex2 p3 = mVerticies[2];
-
-	DrawVertex(p1);
-	DrawVertex(p2);
-	DrawVertex(p3);
+	DrawVertex(mV1);
+	DrawVertex(mV2);
+	DrawVertex(mV3);
 }
 
 void CTriangle::Fill()
 {
-	CVertex2 p1;
-	CVertex2 p2;
-	CVertex2 p3;
+	// Sort the verts from top to bottom
+	CVertex2 p1, p2, p3;
 	SortVerts(p1, p2, p3);
 
-	CLine l1(p1, p2);
-	CLine l2(p1, p3);
+	// Initialize assuming there will be a breakpoint.
+	// Determine if p2 is on the left or right of p1
+	CLine left = (p2.point.x <= p1.point.x) ? CLine(p1, p2) : CLine(p1, p3);
+	CLine right = (p2.point.x > p1.point.x) ? CLine(p1, p2) : CLine(p1, p3);
 
-	// temp: so we can see where the actual edges are
-	//l1.Draw();
-	//l2.Draw();
+	// Determine if there is a breakpoint
+	bool breakpoint = true;
+	if (p2.point.y == p1.point.y)
+	{
+		// Top is flat. Only need to re-assign for this case
+		left = CLine(p1, p3);
+		right = CLine(p2, p3);
+		breakpoint = false;
+	}
+	else if (p2.point.y == p3.point.y)
+	{
+		// Bottom is flat
+		breakpoint = false;
+	}
+
+	// Check if either lines are straight vertical
+	bool lvert = left.IsVertical();
+	bool rvert = right.IsVertical();
+
+	// x1 and 2's values will be changed if the corresponding line isn't vertical.
+	// If it is, then x would stay the same.
+	int x1 = (int)left.MinX();
+	int x2 = (int)right.MinX();
 
 	int y = (int)p1.point.y;
-	while (y != (int)p2.point.y)
+	while (y != (int)p3.point.y)
 	{
-		int x1 = l1.GetMaxLeftX(y);
-		int x2 = l2.GetMaxRightX(y);
+		// Check if we are going to run into a breakpoint at some time
+		if (breakpoint)
+		{
+			// Check if we have reached the breakpoint
+			if (y == p2.point.y)
+			{
+				// Re-assign the corresponding line and
+				// re-evaluate if it is straight vertical.
+				if (p2.point.x < p1.point.x)
+				{
+					left = CLine(p2, p3);
+					lvert = (left.MinX() == left.MaxX());
+				}
+				else
+				{
+					right = CLine(p2, p3);
+					rvert = (right.MinX() == right.MaxX());
+				}
+				// Set to false since we have dealt with it now
+				breakpoint = false;
+			}
+		}
 
-		CVertex2 v1((float)x1, (float)y, l1.GetColorAtY(y)), 
-				 v2((float)x2, (float)y, l2.GetColorAtY(y)); 
+		// Get the furthest point along the run for this y if the line isn't vertical
+		if (!lvert)
+			x1 = left.GetMaxLeftX(y);
+		if (!rvert)
+			x2 = right.GetMaxRightX(y);
 
+		// Create verts from the left and right points
+		CVertex2 v1((float)x1, (float)y, left.GetColorAtY(y)), 
+				 v2((float)x2, (float)y, right.GetColorAtY(y)); 
+
+		// Draw a line between them
 		DrawLine(v1, v2);
 
 		y++;
@@ -132,43 +189,30 @@ void CTriangle::Fill()
 
 void CTriangle::SortVerts(CVertex2& p1, CVertex2& p2, CVertex2& p3)
 {
-	// Get the index of the point that is the highest on the screen
-	const int index = GetTopPointIndex();
-	if (index > mVertIndex || mVertIndex < kVerts)
-		return;
+	ASSERT(mVertIndex == kVerts);
 
-	p1 = mVerticies[index];
-	
-	bool p2Occupied = false;
-	for (int i=0; i < mVertIndex; ++i)
-	{
-		if (i != index)
-		{
-			if (!p2Occupied)
-			{
-				p2 = mVerticies[i];
-				p2Occupied = true;
-			}
-			else
-			{
-				p3 = mVerticies[i];
-			}
-		}
-	}
-}
+	// Sets p1 to the vert with the lowest y value (highest on screen)
+	// p2 = middle y value
+	// p3 = highest y value (lowest on screen)
 
-int CTriangle::GetTopPointIndex()
-{
-	int index = 0;
-	int maxy = INT_MAX;
-	for (int i=0; i < mVertIndex; ++i)
+	if (mV1.point.y <= mV2.point.y &&
+		mV1.point.y <= mV3.point.y)
 	{
-		// 0,0 is top left, so a higher Y would mean it has a lower value
-		if (mVerticies[i].point.y < maxy)
-		{
-			maxy = (int)mVerticies[i].point.y;
-			index = i;
-		}
+		p1 = mV1;
+		p2 = (mV2.point.y <= mV3.point.y) ? mV2 : mV3;
+		p3 = (p2 == mV2) ? mV3 : mV2;
 	}
-	return index;
+	else if (mV2.point.y <= mV1.point.y &&
+			mV2.point.y <= mV3.point.y)
+	{
+		p1 = mV2;
+		p2 = (mV1.point.y <= mV3.point.y) ? mV1 : mV3;
+		p3 = (p2 == mV1) ? mV3 : mV1;
+	}
+	else
+	{
+		p1 = mV3;
+		p2 = (mV1.point.y <= mV2.point.y) ? mV1 : mV2;
+		p3 = (p2 == mV1) ? mV2 : mV1;
+	}
 }
