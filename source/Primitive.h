@@ -34,6 +34,11 @@ public:
 	// Returns the number of verticies required for the primitive
 	virtual const int MaxVerticies() const = 0;
 
+	// Returns the n'th 0 based vertex.
+	virtual const CVertex2& GetVert(int index) const = 0;
+
+	virtual void SetVert(int index, const CVertex2& v) = 0;
+
 	// The primitive's draw logic
 	virtual void Draw() = 0;
 

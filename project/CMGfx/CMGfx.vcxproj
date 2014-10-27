@@ -74,7 +74,9 @@
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../source/;$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IgnoreStandardIncludePath>
+      </IgnoreStandardIncludePath>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -105,7 +107,9 @@
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../source/;$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IgnoreStandardIncludePath>
+      </IgnoreStandardIncludePath>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -120,13 +124,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\ChildFrm.cpp" />
+    <ClCompile Include="..\..\source\Clipper.cpp" />
     <ClCompile Include="..\..\source\CLog.cpp" />
     <ClCompile Include="..\..\source\CmdColor.cpp" />
     <ClCompile Include="..\..\source\CmdDrawBegin.cpp" />
     <ClCompile Include="..\..\source\CmdDrawEnd.cpp" />
     <ClCompile Include="..\..\source\CmdDrawPixel.cpp" />
     <ClCompile Include="..\..\source\CmdFillMode.cpp" />
+    <ClCompile Include="..\..\source\CmdShowViewport.cpp" />
     <ClCompile Include="..\..\source\CmdVertex2.cpp" />
+    <ClCompile Include="..\..\source\CmdViewport.cpp" />
     <ClCompile Include="..\..\source\CMGfx.cpp" />
     <ClCompile Include="..\..\source\CMGfxDoc.cpp" />
     <ClCompile Include="..\..\source\CMGfxView.cpp" />
@@ -137,9 +144,11 @@
     <ClCompile Include="..\..\source\oglMFCDialogDlg.cpp" />
     <ClCompile Include="..\..\source\OpenGLControl.cpp" />
     <ClCompile Include="..\..\source\Primitive.cpp" />
+    <ClCompile Include="..\..\source\Primitives.cpp" />
     <ClCompile Include="..\..\source\PrimitiveTypes.cpp" />
     <ClCompile Include="..\..\source\PrimManager.cpp" />
     <ClCompile Include="..\..\source\Rasterizer.cpp" />
+    <ClCompile Include="..\..\source\Rect2.cpp" />
     <ClCompile Include="..\..\source\ScriptParser.cpp" />
     <ClCompile Include="..\..\source\StateManager.cpp" />
     <ClCompile Include="..\..\source\stdafx.cpp" />
@@ -149,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\ChildFrm.h" />
+    <ClInclude Include="..\..\source\Clipper.h" />
     <ClInclude Include="..\..\source\CLog.h" />
     <ClInclude Include="..\..\source\CmdColor.h" />
     <ClInclude Include="..\..\source\CmdCommand.h" />
@@ -156,12 +166,15 @@
     <ClInclude Include="..\..\source\CmdDrawEnd.h" />
     <ClInclude Include="..\..\source\CmdDrawPixel.h" />
     <ClInclude Include="..\..\source\CmdFillMode.h" />
+    <ClInclude Include="..\..\source\CmdShowViewport.h" />
     <ClInclude Include="..\..\source\CmdVertex2.h" />
+    <ClInclude Include="..\..\source\CmdViewport.h" />
     <ClInclude Include="..\..\source\CMGfx.h" />
     <ClInclude Include="..\..\source\CMGfxDoc.h" />
     <ClInclude Include="..\..\source\CMGfxView.h" />
     <ClInclude Include="..\..\source\CntrItem.h" />
     <ClInclude Include="..\..\source\Color.h" />
+    <ClInclude Include="..\..\source\Commands.h" />
     <ClInclude Include="..\..\source\Common.h" />
     <ClInclude Include="..\..\source\FillModes.h" />
     <ClInclude Include="..\..\source\Line.h" />
@@ -171,9 +184,11 @@
     <ClInclude Include="..\..\source\OpenGLControl.h" />
     <ClInclude Include="..\..\source\Plane2.h" />
     <ClInclude Include="..\..\source\Primitive.h" />
+    <ClInclude Include="..\..\source\Primitives.h" />
     <ClInclude Include="..\..\source\PrimitiveTypes.h" />
     <ClInclude Include="..\..\source\PrimManager.h" />
     <ClInclude Include="..\..\source\Rasterizer.h" />
+    <ClInclude Include="..\..\source\Rect2.h" />
     <ClInclude Include="..\..\source\resource.h" />
     <ClInclude Include="..\..\source\ScriptParser.h" />
     <ClInclude Include="..\..\source\StateManager.h" />

@@ -1,14 +1,7 @@
 #include "StdAfx.h"
 #include "ScriptParser.h"
 #include "CLog.h"
-
-#include "CmdDrawPixel.h"
-#include "CmdColor.h"
-#include "CmdFillMode.h"
-#include "CmdDrawBegin.h"
-#include "CmdVertex2.h"
-#include "CmdDrawEnd.h"
-
+#include "Commands.h"
 
 CScriptParser::CScriptParser(void)
 {
@@ -23,6 +16,8 @@ CScriptParser::CScriptParser(void)
 	m_CommandDictionary.insert(std::make_pair(CString("drawbegin"), new CCmdDrawBegin));
 	m_CommandDictionary.insert(std::make_pair(CString("vertex2"), new CCmdVertex2));
 	m_CommandDictionary.insert(std::make_pair(CString("drawend"), new CCmdDrawEnd));
+	m_CommandDictionary.insert(std::make_pair(CString("viewport"), new CCmdViewport));
+	m_CommandDictionary.insert(std::make_pair(CString("showviewport"), new CCmdShowViewport));
 }
 
 CScriptParser::~CScriptParser(void)

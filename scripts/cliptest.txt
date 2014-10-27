@@ -1,0 +1,30 @@
+fillmode line
+viewport 100 100 700 500
+showviewport on
+
+drawbegin line
+
+color 1 0 0
+vertex2 10 150
+color 0 1 0
+vertex2 510 150
+
+drawend
+
+drawbegin line
+
+color 1 0 0
+vertex2 250 10
+color 0 1 0
+vertex2 300 200
+
+drawend
+
+drawbegin line
+
+color 1 0 0
+vertex2 10 150
+color 0 1 0
+vertex2 400 200
+
+drawend

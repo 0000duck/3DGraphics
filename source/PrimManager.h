@@ -12,7 +12,7 @@
 #pragma once
 
 #include "Primitive.h"
-#include <queue>
+#include <vector>
 #include <memory>
 
 class PrimManager
@@ -22,8 +22,9 @@ class PrimManager
 	PrimManager(const PrimManager&);
 	PrimManager& operator=(const PrimManager&);
 
-	typedef std::queue<std::unique_ptr<CPrimitive>> PrimQ;
 public:
+	typedef std::vector<std::unique_ptr<CPrimitive>> PrimList;
+
 	// Singleton accessor
 	static PrimManager* Instance();
 
@@ -42,11 +43,9 @@ public:
 
 	// Clears the current primitive
 	void ClearPrimitive();
+
 	// Clears mPrimList
 	void ClearAll();
-
-	// Verifies the integrity of the current primtive
-	void VerifyCurrentPrimitive();
 
 	// Calls Draw() on each primitve in the primitiveList
 	void DrawAll();
@@ -59,6 +58,12 @@ private:
 	// Transfers ownership to PrimManager
 	void AddPrimitive(std::unique_ptr<CPrimitive>& pPrim);
 
+	// Verifies the integrity of the current primtive
+	void VerifyCurrentPrimitive();
+
+	// Ensures everything that will be drawn is within the viewport.
+	void CullAndClip();
+
 private:
 	// Static instance
 	static PrimManager* spInstance;
@@ -67,7 +72,7 @@ private:
 	std::unique_ptr<CPrimitive> mpCurrentPrim;
 
 	// List of complete primitives to be drawn
-	PrimQ mPrimitiveList;
+	PrimList mPrimitiveList;
 
 	// When true, allow verticies to be added to the current primitive
 	bool mReadingVerticies;		

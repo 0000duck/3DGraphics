@@ -31,6 +31,8 @@ public:
 	virtual const int VertexCount() const;
 	virtual const int MaxVerticies() const;
 	virtual void Draw();
+	virtual const CVertex2& GetVert(int index) const;
+	virtual void SetVert(int index, const CVertex2& v);
 
 protected:
 	// Called when fill mode is line

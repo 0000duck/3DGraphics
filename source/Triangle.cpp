@@ -2,7 +2,7 @@
 #include "Triangle.h"
 #include "Rasterizer.h"
 #include "StateManager.h"
-#include "Line.h"
+#include "Primitives.h"
 
 CTriangle::CTriangle() 
 	:	CPrimitive(PrimType::Triangle)
@@ -71,6 +71,28 @@ const int CTriangle::VertexCount() const
 const int CTriangle::MaxVerticies() const
 {
 	return kVerts;
+}
+
+const CVertex2& CTriangle::GetVert(int index) const
+{
+	ASSERT(index >= 0 && index < kVerts);
+	if (index == 0)
+		return mV1;
+	if (index == 1)
+		return mV2;
+	if (index == 2)
+		return mV3;
+}
+
+void CTriangle::SetVert(int index, const CVertex2& v)
+{
+	ASSERT(index >= 0 && index < kVerts);
+	if (index == 0)
+		mV1 = v;
+	if (index == 1)
+		mV2 = v;
+	if (index == 2)
+		mV3 = v;
 }
 
 void CTriangle::Draw()

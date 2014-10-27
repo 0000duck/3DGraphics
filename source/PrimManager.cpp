@@ -2,6 +2,7 @@
 #include "PrimManager.h"
 #include "Line.h"
 #include "Triangle.h"
+#include "Clipper.h"
 #include <cassert>
 #include <algorithm>
 
@@ -34,7 +35,7 @@ void PrimManager::AddPrimitive(std::unique_ptr<CPrimitive>& prim)
 	if (prim->IsValid())
 	{
 		// Obtain ownership over the primitive
-		mPrimitiveList.push(std::move(prim));
+		mPrimitiveList.push_back(std::move(prim));
 	}
 }
 
@@ -111,6 +112,25 @@ void PrimManager::VerifyCurrentPrimitive()
 	}
 }
 
+void PrimManager::CullAndClip()
+{
+	int sz = mPrimitiveList.size();
+	for (int i=sz-1; i >= 0; --i)
+	{
+		CPrimitive& prim = *mPrimitiveList[i];
+
+		// Check if the primitive needs to be clipped or culled
+		eState rc = Clipper::Instance()->ClipPrimitive(&prim);
+		switch (rc)
+		{
+		case Culled:
+			// Don't need to draw the primitive; remove it from the list
+			mPrimitiveList.erase(mPrimitiveList.begin() + i);
+			break;
+		}
+	}
+}
+
 void PrimManager::ClearPrimitive()
 {
 	if (mpCurrentPrim)
@@ -123,10 +143,7 @@ void PrimManager::ClearPrimitive()
 void PrimManager::ClearAll()
 {
 	// Clear out the primitive list and the current primitive
-	for (unsigned int i=0; i < mPrimitiveList.size(); ++i)
-	{
-		mPrimitiveList.pop();
-	}
+	mPrimitiveList.clear();;
 	ClearPrimitive();
 }
 
@@ -135,12 +152,18 @@ void PrimManager::DrawAll()
 	// Check if the current primitive is valid
 	VerifyCurrentPrimitive();
 
-	for (unsigned int i=0; i < mPrimitiveList.size(); ++i)
+	// Remove anything outside the viewport and clip anything extending past it.
+	CullAndClip();
+
+	PrimList::iterator it = mPrimitiveList.begin();
+	for (it; it != mPrimitiveList.end(); ++it)
 	{
-		// Draw the primitive then remove it from the list
-		mPrimitiveList.front()->Draw();
-		mPrimitiveList.pop();
+		// Draw the primitive
+		(*it)->Draw();
 	}
+
+	// Clear everything now that it has been drawn
+	ClearAll();
 }
 
 const CPrimitive* PrimManager::GetCurrentPrimitive() const

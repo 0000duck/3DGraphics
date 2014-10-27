@@ -12,20 +12,19 @@
 
 #include "Primitive.h"
 
-// Global helpers
-void DrawLine(const CVertex2& p1, const CVertex2& p2);
-void DrawLine(int x1, int y1, int x2, int y2, const CColor& c1, const CColor& c2);
-
-
 class CLine : public CPrimitive
 {
 	friend bool operator==(const CLine& lhs, const CLine& rhs);
 	friend bool operator!=(const CLine& lhs, const CLine& rhs);
+
 public:
 	// Number of verticies required for this primitive
 	static const int kVerts = 2;
 
+	// Constructors
 	CLine();
+	CLine(float x1, float y1, float x2, float y2, const CColor& c1, const CColor& c2);
+	CLine(const CVector2& p1, const CVector2& p2, const CColor& c1, const CColor& c2);
 	CLine(const CVertex2& p1, const CVertex2& p2);
 	CLine(const CLine& rhs);
 	CLine& operator=(const CLine& rhs);
@@ -36,10 +35,14 @@ public:
 	virtual const int VertexCount() const;
 	virtual const int MaxVerticies() const;
 	virtual void Draw();
+	virtual const CVertex2& GetVert(int index) const;
+	virtual void SetVert(int index, const CVertex2& v);
 
-	// Draws a line between two points with the same x value.
+	// Draws a line between two points with the same x or y value.
 	// Skips re-calculating X for each y, so it is slighty faster.
+	// Always draws a solid line; ignores fillmode.
 	void DrawVertical();
+	void DrawHorizontal();
 
 	// Returns the slope of the line
 	float CalcSlope(const CVector2& p1, const CVector2& p2);

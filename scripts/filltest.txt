@@ -1,4 +1,5 @@
 fillmode fill
+viewport 10 10 200 100
 
 drawbegin triangle
 
@@ -10,3 +11,5 @@ color 0 1 1
 vertex2 350 200
 
 drawend
+
+showviewport on

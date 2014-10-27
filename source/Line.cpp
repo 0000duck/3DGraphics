@@ -10,12 +10,31 @@ CLine::CLine()
 	,	mSlope(0)
 {}
 
+CLine::CLine(float x1, float y1, float x2, float y2, const CColor& c1, const CColor& c2)
+	:	CPrimitive(PrimType::Line)
+	,	mVertCount(0)
+	,	mSlope(0)
+	,	mV1(x1, y1, c1)
+	,	mV2(x2, y2, c2)
+{
+}
+
+CLine::CLine(const CVector2& p1, const CVector2& p2, const CColor& c1, const CColor& c2)
+	:	CPrimitive(PrimType::Line)
+	,	mVertCount(0)
+	,	mSlope(0)
+	,	mV1(p1, c1)
+	,	mV2(p2, c2)
+{
+}
+
+
 CLine::CLine(const CVertex2& p1, const CVertex2& p2)
 	:	CPrimitive(PrimType::Line)
 	,	mVertCount(2)
+	,	mV1(p1)
+	,	mV2(p2)
 {
-	mV1 = p1;
-	mV2 = p2;
 	mSlope = CalcSlope(p1.point, p2.point);
 }
 
@@ -49,9 +68,15 @@ bool CLine::IsValid() const
 void CLine::AddVertex(const CVertex2& vert)
 {
 	if (mVertCount == 0)
+	{
 		mV1 = vert;
+		mVertCount++;
+	}
 	else if (mVertCount > 0 && mVertCount < kVerts)
+	{
 		mV2 = vert;
+		mVertCount++;
+	}
 }
 
 const int CLine::VertexCount() const
@@ -62,6 +87,24 @@ const int CLine::VertexCount() const
 const int CLine::MaxVerticies() const
 {
 	return kVerts;
+}
+
+const CVertex2& CLine::GetVert(int index) const
+{
+	ASSERT(index >= 0 && index < kVerts);
+	if (index == 0)
+		return mV1;
+	if (index == 1)
+		return mV2;
+}
+
+void CLine::SetVert(int index, const CVertex2& v)
+{
+	ASSERT(index >= 0 && index < kVerts);
+	if (index == 0)
+		mV1 = v;
+	if (index == 1)
+		mV2 = v;
 }
 
 void CLine::Draw()
@@ -159,6 +202,28 @@ void CLine::DrawVertical()
 	}
 }
 
+void CLine::DrawHorizontal()
+{
+	ASSERT(mV1.point.y == mV2.point.y, "Y values don't match; not a horizontal line");
+
+	const int y = RoundPixel(mV1.point.y);
+	const int x1 = RoundPixel(mV1.point.x);
+	const int x2 = RoundPixel(mV2.point.x);
+
+	// Cache time divisor
+	float divisor = CalcTimeDivisor((float)x1, (float)x2);
+
+	// Check if we need to increment in the positive or negative
+	int inc = (divisor < 0.0f) ? -1 : 1;
+
+	for (int x = x1; x != x2; x += inc)
+	{
+		float t = (x - x1) * divisor;
+		CColor pixelColor = LerpColor(mV1.color, mV2.color, t);
+		DrawVertex(x, y, pixelColor);
+	}
+}
+
 void CLine::DrawPoints()
 {
 	DrawVertex((int)mV1.point.x, (int)mV1.point.y, mV1.color);
@@ -211,32 +276,36 @@ int CLine::CalcX(int y)
 int CLine::GetMaxLeftX(int y)
 {
 	int x = CalcX(y);
-	int minX = x, maxX = x;
-	int x1 = x, y1 = y;
+	int minX = x;
+	int y1 = y;
 
-	do {
-		x1--;
-		y1 = CalcY(x1);
+	while (y1 == y)
+	{
+		x--;
+		y1 = CalcY(x);
 		if (y1 == y)
-			minX = x1;
-	} while (y1 == y);
-
+		{
+			minX = x;
+		}
+	}
 	return minX;
 }
 
 int CLine::GetMaxRightX(int y)
 {
 	int x = CalcX(y);
-	int minX = x, maxX = x;
-	int x1 = x, y1 = y;
+	int maxX = x;
+	int y1 = y;
 
-	do {
-		x1++;
-		y1 = CalcY(x1);
+	while (y1 == y)
+	{
+		x++;
+		y1 = CalcY(x);
 		if (y1 == y)
-			maxX = x1;
-	} while (y1 == y);
-
+		{
+			maxX = x;
+		}
+	}
 	return maxX;
 }
 
@@ -285,22 +354,6 @@ bool CLine::IsVertical()
 bool CLine::IsHorizontal()
 {
 	return (mV1.point.y == mV2.point.y);
-}
-
-// Global helper definitions
-
-void DrawLine(const CVertex2& p1, const CVertex2& p2)
-{
-	CLine line(p1, p2);
-	line.Draw();
-}
-
-void DrawLine(int x1, int y1, int x2, int y2, const CColor& c1, const CColor& c2)
-{
-	CVertex2 v1((float)x1, (float)x2, c1), 
-			 v2((float)x2, (float)x2, c2); 
-	
-	DrawLine(v1, v2);
 }
 
 bool operator==(const CLine& lhs, const CLine& rhs)
