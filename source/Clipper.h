@@ -47,8 +47,11 @@ public:
 	// Viewport Functionality
 	void SetViewport(const CRect2& vp);
 	const CRect2& GetViewport() const;
+	
 	void ShowViewport();
 	void DisableViewport();
+	void EnableClipping();
+	void DisableClipping();
 
 	// Clips the primitve to the viewport.
 	// Returns true if clipping occured.
@@ -74,6 +77,7 @@ private:
 
 	CRect2 mViewport;
 	bool mViewportOn;
+	bool mClippingOn;
 };
 
 #endif

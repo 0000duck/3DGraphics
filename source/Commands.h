@@ -9,5 +9,6 @@
 #include "CmdDrawEnd.h"
 #include "CmdViewport.h"
 #include "CmdShowViewport.h"
+#include "CmdClip.h"
 
 #endif

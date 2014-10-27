@@ -18,6 +18,7 @@ CScriptParser::CScriptParser(void)
 	m_CommandDictionary.insert(std::make_pair(CString("drawend"), new CCmdDrawEnd));
 	m_CommandDictionary.insert(std::make_pair(CString("viewport"), new CCmdViewport));
 	m_CommandDictionary.insert(std::make_pair(CString("showviewport"), new CCmdShowViewport));
+	m_CommandDictionary.insert(std::make_pair(CString("clip"), new CCmdClip));
 }
 
 CScriptParser::~CScriptParser(void)

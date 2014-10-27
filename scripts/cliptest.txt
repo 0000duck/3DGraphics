@@ -1,6 +1,7 @@
 fillmode line
 viewport 100 100 700 500
 showviewport on
+clip on
 
 drawbegin line
 

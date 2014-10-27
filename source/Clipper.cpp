@@ -22,6 +22,7 @@ Clipper* Clipper::Instance()
 
 Clipper::Clipper()
 	:	mViewportOn(false)
+	,	mClippingOn(false)
 {
 }
 // --------------------------------------------------------------------
@@ -54,6 +55,16 @@ void Clipper::DisableViewport()
 }
 // --------------------------------------------------------------------
 
+void Clipper::EnableClipping()
+{
+	mClippingOn = true;
+}
+
+void Clipper::DisableClipping()
+{
+	mClippingOn = false;
+}
+
 void Clipper::DrawViewport()
 {
 	if (mViewportOn && mViewport.IsValid())
@@ -68,7 +79,7 @@ void Clipper::DrawViewport()
 eState Clipper::ClipPrimitive(CPrimitive* prim)
 {
 	eState rc = None;
-	if (!mViewportOn)
+	if (!mViewportOn || !mClippingOn)
 	{
 		return None;
 	}
