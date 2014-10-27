@@ -1,0 +1,6 @@
+zbuffer on
+viewport 10 10 400 300
+showviewport on
+clip on
+backfacecull on
+

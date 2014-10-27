@@ -1,0 +1,20 @@
+viewport 10 10 400 300
+showviewport on
+clip on
+
+cameraPersp 0 0 0 0 0 1
+cameraFOV 90
+cameraNear 0.1
+cameraFar 1000.0
+
+fillmode fill
+
+drawbegin triangle
+color 1 0 0
+vertex3 0 0 10
+color 0 1 0
+vertex3 15 0 10
+color 0 1 1
+vertex3 15 15 10
+drawend
+

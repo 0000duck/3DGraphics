@@ -1,0 +1,104 @@
+viewport 10 10 400 300
+showviewport on
+clip on
+backfacecull on
+zbuffer off
+
+cameraPersp 0 3 -10 0 0 1
+cameraFOV 90
+cameraNear 0.1
+cameraFar 1000.0
+
+# matrix3DRotate 0 2.5 0
+
+fillmode line
+
+drawbegin triangle
+
+color 1 1 0
+vertex3 -1  1  1
+vertex3 -1 -1  1
+vertex3  1 -1  1
+drawend
+drawbegin triangle
+
+vertex3 -1  1  1
+vertex3  1 -1  1
+vertex3  1  1  1
+
+drawend
+drawbegin triangle
+
+
+
+color 1 0 1
+vertex3 -1  1 -1
+vertex3  1 -1 -1
+vertex3 -1 -1 -1
+drawend
+drawbegin triangle
+
+vertex3 -1  1 -1
+vertex3  1  1 -1
+vertex3  1 -1 -1
+
+drawend
+drawbegin triangle
+
+color 0 1 1
+vertex3  1  1  1
+vertex3  1 -1  1
+vertex3  1 -1 -1
+drawend
+drawbegin triangle
+
+vertex3  1  1  1
+vertex3  1 -1 -1
+vertex3  1  1 -1
+drawend
+drawbegin triangle
+
+
+color 1 0 0
+vertex3 -1  1  1
+vertex3 -1  1 -1
+vertex3 -1 -1 -1
+drawend
+drawbegin triangle
+
+vertex3 -1  1  1
+vertex3 -1 -1 -1
+vertex3 -1 -1  1
+drawend
+drawbegin triangle
+
+
+color 0 1 0
+vertex3 -1  1 -1
+vertex3 -1  1  1
+vertex3  1  1  1
+drawend
+drawbegin triangle
+
+vertex3 -1  1 -1
+vertex3  1  1  1
+vertex3  1  1 -1
+
+drawend
+drawbegin triangle
+
+
+
+color 0 0 1
+vertex3 -1 -1 -1
+vertex3  1 -1  1
+vertex3 -1 -1  1
+drawend
+drawbegin triangle
+
+vertex3 -1 -1 -1
+vertex3  1 -1 -1
+vertex3  1 -1  1
+
+drawend
+
