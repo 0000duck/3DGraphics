@@ -126,6 +126,7 @@
     <ClCompile Include="..\..\source\ChildFrm.cpp" />
     <ClCompile Include="..\..\source\Clipper.cpp" />
     <ClCompile Include="..\..\source\CLog.cpp" />
+    <ClCompile Include="..\..\source\CmdClip.cpp" />
     <ClCompile Include="..\..\source\CmdColor.cpp" />
     <ClCompile Include="..\..\source\CmdDrawBegin.cpp" />
     <ClCompile Include="..\..\source\CmdDrawEnd.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="..\..\source\ChildFrm.h" />
     <ClInclude Include="..\..\source\Clipper.h" />
     <ClInclude Include="..\..\source\CLog.h" />
+    <ClInclude Include="..\..\source\CmdClip.h" />
     <ClInclude Include="..\..\source\CmdColor.h" />
     <ClInclude Include="..\..\source\CmdCommand.h" />
     <ClInclude Include="..\..\source\CmdDrawBegin.h" />
@@ -196,6 +198,7 @@
     <ClInclude Include="..\..\source\Triangle.h" />
     <ClInclude Include="..\..\source\Vector2.h" />
     <ClInclude Include="..\..\source\Vector3.h" />
+    <ClInclude Include="..\..\source\Vector4.h" />
     <ClInclude Include="..\..\source\Vertex2.h" />
   </ItemGroup>
   <ItemGroup>
