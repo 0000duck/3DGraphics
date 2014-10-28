@@ -141,6 +141,8 @@
     <ClCompile Include="..\..\source\FillModes.cpp" />
     <ClCompile Include="..\..\source\Line.cpp" />
     <ClCompile Include="..\..\source\MainFrm.cpp" />
+    <ClCompile Include="..\..\source\Matrix33.cpp" />
+    <ClCompile Include="..\..\source\Matrix44.cpp" />
     <ClCompile Include="..\..\source\oglMFCDialogDlg.cpp" />
     <ClCompile Include="..\..\source\OpenGLControl.cpp" />
     <ClCompile Include="..\..\source\Primitive.cpp" />
@@ -179,6 +181,8 @@
     <ClInclude Include="..\..\source\FillModes.h" />
     <ClInclude Include="..\..\source\Line.h" />
     <ClInclude Include="..\..\source\MainFrm.h" />
+    <ClInclude Include="..\..\source\Matrix33.h" />
+    <ClInclude Include="..\..\source\Matrix44.h" />
     <ClInclude Include="..\..\source\MiniMath.h" />
     <ClInclude Include="..\..\source\oglMFCDialogDlg.h" />
     <ClInclude Include="..\..\source\OpenGLControl.h" />
@@ -196,6 +200,7 @@
     <ClInclude Include="..\..\source\Triangle.h" />
     <ClInclude Include="..\..\source\Vector2.h" />
     <ClInclude Include="..\..\source\Vector3.h" />
+    <ClInclude Include="..\..\source\Vector4.h" />
     <ClInclude Include="..\..\source\Vertex2.h" />
   </ItemGroup>
   <ItemGroup>

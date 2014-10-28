@@ -26,6 +26,12 @@
     <Filter Include="Setup">
       <UniqueIdentifier>{8fb26104-9332-45ad-b517-34a993c44355}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{65cbf2fd-7cab-4a29-ab74-6e0da8a68241}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Containers">
+      <UniqueIdentifier>{a9e36fce-d4ff-43c6-9d42-e82b6dac1ddf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\ChildFrm.cpp">
@@ -73,12 +79,6 @@
     <ClCompile Include="..\..\source\FillModes.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\Vector2.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\Vector3.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\CmdColor.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
@@ -97,17 +97,44 @@
     <ClCompile Include="..\..\source\CmdVertex2.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\PrimManager.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\ScriptParser.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\StateManager.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\stdafx.cpp">
       <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Clipper.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\PrimManager.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\ScriptParser.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\StateManager.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdShowViewport.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdViewport.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Primitives.cpp">
+      <Filter>Common\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Rect2.cpp">
+      <Filter>Common\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Vector2.cpp">
+      <Filter>Common\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Vector3.cpp">
+      <Filter>Common\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Matrix33.cpp">
+      <Filter>Common\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Matrix44.cpp">
+      <Filter>Common\Containers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,18 +195,6 @@
     <ClInclude Include="..\..\source\MiniMath.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\Plane2.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\Vector2.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\Vector3.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\Vertex2.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\CmdColor.h">
       <Filter>Commands</Filter>
     </ClInclude>
@@ -201,17 +216,56 @@
     <ClInclude Include="..\..\source\CmdVertex2.h">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\PrimManager.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\ScriptParser.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\StateManager.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\stdafx.h">
       <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Clipper.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\StateManager.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\PrimManager.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ScriptParser.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdShowViewport.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdViewport.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Primitives.h">
+      <Filter>Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Plane2.h">
+      <Filter>Common\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Rect2.h">
+      <Filter>Common\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Vector2.h">
+      <Filter>Common\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Vector3.h">
+      <Filter>Common\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Vertex2.h">
+      <Filter>Common\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Matrix33.h">
+      <Filter>Common\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Matrix44.h">
+      <Filter>Common\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Vector4.h">
+      <Filter>Common\Containers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
