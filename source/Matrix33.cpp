@@ -15,7 +15,7 @@
 #include <iostream>
 #include "Matrix33.h"
 #include "MiniMath.h"
-#include "Quat.h"
+//#include "Quat.h"
 #include "Vector3.h"
 
 //-------------------------------------------------------------------------------
@@ -31,11 +31,11 @@
 //-------------------------------------------------------------------------------
 // Axis-angle constructor
 //-------------------------------------------------------------------------------
-CMatrix33::CMatrix33( const CQuat& quat )
-{
-    (void) Rotation( quat );
-
-}   // End of CMatrix33::CMatrix33()
+//CMatrix33::CMatrix33( const CQuat& quat )
+//{
+//    (void) Rotation( quat );
+//
+//}   // End of CMatrix33::CMatrix33()
 
 
 //-------------------------------------------------------------------------------
@@ -484,41 +484,41 @@ CMatrix33::Trace() const
 //-------------------------------------------------------------------------------
 // Set as rotation matrix based on quaternion
 //-------------------------------------------------------------------------------
-CMatrix33& 
-CMatrix33::Rotation( const CQuat& rotate )
-{
-    ASSERT( rotate.IsUnit() );
-
-    float xs, ys, zs, wx, wy, wz, xx, xy, xz, yy, yz, zz;
-
-    xs = rotate.x+rotate.x;   
-    ys = rotate.y+rotate.y;
-    zs = rotate.z+rotate.z;
-    wx = rotate.w*xs;
-    wy = rotate.w*ys;
-    wz = rotate.w*zs;
-    xx = rotate.x*xs;
-    xy = rotate.x*ys;
-    xz = rotate.x*zs;
-    yy = rotate.y*ys;
-    yz = rotate.y*zs;
-    zz = rotate.z*zs;
-
-    mV[0] = 1.0f - (yy + zz);
-    mV[3] = xy - wz;
-    mV[6] = xz + wy;
-    
-    mV[1] = xy + wz;
-    mV[4] = 1.0f - (xx + zz);
-    mV[7] = yz - wx;
-    
-    mV[2] = xz - wy;
-    mV[5] = yz + wx;
-    mV[8] = 1.0f - (xx + yy);
-
-    return *this;
-
-}   // End of Rotation()
+//CMatrix33& 
+//CMatrix33::Rotation( const CQuat& rotate )
+//{
+//    ASSERT( rotate.IsUnit() );
+//
+//    float xs, ys, zs, wx, wy, wz, xx, xy, xz, yy, yz, zz;
+//
+//    xs = rotate.x+rotate.x;   
+//    ys = rotate.y+rotate.y;
+//    zs = rotate.z+rotate.z;
+//    wx = rotate.w*xs;
+//    wy = rotate.w*ys;
+//    wz = rotate.w*zs;
+//    xx = rotate.x*xs;
+//    xy = rotate.x*ys;
+//    xz = rotate.x*zs;
+//    yy = rotate.y*ys;
+//    yz = rotate.y*zs;
+//    zz = rotate.z*zs;
+//
+//    mV[0] = 1.0f - (yy + zz);
+//    mV[3] = xy - wz;
+//    mV[6] = xz + wy;
+//    
+//    mV[1] = xy + wz;
+//    mV[4] = 1.0f - (xx + zz);
+//    mV[7] = yz - wx;
+//    
+//    mV[2] = xz - wy;
+//    mV[5] = yz + wx;
+//    mV[8] = 1.0f - (xx + yy);
+//
+//    return *this;
+//
+//}   // End of Rotation()
 
 
 //----------------------------------------------------------------------------

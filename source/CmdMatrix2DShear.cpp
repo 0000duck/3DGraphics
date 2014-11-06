@@ -1,16 +1,16 @@
 #include "stdafx.h"
-#include "CmdMatrix2DScale.h"
+#include "CmdMatrix2DShear.h"
+#include "ScriptParser.h"
 #include "MatrixManager.h"
 #include "Vector2.h"
-#include "ScriptParser.h"
 
-BOOL CCmdMatrix2DScale::execute(CString &params)
+BOOL CCmdMatrix2DShear::execute(CString &params)
 {
-	// Decode parameters
+	// Decode Parameters
 	CStringList paramStrList;
 	CScriptParser::StringSplit(paramStrList, params, CString(' '));
 
-	// Need 4 params for dimensions
+	// Need n params for dimensions
 	const int numParams = 2;
 	if (paramStrList.GetCount() != numParams)
 	{
@@ -26,8 +26,7 @@ BOOL CCmdMatrix2DScale::execute(CString &params)
 	paramStr = paramStrList.GetNext(scale);
 	sv.y = (float)(wcstod(paramStr, NULL));
 
-	// Translate the current matrix
-	MatrixManager::Instance()->Scale(sv);
+	MatrixManager::Instance()->Shear(sv);
 
 	return TRUE;
 }

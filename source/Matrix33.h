@@ -24,7 +24,7 @@
 //-- Classes --------------------------------------------------------------------
 //-------------------------------------------------------------------------------
 
-class CQuat;
+//class CQuat;
 class CVector3;
 
 class CMatrix33
@@ -33,7 +33,7 @@ public:
     // constructor/destructor
     inline CMatrix33() {}
     inline ~CMatrix33() {}
-    explicit CMatrix33( const CQuat& quat );
+    //explicit CMatrix33( const CQuat& quat );
     
     // copy operations
     CMatrix33(const CMatrix33& other);
@@ -73,7 +73,7 @@ public:
     float Trace() const;
         
     // transformations
-    CMatrix33& Rotation( const CQuat& rotate );
+    //CMatrix33& Rotation( const CQuat& rotate );
     CMatrix33& Rotation( float zRotation, float yRotation, float xRotation );
     CMatrix33& Rotation( const CVector3& axis, float angle );
 

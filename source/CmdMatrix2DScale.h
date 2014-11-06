@@ -14,11 +14,11 @@
 
 #include "CmdCommand.h"
 
-class CCmdMatrix2DTranslate : public CCmdCommand
+class CCmdMatrix2DScale : public CCmdCommand
 {
 public:
-	CCmdMatrix2DTranslate(void) {}
-	~CCmdMatrix2DTranslate(void) {}
+	CCmdMatrix2DScale(void) {}
+	~CCmdMatrix2DScale(void) {}
 
 public:
 	BOOL execute(CString &params);

@@ -55,6 +55,7 @@ void MatrixManager::Scale(const CVector2& s)
 
 void MatrixManager::Rotate(const float deg)
 {
+	ASSERT(deg >= 0.0f && deg <= 360.0f);
 	mMatrix.RotationZ(DEG2RAD(deg));
 }
 // --------------------------------------------------------------------
