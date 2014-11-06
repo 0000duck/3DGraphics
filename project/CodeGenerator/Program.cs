@@ -17,11 +17,12 @@ namespace CodeGenerator
                 return;
             }
 
-            string projectdir = "..\\..\\";
+            string projectdir = "..\\";
+            //string projectdir = "C:\\Users\\Tyler\\Documents\\GitHub\\3DGraphics-master\\";
             string filename = args[0];
 
             // Init and load the configuration file
-            if (ConfigFile.Get().Init(projectdir + "Config.ini"))
+            if (ConfigFile.Get().Init(projectdir + "CodeGeneratorConfig.ini"))
             {
                 IFileGenerator HeaderGen = new GenerateHeader();
                 IFileGenerator CPPGen = new GenerateCPP();

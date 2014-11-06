@@ -91,7 +91,7 @@ namespace CodeGenerator
             }
 
             string parent = "CCmdCommand";
-            string ctor = OutputPath + "(void) {}";
+            string ctor = cname + "(void) {}";
             string dtor = "~" + ctor;
             string func = "BOOL execute(CString &params);";
 

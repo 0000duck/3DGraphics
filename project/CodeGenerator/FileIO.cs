@@ -40,8 +40,8 @@ namespace CodeGenerator
             if (File.Exists(path))
             {
                 // Prompt to overwrite the file
-                string fullpath = Path.GetFullPath(path);
-                string msg = "File: " + fullpath + " already exists\nWould you like to overwrite it?";
+                //string fullpath = Path.GetFullPath(path);
+                string msg = "File: " + path + " already exists\nWould you like to overwrite it?";
                 if (MessageBox.Show(msg, "File Exists", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 {
                     return false;
