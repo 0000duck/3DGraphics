@@ -1,6 +1,8 @@
 fillmode fill
 viewport 10 10 200 100
 
+matrix2DIdentity
+
 drawbegin triangle
 
 color 1 0 0
@@ -11,5 +13,7 @@ color 0 1 1
 vertex2 350 200
 
 drawend
+
+matrix2DTranslate 25 10
 
 showviewport on

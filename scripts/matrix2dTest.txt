@@ -1,0 +1,42 @@
+fillmode line
+viewport 100 100 700 500
+showviewport on
+
+matrix2DIdentity
+
+drawbegin triangle
+
+color 1 0 0
+vertex2 300 400
+color 0 1 0
+vertex2 400 200
+color 0 1 1
+vertex2 500 400
+
+drawend
+
+matrix2DScale 1.5 1.5
+
+drawbegin triangle
+
+color 1 0 0
+vertex2 300 400
+color 0 1 0
+vertex2 400 200
+color 0 1 1
+vertex2 500 400
+
+drawend
+
+matrix2DRotate 45
+
+drawbegin triangle
+
+color 1 0 0
+vertex2 300 400
+color 0 1 0
+vertex2 400 200
+color 0 1 1
+vertex2 500 400
+
+drawend
