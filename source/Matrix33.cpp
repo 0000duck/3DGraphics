@@ -213,7 +213,7 @@ CMatrix33::GetRows( CVector3& row1, CVector3& row2, CVector3& row3 ) const
 CVector3 
 CMatrix33::GetRow( unsigned int i ) const
 {
-    ASSERT( i < 3 );
+    ASSERT( i < 3, "Index out of range" );
     return CVector3( mV[i], mV[i+3], mV[i+6] );
 
 }   // End of CMatrix33::GetRow()
@@ -273,7 +273,7 @@ CMatrix33::GetColumns( CVector3& col1, CVector3& col2, CVector3& col3 ) const
 CVector3 
 CMatrix33::GetColumn( unsigned int i ) const 
 {
-    ASSERT( i < 3 );
+    ASSERT( i < 3, "Index out of range" );
     return CVector3( mV[3*i], mV[3*i+1], mV[3*i+2] );
 
 }   // End of CMatrix33::GetColumns()
@@ -349,7 +349,7 @@ Inverse( const CMatrix33& mat )
     float det = mat.mV[0]*cofactor0 + mat.mV[3]*cofactor3 + mat.mV[6]*cofactor6;
     if (::IsZero( det ))
     {
-        ASSERT( false );
+        ASSERT( false, "Determinant is 0" );
 		std::cerr << "Matrix33::Inverse() -- singular matrix\n";
         return result;
     }

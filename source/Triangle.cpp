@@ -58,7 +58,7 @@ bool CTriangle::IsValid() const
 
 void CTriangle::AddVertex(const CVertex2& vert)
 {
-	ASSERT(mVertIndex < kVerts);
+	ASSERT(mVertIndex < kVerts, "All verticies already defined");
 	switch (mVertIndex++)
 	{
 	case 0:
@@ -85,7 +85,7 @@ const int CTriangle::MaxVerticies() const
 
 void CTriangle::GetVert(int index, CVertex2& out)
 {
-	ASSERT(index >= 0 && index < kVerts);
+	ASSERT(index >= 0 && index < kVerts, "Index out of range");
 	if (index == 0)
 		out = mV1;
 	if (index == 1)
@@ -97,7 +97,7 @@ void CTriangle::GetVert(int index, CVertex2& out)
 
 void CTriangle::SetVert(int index, const CVertex2& v)
 {
-	ASSERT(index >= 0 && index < kVerts);
+	ASSERT(index >= 0 && index < kVerts, "Index out of range");
 	if (index == 0)
 		mV1 = v;
 	if (index == 1)
@@ -254,7 +254,7 @@ void CTriangle::Fill()
 
 void CTriangle::SortVertsY(CVertex2& p1, CVertex2& p2, CVertex2& p3)
 {
-	ASSERT(mVertIndex == kVerts);
+	ASSERT(mVertIndex == kVerts, "Not all verticies defined");
 
 	// Sets p1 to the vert with the lowest y value (highest on screen)
 	// p2 = middle y value

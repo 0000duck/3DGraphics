@@ -38,11 +38,6 @@ inline void Vertex2Round( CVertex2 &v )
 	v.point.y = (float)(int)(v.point.y + 0.5f);
 }
 
-inline int RoundPixel(float val)
-{
-	return static_cast<int>(val + 0.5f);
-}
-
 inline CVertex2 Vertex2Lerp( const CVertex2 &v1, const CVertex2 &v2, const float t )
 {
 	CVertex2 result;

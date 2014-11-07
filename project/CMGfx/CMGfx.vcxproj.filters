@@ -163,6 +163,9 @@
     <ClCompile Include="..\..\source\Transforms.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\CmdVertex3.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\ChildFrm.h">
@@ -320,6 +323,12 @@
     </ClInclude>
     <ClInclude Include="..\..\source\Transforms.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdVertex3.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Vertex3.h">
+      <Filter>Common\Containers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

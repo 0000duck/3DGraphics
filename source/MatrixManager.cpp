@@ -64,7 +64,7 @@ void MatrixManager::Scale(const CVector2& s)
 
 void MatrixManager::Rotate(const float deg)
 {
-	ASSERT(deg >= 0.0f && deg <= 360.0f);
+	ASSERT(deg >= 0.0f && deg <= 360.0f, "Invalid degree value");
 
 	CMatrix33 rot;
 	rot.Identity();

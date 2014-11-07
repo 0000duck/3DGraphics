@@ -139,6 +139,7 @@
     <ClCompile Include="..\..\source\CmdMatrix2DTranslate.cpp" />
     <ClCompile Include="..\..\source\CmdShowViewport.cpp" />
     <ClCompile Include="..\..\source\CmdVertex2.cpp" />
+    <ClCompile Include="..\..\source\CmdVertex3.cpp" />
     <ClCompile Include="..\..\source\CmdViewport.cpp" />
     <ClCompile Include="..\..\source\CMGfx.cpp" />
     <ClCompile Include="..\..\source\CMGfxDoc.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="..\..\source\CmdMatrix2DTranslate.h" />
     <ClInclude Include="..\..\source\CmdShowViewport.h" />
     <ClInclude Include="..\..\source\CmdVertex2.h" />
+    <ClInclude Include="..\..\source\CmdVertex3.h" />
     <ClInclude Include="..\..\source\CmdViewport.h" />
     <ClInclude Include="..\..\source\CMGfx.h" />
     <ClInclude Include="..\..\source\CMGfxDoc.h" />
@@ -220,6 +222,7 @@
     <ClInclude Include="..\..\source\Vector3.h" />
     <ClInclude Include="..\..\source\Vector4.h" />
     <ClInclude Include="..\..\source\Vertex2.h" />
+    <ClInclude Include="..\..\source\Vertex3.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\README.md" />

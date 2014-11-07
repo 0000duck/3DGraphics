@@ -62,7 +62,7 @@ protected:
 	virtual void DrawPoints() = 0;
 
 	// Fill the area with color (prim needs 3+ verts)
-	virtual void Fill() {ASSERT(false);};
+	virtual void Fill() {ASSERT(false, "Invoked base class definition");};
 
 protected:
 	const PrimType::Type mType;

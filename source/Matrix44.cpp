@@ -262,7 +262,7 @@ AffineInverse( const CMatrix44& mat )
     float det = mat.mV[0]*cofactor0 + mat.mV[4]*cofactor4 + mat.mV[8]*cofactor8;
     if (::IsZero( det ))
     {
-        ASSERT( false );
+        ASSERT( false, "Determinant is 0" );
         return result;
     }
 

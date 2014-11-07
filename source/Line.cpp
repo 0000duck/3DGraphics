@@ -103,7 +103,7 @@ const int CLine::MaxVerticies() const
 
 void CLine::GetVert(int index, CVertex2& out)
 {
-	ASSERT(index >= 0 && index < kVerts);
+	ASSERT(index >= 0 && index < kVerts, "Index out of range");
 	if (index == 0)
 		out = mV1;
 	if (index == 1)
@@ -113,7 +113,7 @@ void CLine::GetVert(int index, CVertex2& out)
 
 void CLine::SetVert(int index, const CVertex2& v)
 {
-	ASSERT(index >= 0 && index < kVerts);
+	ASSERT(index >= 0 && index < kVerts, "Index out of range");
 	if (index == 0)
 		mV1 = v;
 	if (index == 1)
