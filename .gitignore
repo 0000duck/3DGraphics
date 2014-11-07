@@ -6,6 +6,9 @@
 *.user
 *.sln.docstates
 
+# User-specific paths
+project/CodeGenerator/bin
+
 # Build results
 [Dd]ebugPublic/
 [Rr]eleases/
