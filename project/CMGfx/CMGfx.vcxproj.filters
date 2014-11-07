@@ -136,6 +136,33 @@
     <ClCompile Include="..\..\source\Matrix44.cpp">
       <Filter>Common\Containers</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\MatrixManager.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdMatrix2DIdentity.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdMatrix2DTranslate.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdMatrix2DScale.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdMatrix2DRotate.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Vector4.cpp">
+      <Filter>Common\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdMatrix2DShear.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdClip.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Transforms.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\ChildFrm.h">
@@ -266,6 +293,33 @@
     </ClInclude>
     <ClInclude Include="..\..\source\Vector4.h">
       <Filter>Common\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\MatrixManager.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\NonCopyable.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdMatrix2DIdentity.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdMatrix2DTranslate.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdMatrix2DScale.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdMatrix2DRotate.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdMatrix2DShear.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdClip.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Transforms.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -70,7 +70,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="CodeGeneratorConfig.ini" />
-    <None Include="gencommand.bat" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
