@@ -19,6 +19,11 @@ CScriptParser::CScriptParser(void)
 	m_CommandDictionary.insert(std::make_pair(CString("viewport"), new CCmdViewport));
 	m_CommandDictionary.insert(std::make_pair(CString("showviewport"), new CCmdShowViewport));
 	m_CommandDictionary.insert(std::make_pair(CString("clip"), new CCmdClip));
+	m_CommandDictionary.insert(std::make_pair(CString("matrix2didentity"), new CCmdMatrix2DIdentity));
+	m_CommandDictionary.insert(std::make_pair(CString("matrix2dtranslate"), new CCmdMatrix2DTranslate));
+	m_CommandDictionary.insert(std::make_pair(CString("matrix2dscale"), new CCmdMatrix2DScale));
+	m_CommandDictionary.insert(std::make_pair(CString("matrix2drotate"), new CCmdMatrix2DRotate));
+	m_CommandDictionary.insert(std::make_pair(CString("matrix2dshear"), new CCmdMatrix2DShear));
 }
 
 CScriptParser::~CScriptParser(void)

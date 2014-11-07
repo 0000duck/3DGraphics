@@ -10,5 +10,10 @@
 #include "CmdViewport.h"
 #include "CmdShowViewport.h"
 #include "CmdClip.h"
+#include "CmdMatrix2DIdentity.h"
+#include "CmdMatrix2DTranslate.h"
+#include "CmdMatrix2DScale.h"
+#include "CmdMatrix2DRotate.h"
+#include "CmdMatrix2DShear.h"
 
 #endif

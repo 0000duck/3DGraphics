@@ -25,6 +25,9 @@ public:
 	// Singleton accessor
 	static MatrixManager* Instance();
 
+	// Returns if true if the matrix has been initialized
+	bool IsLoaded();
+
 	// Loads the identity matrix; reseting the current matrix
 	void LoadIdentity();
 
@@ -54,6 +57,7 @@ private:
 	
 	// Current primitive being drawn
 	CMatrix33 mMatrix;
+	bool mIsLoaded;
 };
 
 #endif // #ifndef INCLUDED_MATRIXMANAGER_H

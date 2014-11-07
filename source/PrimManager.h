@@ -1,11 +1,11 @@
-// ----------------------------------------------------------------------------
+//====================================================================================================
 //	File: PrimManager.h
 //	Created by: Tyler Staples
 //	Date created: 6/10/2014
 //	Description: 
 //		Keeps track of the current primitive being drawn and its verticies.
 //		To use this class, use the static accessor by calling StateManager::Instance().
-// ----------------------------------------------------------------------------
+//====================================================================================================
 
 #ifndef INCLUDED_PRIMMANAGER_H
 #define INCLUDED_PRIMMANAGER_H
@@ -60,6 +60,9 @@ private:
 
 	// Verifies the integrity of the current primtive
 	void VerifyCurrentPrimitive();
+
+	// Applies the matrix in MatrixManager to the primitives
+	void ApplyTransformations();
 
 	// Ensures everything that will be drawn is within the viewport.
 	void CullAndClip();

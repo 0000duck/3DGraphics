@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------
+//====================================================================================================
 //	File: Clipper.h
 //	Created by: Tyler Staples
 //	Date created: 26/10/2014
@@ -6,7 +6,7 @@
 //		- Keeps track of the current viewport
 //		- Clips anything outside the viewport
 //		To use this class, use the static accessor by calling Clipper::Instance().
-// ----------------------------------------------------------------------------
+//====================================================================================================
 
 #ifndef INCLUDED_CLIPPER_H
 #define INCLUDED_CLIPPER_H

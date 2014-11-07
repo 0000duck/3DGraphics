@@ -3,18 +3,23 @@
 #include "Rasterizer.h"
 #include "StateManager.h"
 #include "Primitives.h"
+#include "Matrix33.h"
+#include "Vector3.h"
+#include "Transforms.h"
 
 CTriangle::CTriangle() 
 	:	CPrimitive(PrimType::Triangle)
 	,	mVertIndex(0)
 {
 }
+// ------------------------------------------------------------------------------------------
 
 CTriangle::CTriangle(const CTriangle& rhs)
 	:	CPrimitive(rhs.mType)
 {
 	*this = rhs;
 }
+// ------------------------------------------------------------------------------------------
 
 CTriangle& CTriangle::operator=(const CTriangle& rhs)
 {
@@ -27,6 +32,7 @@ CTriangle& CTriangle::operator=(const CTriangle& rhs)
 	}
 	return *this;
 }
+// ------------------------------------------------------------------------------------------
 
 bool CTriangle::IsValid() const
 {
@@ -48,6 +54,7 @@ bool CTriangle::IsValid() const
 	}
 	return (CPrimitive::IsValid());
 }
+// ------------------------------------------------------------------------------------------
 
 void CTriangle::AddVertex(const CVertex2& vert)
 {
@@ -62,27 +69,31 @@ void CTriangle::AddVertex(const CVertex2& vert)
 		mV3 = vert;
 	}
 }
+// ------------------------------------------------------------------------------------------
 
 const int CTriangle::VertexCount() const
 {
 	return mVertIndex;
 }
+// ------------------------------------------------------------------------------------------
 
 const int CTriangle::MaxVerticies() const
 {
 	return kVerts;
 }
+// ------------------------------------------------------------------------------------------
 
-const CVertex2& CTriangle::GetVert(int index) const
+void CTriangle::GetVert(int index, CVertex2& out)
 {
 	ASSERT(index >= 0 && index < kVerts);
 	if (index == 0)
-		return mV1;
+		out = mV1;
 	if (index == 1)
-		return mV2;
+		out = mV2;
 	if (index == 2)
-		return mV3;
+		out = mV3;
 }
+// ------------------------------------------------------------------------------------------
 
 void CTriangle::SetVert(int index, const CVertex2& v)
 {
@@ -94,6 +105,34 @@ void CTriangle::SetVert(int index, const CVertex2& v)
 	if (index == 2)
 		mV3 = v;
 }
+// ------------------------------------------------------------------------------------------
+
+CVector2 CTriangle::GetPivot()
+{
+	// todo: call get center from bounding box class
+	CVector2 pmax(max(max(mV1.point.x, mV2.point.x), mV3.point.x),
+				  max(max(mV1.point.y, mV2.point.y), mV3.point.y));
+	CVector2 pmin(min(min(mV1.point.x, mV2.point.x), mV3.point.x),
+				  min(min(mV1.point.y, mV2.point.y), mV3.point.y));
+
+	float midx = (abs(pmax.x) - abs(pmin.x)) * 0.5f;
+	float midy = (abs(pmax.y) - abs(pmin.y)) * 0.5f;
+
+	return CVector2(pmin.x + midx, pmin.y + midy);
+}
+// ------------------------------------------------------------------------------------------
+
+void CTriangle::Transform(const CMatrix33& tm)
+{
+	CVector2 pivot = GetPivot();
+	CMatrix33 t = CreateTransformAroundCenter(pivot, tm);
+
+	// Apply the transformation matrix to our verticies
+	mV1.point = Transform3HC(mV1.point, t);
+	mV2.point = Transform3HC(mV2.point, t);
+	mV3.point = Transform3HC(mV3.point, t);
+}
+// ------------------------------------------------------------------------------------------
 
 void CTriangle::Draw()
 {
@@ -111,6 +150,7 @@ void CTriangle::Draw()
 		break;
 	}
 }
+// ------------------------------------------------------------------------------------------
 
 void CTriangle::DrawSolid()
 {
@@ -123,6 +163,7 @@ void CTriangle::DrawSolid()
 	l2.Draw();
 	l3.Draw();
 }
+// ------------------------------------------------------------------------------------------
 
 void CTriangle::DrawPoints()
 {
@@ -130,12 +171,13 @@ void CTriangle::DrawPoints()
 	DrawVertex(mV2);
 	DrawVertex(mV3);
 }
+// ------------------------------------------------------------------------------------------
 
 void CTriangle::Fill()
 {
 	// Sort the verts from top to bottom
 	CVertex2 p1, p2, p3;
-	SortVerts(p1, p2, p3);
+	SortVertsY(p1, p2, p3);
 
 	// Initialize assuming there will be a breakpoint.
 	// Determine if p2 is on the left or right of p1
@@ -208,8 +250,9 @@ void CTriangle::Fill()
 		y++;
 	}
 }
+// ------------------------------------------------------------------------------------------
 
-void CTriangle::SortVerts(CVertex2& p1, CVertex2& p2, CVertex2& p3)
+void CTriangle::SortVertsY(CVertex2& p1, CVertex2& p2, CVertex2& p3)
 {
 	ASSERT(mVertIndex == kVerts);
 

@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------
+//====================================================================================================
 //	File: StateManager.h
 //	Created by: Tyler Staples
 //	Date created: 6/10/2014
@@ -6,7 +6,7 @@
 //		Keeps track of the current rendering state which includes
 //		the fill mode and draw color.
 //		To use this class, use the static accessor by calling StateManager::Instance().
-// ----------------------------------------------------------------------------
+//====================================================================================================
 
 #ifndef INCLUDED_STATEMANAGER_H
 #define INCLUDED_STATEMANAGER_H

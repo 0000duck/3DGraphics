@@ -102,7 +102,9 @@ eState Clipper::ClipPrimitive(CPrimitive* prim)
 
 eState Clipper::ClipPoint(CPrimitive* prim)
 {
-	unsigned int r1 = ComputeRegion(prim->GetVert(0).point);
+	CVertex2 v;
+	prim->GetVert(0, v);
+	unsigned int r1 = ComputeRegion(v.point);
 	if (r1 == Inside)
 	{
 		return None;
@@ -112,8 +114,9 @@ eState Clipper::ClipPoint(CPrimitive* prim)
 
 eState Clipper::ClipLine(CPrimitive* prim)
 {
-	CVertex2 v1 = prim->GetVert(0);
-	CVertex2 v2 = prim->GetVert(1);
+	CVertex2 v1, v2;
+	prim->GetVert(0, v1);
+	prim->GetVert(1, v2);
 	REGION r1 = ComputeRegion(v1.point);
 	REGION r2 = ComputeRegion(v2.point);
 

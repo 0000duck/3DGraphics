@@ -3,13 +3,15 @@
 #include "Line.h"
 #include "Triangle.h"
 #include "Clipper.h"
+#include "MatrixManager.h"
+#include "Matrix33.h"
 #include <cassert>
 #include <algorithm>
 
 // static singleton member initialization
 PrimManager* PrimManager::spInstance = nullptr;
 
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 // Singleton accessor
 PrimManager* PrimManager::Instance()
@@ -20,7 +22,7 @@ PrimManager* PrimManager::Instance()
 	}
 	return spInstance;
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 // Default constructor
 PrimManager::PrimManager()
@@ -28,6 +30,7 @@ PrimManager::PrimManager()
 	,	mReadingVerticies(false)
 {
 }
+// ------------------------------------------------------------------------------------------
 
 void PrimManager::AddPrimitive(std::unique_ptr<CPrimitive>& prim)
 {
@@ -38,6 +41,7 @@ void PrimManager::AddPrimitive(std::unique_ptr<CPrimitive>& prim)
 		mPrimitiveList.push_back(std::move(prim));
 	}
 }
+// ------------------------------------------------------------------------------------------
 
 void PrimManager::CreatePrimitive(const PrimType::Type primType)
 {
@@ -56,16 +60,19 @@ void PrimManager::CreatePrimitive(const PrimType::Type primType)
 		break;
 	}
 }
+// ------------------------------------------------------------------------------------------
 
 void PrimManager::EnableReading()
 {
 	mReadingVerticies = true;
 }
+// ------------------------------------------------------------------------------------------
 
 void PrimManager::DisableReading()
 {
 	mReadingVerticies = false;
 }
+// ------------------------------------------------------------------------------------------
 
 // Adds a vertex to the current primitive
 void PrimManager::AddVertex(const CVertex2& vert)
@@ -93,6 +100,7 @@ void PrimManager::AddVertex(const CVertex2& vert)
 		}
 	}
 }
+// ------------------------------------------------------------------------------------------
 
 void PrimManager::VerifyCurrentPrimitive()
 {
@@ -111,6 +119,25 @@ void PrimManager::VerifyCurrentPrimitive()
 		}
 	}
 }
+// ------------------------------------------------------------------------------------------
+
+void PrimManager::ApplyTransformations()
+{
+	const CMatrix33& transform = MatrixManager::Instance()->GetCurrentMatrix();
+	if (!MatrixManager::Instance()->IsLoaded() ||
+		transform.IsIdentity())
+	{
+		// Don't do pointless calculations
+		return;
+	}
+
+	PrimList::iterator it = mPrimitiveList.begin();
+	for (it; it != mPrimitiveList.end(); ++it)
+	{
+		(*it)->Transform(transform);
+	}
+}
+// ------------------------------------------------------------------------------------------
 
 void PrimManager::CullAndClip()
 {
@@ -130,6 +157,7 @@ void PrimManager::CullAndClip()
 		}
 	}
 }
+// ------------------------------------------------------------------------------------------
 
 void PrimManager::ClearPrimitive()
 {
@@ -139,6 +167,7 @@ void PrimManager::ClearPrimitive()
 		mpCurrentPrim = nullptr;
 	}
 }
+// ------------------------------------------------------------------------------------------
 
 void PrimManager::ClearAll()
 {
@@ -146,11 +175,15 @@ void PrimManager::ClearAll()
 	mPrimitiveList.clear();;
 	ClearPrimitive();
 }
+// ------------------------------------------------------------------------------------------
 
 void PrimManager::DrawAll()
 {
 	// Check if the current primitive is valid
 	VerifyCurrentPrimitive();
+
+	// Apply any transformations to the primitives
+	ApplyTransformations();
 
 	// Remove anything outside the viewport and clip anything extending past it.
 	CullAndClip();
@@ -165,6 +198,7 @@ void PrimManager::DrawAll()
 	// Clear everything now that it has been drawn
 	ClearAll();
 }
+// ------------------------------------------------------------------------------------------
 
 const CPrimitive* PrimManager::GetCurrentPrimitive() const
 {

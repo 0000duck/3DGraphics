@@ -1,10 +1,10 @@
-// ----------------------------------------------------------------------------
+//====================================================================================================
 //	File: Primitive.h
 //	Created by: Tyler Staples
 //	Date created: 6/10/2014
 //	Description: 
 //		Base class for all primitive types.
-// ----------------------------------------------------------------------------
+//====================================================================================================
 
 #ifndef INCLUDED_PRIMITIVE_H
 #define INCLUDED_PRIMITIVE_H
@@ -12,6 +12,8 @@
 #include "Vertex2.h"
 #include "PrimitiveTypes.h"
 #include <vector>
+
+class CMatrix33;
 
 class CPrimitive
 {
@@ -35,12 +37,18 @@ public:
 	virtual const int MaxVerticies() const = 0;
 
 	// Returns the n'th 0 based vertex.
-	virtual const CVertex2& GetVert(int index) const = 0;
+	virtual void GetVert(int index, CVertex2& out) = 0;
 
 	virtual void SetVert(int index, const CVertex2& v) = 0;
 
+	// Returns the pivot/center of the primitive
+	virtual CVector2 GetPivot() = 0;
+
 	// The primitive's draw logic
 	virtual void Draw() = 0;
+
+	// Transforms all the verticies by the transformation matrix
+	virtual void Transform(const CMatrix33& tm) = 0;
 
 protected:
 	// Draws a single point

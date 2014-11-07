@@ -1,11 +1,11 @@
-// ----------------------------------------------------------------------------
+//====================================================================================================
 //	File: Triangle.h
 //	Created by: Tyler Staples
 //	Date created: 7/10/2014
 //	Description: 
 //		Implementation of the Triangle primitive.
 //		Derives from CPrimitive.
-// ----------------------------------------------------------------------------
+//====================================================================================================
 
 #ifndef INCLUDED_TRIANGLE_H
 #define INCLUDED_TRIANGLE_H
@@ -31,8 +31,10 @@ public:
 	virtual const int VertexCount() const;
 	virtual const int MaxVerticies() const;
 	virtual void Draw();
-	virtual const CVertex2& GetVert(int index) const;
+	virtual void GetVert(int index, CVertex2& out);
 	virtual void SetVert(int index, const CVertex2& v);
+	virtual CVector2 GetPivot();
+	virtual void Transform(const CMatrix33& tm);
 
 protected:
 	// Called when fill mode is line
@@ -45,7 +47,8 @@ protected:
 	virtual void Fill();
 
 	// Assigns the verts to the params based on ascending order of the y coord.
-	void SortVerts(CVertex2& p1, CVertex2& p2, CVertex2& p3);
+	void SortVertsY(CVertex2& p1, CVertex2& p2, CVertex2& p3);
+	void SortVertsX(CVertex2& p1, CVertex2& p2, CVertex2& p3);
 
 private:
 	int mVertIndex;					// Current number of verticies

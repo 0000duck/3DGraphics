@@ -1,11 +1,11 @@
-// ----------------------------------------------------------------------------
+//====================================================================================================
 //	File: Line.h
 //	Created by: Tyler Staples
 //	Date created: 6/10/2014
 //	Description: 
 //		Implementation of the Line primitive.
 //		Derives from CPrimitive.
-// ----------------------------------------------------------------------------
+//====================================================================================================
 
 #ifndef INCLUDED_LINE_H
 #define INCLUDED_LINE_H
@@ -35,8 +35,10 @@ public:
 	virtual const int VertexCount() const;
 	virtual const int MaxVerticies() const;
 	virtual void Draw();
-	virtual const CVertex2& GetVert(int index) const;
+	virtual void GetVert(int index, CVertex2& out);
 	virtual void SetVert(int index, const CVertex2& v);
+	virtual CVector2 GetPivot();
+	virtual void Transform(const CMatrix33& tm);
 
 	// Draws a line between two points with the same x or y value.
 	// Skips re-calculating X for each y, so it is slighty faster.

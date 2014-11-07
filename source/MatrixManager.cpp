@@ -7,7 +7,7 @@
 // static singleton member initialization
 MatrixManager* MatrixManager::spInstance = nullptr;
 
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 // Singleton accessor
 MatrixManager* MatrixManager::Instance()
@@ -18,21 +18,29 @@ MatrixManager* MatrixManager::Instance()
 	}
 	return spInstance;
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 // Default constructor
 MatrixManager::MatrixManager()
+	:	mIsLoaded(false)
 {
 	// Initialize to empty
-	mMatrix.Clean();
+	//mMatrix.Clean();
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
+
+bool MatrixManager::IsLoaded()
+{
+	return mIsLoaded;
+}
+// ------------------------------------------------------------------------------------------
 
 void MatrixManager::LoadIdentity()
 {
 	mMatrix.Identity();
+	mIsLoaded = true;
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 void MatrixManager::Translate(const CVector2& v)
 {
@@ -44,21 +52,27 @@ void MatrixManager::Translate(const CVector2& v)
 
 	mMatrix.SetColumns(col0, col1, col2);
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 void MatrixManager::Scale(const CVector2& s)
 {
 	CVector3 scalevec(s.x, s.y, 1.0f);
+
 	mMatrix.Scaling(scalevec);
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 void MatrixManager::Rotate(const float deg)
 {
 	ASSERT(deg >= 0.0f && deg <= 360.0f);
-	mMatrix.RotationZ(DEG2RAD(deg));
+
+	CMatrix33 rot;
+	rot.Identity();
+	rot.RotationZ(DEG2RAD(deg));
+	
+	mMatrix = rot * mMatrix;
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 void MatrixManager::Shear(const CVector2& s)
 {
@@ -69,7 +83,7 @@ void MatrixManager::Shear(const CVector2& s)
 
 	mMatrix *= sm;
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 const CMatrix33& MatrixManager::GetCurrentMatrix() const
 {
