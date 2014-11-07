@@ -43,8 +43,8 @@ public:
     inline float& operator[]( unsigned int i )         { return (&x)[i]; }
     inline float operator[]( unsigned int i ) const    { return (&x)[i]; }
 
-    float Length() const;
-    float LengthSquared() const;
+    float Length();
+    float LengthSquared();
 
     // comparison
     bool operator==( const CVector4& other ) const;
@@ -64,6 +64,7 @@ public:
     CVector4 operator+( const CVector4& other ) const;
     CVector4& operator+=( const CVector4& other );
     CVector4 operator-( const CVector4& other ) const;
+    CVector4 operator-() const;
     CVector4& operator-=( const CVector4& other );
 
     // scalar multiplication
