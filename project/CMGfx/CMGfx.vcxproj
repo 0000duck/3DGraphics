@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\source\Camera.cpp" />
     <ClCompile Include="..\..\source\ChildFrm.cpp" />
     <ClCompile Include="..\..\source\Clipper.cpp" />
     <ClCompile Include="..\..\source\CLog.cpp" />
@@ -137,6 +138,10 @@
     <ClCompile Include="..\..\source\CmdMatrix2DScale.cpp" />
     <ClCompile Include="..\..\source\CmdMatrix2DShear.cpp" />
     <ClCompile Include="..\..\source\CmdMatrix2DTranslate.cpp" />
+    <ClCompile Include="..\..\source\CmdMatrix3DIdentity.cpp" />
+    <ClCompile Include="..\..\source\CmdMatrix3DRotate.cpp" />
+    <ClCompile Include="..\..\source\CmdMatrix3DScale.cpp" />
+    <ClCompile Include="..\..\source\CmdMatrix3DTranslate.cpp" />
     <ClCompile Include="..\..\source\CmdShowViewport.cpp" />
     <ClCompile Include="..\..\source\CmdVertex2.cpp" />
     <ClCompile Include="..\..\source\CmdVertex3.cpp" />
@@ -153,6 +158,7 @@
     <ClCompile Include="..\..\source\MatrixManager.cpp" />
     <ClCompile Include="..\..\source\oglMFCDialogDlg.cpp" />
     <ClCompile Include="..\..\source\OpenGLControl.cpp" />
+    <ClCompile Include="..\..\source\PerspectiveMatrix.cpp" />
     <ClCompile Include="..\..\source\Primitive.cpp" />
     <ClCompile Include="..\..\source\Primitives.cpp" />
     <ClCompile Include="..\..\source\PrimitiveTypes.cpp" />
@@ -167,8 +173,10 @@
     <ClCompile Include="..\..\source\Vector2.cpp" />
     <ClCompile Include="..\..\source\Vector3.cpp" />
     <ClCompile Include="..\..\source\Vector4.cpp" />
+    <ClCompile Include="..\..\source\Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\source\Camera.h" />
     <ClInclude Include="..\..\source\ChildFrm.h" />
     <ClInclude Include="..\..\source\Clipper.h" />
     <ClInclude Include="..\..\source\CLog.h" />
@@ -184,6 +192,10 @@
     <ClInclude Include="..\..\source\CmdMatrix2DScale.h" />
     <ClInclude Include="..\..\source\CmdMatrix2DShear.h" />
     <ClInclude Include="..\..\source\CmdMatrix2DTranslate.h" />
+    <ClInclude Include="..\..\source\CmdMatrix3DIdentity.h" />
+    <ClInclude Include="..\..\source\CmdMatrix3DRotate.h" />
+    <ClInclude Include="..\..\source\CmdMatrix3DScale.h" />
+    <ClInclude Include="..\..\source\CmdMatrix3DTranslate.h" />
     <ClInclude Include="..\..\source\CmdShowViewport.h" />
     <ClInclude Include="..\..\source\CmdVertex2.h" />
     <ClInclude Include="..\..\source\CmdVertex3.h" />
@@ -205,6 +217,7 @@
     <ClInclude Include="..\..\source\NonCopyable.h" />
     <ClInclude Include="..\..\source\oglMFCDialogDlg.h" />
     <ClInclude Include="..\..\source\OpenGLControl.h" />
+    <ClInclude Include="..\..\source\PerspectiveMatrix.h" />
     <ClInclude Include="..\..\source\Plane2.h" />
     <ClInclude Include="..\..\source\Primitive.h" />
     <ClInclude Include="..\..\source\Primitives.h" />
@@ -223,6 +236,7 @@
     <ClInclude Include="..\..\source\Vector4.h" />
     <ClInclude Include="..\..\source\Vertex2.h" />
     <ClInclude Include="..\..\source\Vertex3.h" />
+    <ClInclude Include="..\..\source\Viewport.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\README.md" />

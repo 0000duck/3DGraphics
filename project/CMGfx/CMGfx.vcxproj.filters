@@ -32,6 +32,24 @@
     <Filter Include="Common\Containers">
       <UniqueIdentifier>{a9e36fce-d4ff-43c6-9d42-e82b6dac1ddf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commands\Matrix2D">
+      <UniqueIdentifier>{c56dde27-f1a5-449e-8af4-ec19ccb48135}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands\Matrix3D">
+      <UniqueIdentifier>{64966840-26e3-4c51-8582-4d8e6fa4d884}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands\Drawing">
+      <UniqueIdentifier>{477205dc-c702-4ccc-afc3-bee1f1ebc4e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands\Viewport">
+      <UniqueIdentifier>{7b89d1ec-85de-4a8f-ae16-973e82eb284f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands\Verticies">
+      <UniqueIdentifier>{35c7f4f3-e5d0-4599-a2b9-08b8affabc04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Utility">
+      <UniqueIdentifier>{1d5ce7f1-e1eb-45ac-8d15-f8a5723bffa9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\ChildFrm.cpp">
@@ -79,24 +97,6 @@
     <ClCompile Include="..\..\source\FillModes.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\CmdColor.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\CmdDrawBegin.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\CmdDrawEnd.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\CmdDrawPixel.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\CmdFillMode.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\CmdVertex2.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\stdafx.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
@@ -111,12 +111,6 @@
     </ClCompile>
     <ClCompile Include="..\..\source\StateManager.cpp">
       <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\CmdShowViewport.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\CmdViewport.cpp">
-      <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\Primitives.cpp">
       <Filter>Common\Primitives</Filter>
@@ -139,32 +133,77 @@
     <ClCompile Include="..\..\source\MatrixManager.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\CmdMatrix2DIdentity.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\CmdMatrix2DTranslate.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\CmdMatrix2DScale.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\CmdMatrix2DRotate.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\Vector4.cpp">
       <Filter>Common\Containers</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\CmdMatrix2DIdentity.cpp">
+      <Filter>Commands\Matrix2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdMatrix2DRotate.cpp">
+      <Filter>Commands\Matrix2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdMatrix2DScale.cpp">
+      <Filter>Commands\Matrix2D</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\source\CmdMatrix2DShear.cpp">
-      <Filter>Commands</Filter>
+      <Filter>Commands\Matrix2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdMatrix2DTranslate.cpp">
+      <Filter>Commands\Matrix2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdMatrix3DIdentity.cpp">
+      <Filter>Commands\Matrix3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdMatrix3DTranslate.cpp">
+      <Filter>Commands\Matrix3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdDrawBegin.cpp">
+      <Filter>Commands\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdDrawEnd.cpp">
+      <Filter>Commands\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdDrawPixel.cpp">
+      <Filter>Commands\Drawing</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\CmdClip.cpp">
-      <Filter>Commands</Filter>
+      <Filter>Commands\Viewport</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\Transforms.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="..\..\source\CmdViewport.cpp">
+      <Filter>Commands\Viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdShowViewport.cpp">
+      <Filter>Commands\Viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdVertex2.cpp">
+      <Filter>Commands\Verticies</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\CmdVertex3.cpp">
-      <Filter>Commands</Filter>
+      <Filter>Commands\Verticies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdColor.cpp">
+      <Filter>Commands\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdFillMode.cpp">
+      <Filter>Commands\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Transforms.cpp">
+      <Filter>Common\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdMatrix3DScale.cpp">
+      <Filter>Commands\Matrix3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdMatrix3DRotate.cpp">
+      <Filter>Commands\Matrix3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Camera.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Viewport.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\PerspectiveMatrix.cpp">
+      <Filter>Common\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -213,37 +252,13 @@
     <ClInclude Include="..\..\source\PrimitiveTypes.h">
       <Filter>Common\Primitives</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\Color.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\Common.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\FillModes.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\MiniMath.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\CmdColor.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\CmdCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\CmdDrawBegin.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\CmdDrawEnd.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\CmdDrawPixel.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\CmdFillMode.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\CmdVertex2.h">
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\stdafx.h">
@@ -260,12 +275,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\ScriptParser.h">
       <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\CmdShowViewport.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\CmdViewport.h">
-      <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\Commands.h">
       <Filter>Commands</Filter>
@@ -300,35 +309,86 @@
     <ClInclude Include="..\..\source\MatrixManager.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\NonCopyable.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\CmdMatrix2DIdentity.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\CmdMatrix2DTranslate.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\CmdMatrix2DScale.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\CmdMatrix2DRotate.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\CmdMatrix2DShear.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\CmdClip.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\Transforms.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\CmdVertex3.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\Vertex3.h">
       <Filter>Common\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdMatrix2DIdentity.h">
+      <Filter>Commands\Matrix2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdMatrix2DRotate.h">
+      <Filter>Commands\Matrix2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdMatrix2DScale.h">
+      <Filter>Commands\Matrix2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdMatrix2DShear.h">
+      <Filter>Commands\Matrix2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdMatrix2DTranslate.h">
+      <Filter>Commands\Matrix2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdMatrix3DIdentity.h">
+      <Filter>Commands\Matrix3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdMatrix3DTranslate.h">
+      <Filter>Commands\Matrix3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdDrawBegin.h">
+      <Filter>Commands\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdDrawEnd.h">
+      <Filter>Commands\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdDrawPixel.h">
+      <Filter>Commands\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdClip.h">
+      <Filter>Commands\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdViewport.h">
+      <Filter>Commands\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdShowViewport.h">
+      <Filter>Commands\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdVertex2.h">
+      <Filter>Commands\Verticies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdVertex3.h">
+      <Filter>Commands\Verticies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdColor.h">
+      <Filter>Commands\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdFillMode.h">
+      <Filter>Commands\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\MiniMath.h">
+      <Filter>Common\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\NonCopyable.h">
+      <Filter>Common\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Color.h">
+      <Filter>Common\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Transforms.h">
+      <Filter>Common\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdMatrix3DScale.h">
+      <Filter>Commands\Matrix3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdMatrix3DRotate.h">
+      <Filter>Commands\Matrix3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Camera.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Viewport.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\PerspectiveMatrix.h">
+      <Filter>Common\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
