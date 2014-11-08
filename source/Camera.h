@@ -41,8 +41,14 @@ private:
 	CVector3 mLookUp;		// Camera up-vector	(unit vector)
 	CVector3 mLookSide;		// Orthonormal basis vector
 
+	float mFOV;				// Camera field-of-view (assumes 90deg)
+	float mProjectionPlane; // Z dist to projection plane
+	float mNear;			// Z dist to near plane
+	float mFar;				// Z dist to far plane
+
 	CMatrix44 mViewToWorld;	// Transforms a point from view frame to world frame
 	CMatrix44 mWorldToView;	// Transforms a point from world frame to view frame
+	CMatrix44 mPerspective;	// Perspective Projection matrix
 };
 
 #endif // #ifndef INCLUDED_CAMERA_H

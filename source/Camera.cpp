@@ -20,6 +20,10 @@ Camera* Camera::Instance()
 // Default constructor
 Camera::Camera()
 	:	mInitialized(false)
+	,	mFOV(90.0f)
+	,	mProjectionPlane(0.0f)
+	,	mNear(0.1f)
+	,	mFar(1000.0f)
 {
 }
 // ------------------------------------------------------------------------------------------
