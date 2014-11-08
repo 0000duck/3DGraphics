@@ -15,6 +15,8 @@
 #include <vector>
 #include <memory>
 
+struct CVertex3;
+
 class PrimManager
 {
 	// Constructors
@@ -24,6 +26,7 @@ class PrimManager
 
 public:
 	typedef std::vector<std::unique_ptr<CPrimitive>> PrimList;
+	typedef std::vector<CVertex3> VertList;
 
 	// Singleton accessor
 	static PrimManager* Instance();
@@ -39,7 +42,11 @@ public:
 	// Add a vertex to the current primitive.
 	// If the current primitive has the max amount of verticies
 	// it is added to the list and a new primitive is allocated.
+	// MAY BE DEPRECATED IN NEAR FUTURE
 	void AddVertex(const CVertex2& vert);
+
+	// New overloaded version to work with 3D verticies.
+	void AddVertex(const CVertex3& vert);
 
 	// Clears the current primitive
 	void ClearPrimitive();
@@ -76,6 +83,8 @@ private:
 
 	// List of complete primitives to be drawn
 	PrimList mPrimitiveList;
+
+	VertList mVertList;
 
 	// When true, allow verticies to be added to the current primitive
 	bool mReadingVerticies;		

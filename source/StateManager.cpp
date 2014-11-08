@@ -53,18 +53,12 @@ void StateManager::SetColor(float r, float g, float b)
 
 void StateManager::StartDrawing()
 {
-	//if (!mIsDrawing)
-	//{
-		mIsDrawing = true;
-	//}
+	mIsDrawing = true;
 }
 
 void StateManager::StopDrawing()
 {
-	//if (mIsDrawing)
-	//{
-		mIsDrawing = false;
-	//}
+	mIsDrawing = false;
 }
 
 const FillMode::Mode StateManager::GetFillMode() const

@@ -5,6 +5,7 @@
 #include "Clipper.h"
 #include "MatrixManager.h"
 #include "Matrix33.h"
+#include "Vertex3.h"
 #include <cassert>
 #include <algorithm>
 
@@ -74,7 +75,15 @@ void PrimManager::DisableReading()
 }
 // ------------------------------------------------------------------------------------------
 
-// Adds a vertex to the current primitive
+void PrimManager::AddVertex(const CVertex3& vert)
+{
+	if (mReadingVerticies)
+	{
+		mVertList.push_back(vert);
+	}
+}
+// ------------------------------------------------------------------------------------------
+
 void PrimManager::AddVertex(const CVertex2& vert)
 {
 	if (mReadingVerticies && mpCurrentPrim)
@@ -123,8 +132,8 @@ void PrimManager::VerifyCurrentPrimitive()
 
 void PrimManager::ApplyTransformations()
 {
-	const CMatrix33& transform = MatrixManager::Instance()->GetCurrentMatrix();
-	if (!MatrixManager::Instance()->IsLoaded() ||
+	const CMatrix33& transform = MatrixManager::Instance()->GetMatrix2D();
+	if (!MatrixManager::Instance()->IsLoaded2D() ||
 		transform.IsIdentity())
 	{
 		// Don't do pointless calculations
@@ -173,6 +182,7 @@ void PrimManager::ClearAll()
 {
 	// Clear out the primitive list and the current primitive
 	mPrimitiveList.clear();;
+	mVertList.clear();
 	ClearPrimitive();
 }
 // ------------------------------------------------------------------------------------------
