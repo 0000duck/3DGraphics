@@ -104,7 +104,7 @@ DistanceSquared(const CVector3& p0, const CVector3& p1)
 //-------------------------------------------------------------------------------
 // Returns the length of the vector.
 //-------------------------------------------------------------------------------
-float CVector3::Length()
+float CVector3::Length() const
 {
 	return (sqrt(Dot(CVector3(x, y, z))));
 
@@ -116,7 +116,7 @@ float CVector3::Length()
 //-------------------------------------------------------------------------------
 // Returns the length squared of the vector.
 //-------------------------------------------------------------------------------
-float CVector3::LengthSquared()
+float CVector3::LengthSquared() const
 {
 	float len = Length();
 	return (len * len);
@@ -138,6 +138,13 @@ void CVector3::Normalize()
 
 } // End of ::Normalize()
 
+CVector3 Normalize(const CVector3& vector)
+{
+	float len = vector.Length();
+	return CVector3(vector.x / len, 
+					vector.y / len, 
+					vector.z / len);
+}
 
 //-------------------------------------------------------------------------------
 // @ CVector3::Dot(const CVector3& vector) const
@@ -167,6 +174,10 @@ CVector3 CVector3::Cross(const CVector3& vector) const
 
 } // End of ::Cross()
 
+CVector3 Cross(const CVector3& a, const CVector3& b)
+{
+	return a.Cross(b);
+}
 
 //-------------------------------------------------------------------------------
 // @ CVector3::operator==()

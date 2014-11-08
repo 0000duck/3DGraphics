@@ -47,11 +47,13 @@ public:
     friend float DistanceSquared(const CVector3& p0, const CVector3& p1);
 
 	// Math operators
-	float Length();
-	float LengthSquared();
-	void Normalize();	// Modifies member values
+	float Length() const;
+	float LengthSquared() const;
+	friend CVector3 Normalize(const CVector3& vector);
 	float Dot(const CVector3& vector) const;
 	CVector3 Cross(const CVector3& vector) const;
+	friend CVector3 Cross(const CVector3& a, const CVector3& b);
+	inline CVector3 Inverse();
 
     // comparison
     bool operator==(const CVector3& other) const;
@@ -63,6 +65,8 @@ public:
     inline void Set(float _x, float _y, float _z);
     void Clean();       // sets near-zero elements to 0
     inline void Zero(); // sets all elements to 0
+	inline void Invert();
+	void Normalize();
 
     // operators
 
@@ -124,5 +128,17 @@ CVector3::Zero()
 //-------------------------------------------------------------------------------
 //-- Externs --------------------------------------------------------------------
 //-------------------------------------------------------------------------------
+
+inline CVector3 CVector3::Inverse()
+{
+	return CVector3(-x, -y, -z);
+}
+
+inline void CVector3::Invert()
+{
+	x = -x;
+	y = -y;
+	z = -z;
+}
 
 #endif

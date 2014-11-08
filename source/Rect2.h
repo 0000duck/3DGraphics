@@ -35,4 +35,11 @@ public:
 	int MaxYi() const	{ return static_cast<int>(mMax.y); }
 };
 
+// External helpers
+bool IsValid(const CVector2& min, const CVector2& max);
+bool IsValid(float l, float t, float r, float b);
+bool PointInRect(const CVector2& min, const CVector2& max, const CVector2& p);
+bool PointInRect(float l, float t, float r, float b, float p);
+
+
 #endif
