@@ -43,13 +43,7 @@ class Clipper
 public:
 	// Singleton accessor
 	static Clipper* Instance();
-
-	// Viewport Functionality
-	void SetViewport(const CRect2& vp);
-	const CRect2& GetViewport() const;
 	
-	void ShowViewport();
-	void DisableViewport();
 	void EnableClipping();
 	void DisableClipping();
 
@@ -58,26 +52,23 @@ public:
 	eState ClipPrimitive(CPrimitive* prim);
 
 protected:
-	// Draws the viewport on the screen
-	void DrawViewport();
 
-	eState ClipPoint(CPrimitive* prim);
-	eState ClipLine(CPrimitive* prim);
-	eState ClipTriangle(CPrimitive* prim);
+	eState ClipPoint(CPrimitive* prim, const CRect2& vp);
+	eState ClipLine(CPrimitive* prim, const CRect2& vp);
+	eState ClipTriangle(CPrimitive* prim, const CRect2& vp);
 
 	// Trims the line until point v is within the viewport
-	void TrimLine(CVertex2& v, CLine& line);
+	void TrimLine(CVertex2& v, CLine& line, const CRect2& vp);
 
 	// Returns a byte with the first 4 bits set corresponding to
 	// the region the coordinate is in.
-	REGION ComputeRegion(const CVector2& point);
+	REGION ComputeRegion(const CVector2& point, const CRect2& vp);
 
 private:
-	static Clipper* spInstance;	// Static instance
+	// Static instance
+	static Clipper* spInstance;
 
-	CRect2 mViewport;
-	bool mViewportOn;
-	bool mClippingOn;
+	bool mClippingOn;	// If clipping is enabled
 };
 
 #endif

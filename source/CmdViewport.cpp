@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include "CmdViewport.h"
 #include "ScriptParser.h"
-#include "Rasterizer.h"
-#include "Clipper.h"
+#include "Viewport.h"
 
 BOOL CCmdViewport::execute(CString &params)
 {
@@ -26,7 +25,7 @@ BOOL CCmdViewport::execute(CString &params)
 	}
 
 	// Set the viewport with the input dimensions
-	Clipper::Instance()->SetViewport(CRect2(coords[0], coords[1], coords[2], coords[3]));
+	Viewport::Instance()->Set(coords[0], coords[1], coords[2], coords[3]);
 
 	return TRUE;
 }

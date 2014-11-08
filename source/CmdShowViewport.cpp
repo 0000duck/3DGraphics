@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include "CmdShowViewport.h"
 #include "ScriptParser.h"
-#include "Rasterizer.h"
-#include "Clipper.h"
+#include "Viewport.h"
 
 BOOL CCmdShowViewport::execute(CString &params)
 {
@@ -22,12 +21,12 @@ BOOL CCmdShowViewport::execute(CString &params)
 	if (coord.Compare(L"on") == 0)
 	{
 		// Toggle viewport on
-		Clipper::Instance()->ShowViewport();
+		Viewport::Instance()->EnableDrawing();
 	}
 	else if (coord.MakeLower().Compare(L"off") == 0)
 	{
 		// Toggle viewport off
-		Clipper::Instance()->DisableViewport();
+		Viewport::Instance()->DisableDrawing();
 	}
 	return TRUE;
 }
