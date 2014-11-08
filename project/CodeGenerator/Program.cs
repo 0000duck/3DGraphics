@@ -18,7 +18,6 @@ namespace CodeGenerator
             }
 
             string projectdir = "..\\";
-            //string projectdir = "C:\\Users\\Tyler\\Documents\\GitHub\\3DGraphics-master\\";
             string filename = args[0];
 
             // Init and load the configuration file

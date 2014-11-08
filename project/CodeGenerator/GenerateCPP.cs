@@ -45,7 +45,11 @@ namespace CodeGenerator
 
         void WriteClassDefinition()
         {
-            string cname = "C" + OutputPath;
+            string cname = OutputPath;
+            if (ConfigFile.Get().GetBool("PrefixClassName"))
+            {
+                cname = "C" + cname;
+            }
             string func = "BOOL " + cname + "::" + "execute(CString &params)";
 
             AddLine(0, func);
