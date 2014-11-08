@@ -27,7 +27,7 @@ BOOL CCmdMatrix2DTranslate::execute(CString &params)
 	sv.y = (float)(wcstod(paramStr, NULL));
 
 	// Translate the current matrix
-	MatrixManager::Instance()->Translate(sv);
+	MatrixManager::Instance()->Translate2D(sv);
 
 	return TRUE;
 }

@@ -26,7 +26,7 @@ BOOL CCmdMatrix2DShear::execute(CString &params)
 	paramStr = paramStrList.GetNext(scale);
 	sv.y = (float)(wcstod(paramStr, NULL));
 
-	MatrixManager::Instance()->Shear(sv);
+	MatrixManager::Instance()->Shear2D(sv);
 
 	return TRUE;
 }

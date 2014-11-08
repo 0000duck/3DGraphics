@@ -18,7 +18,7 @@ BOOL CCmdMatrix2DRotate::execute(CString &params)
 
 	CString paramStr = paramStrList.GetHead();
 	float deg = (float)(wcstod(paramStr, NULL));
-	MatrixManager::Instance()->Rotate(deg);
+	MatrixManager::Instance()->Rotate2D(deg);
 
 	return TRUE;
 }

@@ -17,7 +17,7 @@ BOOL CCmdMatrix2DIdentity::execute(CString &params)
 	}
 
 	// Load an identity matrix
-	MatrixManager::Instance()->LoadIdentity();
+	MatrixManager::Instance()->LoadIdentity2D();
 
 	return TRUE;
 }
