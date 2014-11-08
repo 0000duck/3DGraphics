@@ -1,3 +1,7 @@
+#include "stdafx.h"
+#include "Matrix44.h"
+#include "MiniMath.h"
+
 // Compute projection matrix
 // FOVDegrees are passed in as degrees then converted to radians
 CMatrix44 ComputeProjectionMatrix( float FOVDegrees, float fAspectRatio, float fNear, float fFar)

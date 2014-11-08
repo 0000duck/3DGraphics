@@ -182,6 +182,99 @@ CMatrix44::IsIdentity() const
 
 }   // End of CMatrix44::IsIdentity()
 
+void CMatrix44::SetRows(const CVector4& row1, const CVector4& row2,
+						const CVector4& row3, const CVector4& row4)
+{
+	mV[0] = row1.x;
+    mV[4] = row1.y;
+    mV[5] = row1.z;
+    mV[12] = row1.w;
+
+    mV[1] = row2.x;
+    mV[5] = row2.y;
+    mV[9] = row2.z;
+    mV[13] = row2.w;
+
+    mV[2] = row3.x;
+    mV[6] = row3.y;
+    mV[10] = row3.z;
+    mV[14] = row3.w;
+
+	mV[3] = row4.x;
+    mV[7] = row4.y;
+    mV[11] = row4.z;
+    mV[15] = row4.w;
+}
+
+void CMatrix44::GetRows(CVector4& row1, CVector4& row2, CVector4& row3, CVector4& row4)
+{
+	row1.x = mV[0];
+    row1.y = mV[4];
+    row1.z = mV[5];
+    row1.w = mV[12];
+
+    row2.x = mV[1];
+    row2.y = mV[5];
+    row2.z = mV[9];
+    row2.w = mV[13];
+
+    row3.x = mV[2];
+    row3.y = mV[6];
+    row3.z = mV[10];
+    row3.w = mV[14];
+
+	row4.x = mV[3];
+    row4.y = mV[7];
+    row4.z = mV[11];
+    row4.w = mV[15];
+}
+
+void CMatrix44::SetColumns(const CVector4& col1, const CVector4& col2, 
+							const CVector4& col3, const CVector4& col4)
+{
+	mV[0] = col1.x;
+    mV[1] = col1.y;
+    mV[2] = col1.z;
+    mV[3] = col1.w;
+
+    mV[4] = col2.x;
+    mV[5] = col2.y;
+    mV[6] = col2.z;
+    mV[7] = col2.w;
+
+    mV[8] = col3.x;
+    mV[9] = col3.y;
+    mV[10] = col3.z;
+    mV[11] = col3.w;
+
+	mV[12] = col4.x;
+    mV[13] = col4.y;
+    mV[14] = col4.z;
+    mV[15] = col4.w;
+}
+
+void CMatrix44::GetColumns(CVector4& col1, CVector4& col2, CVector4& col3, CVector4& col4)
+{
+	col1.x = mV[0];
+    col1.y = mV[1];
+    col1.z = mV[2];
+    col1.w = mV[3];
+
+    col2.x = mV[4];
+    col2.y = mV[5];
+    col2.z = mV[6];
+    col2.w = mV[7];
+
+    col3.x = mV[8];
+    col3.y = mV[9];
+    col3.z = mV[10];
+    col3.w = mV[11];
+
+	col4.x = mV[12];
+    col4.y = mV[13];
+    col4.z = mV[14];
+    col4.w = mV[15];
+}
 
 //-------------------------------------------------------------------------------
 // @ CMatrix44::Clean()
