@@ -62,6 +62,8 @@ void CScriptParser::StringSplit(CStringList &result, CString &inputString, CStri
 	}
 }
 
+
+
 // Look up command in dictionary to return command object
 CCmdCommand *CScriptParser::CommandLookup(CString &cmd)
 {
