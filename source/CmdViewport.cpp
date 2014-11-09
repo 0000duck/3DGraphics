@@ -16,16 +16,11 @@ BOOL CCmdViewport::execute(CString &params)
 		return FALSE;
 	}
 
-	float coords[numParams];
-	POSITION coord = paramStrList.GetHeadPosition();
-	for (int i = 0; i < numParams; i++)
-	{
-		CString paramStr = paramStrList.GetNext(coord);
-		coords[i] = (float)(wcstod(paramStr, NULL));
-	}
+	float args[numParams];
+	CScriptParser::ToArray(paramStrList, numParams, args);
 
 	// Set the viewport with the input dimensions
-	Viewport::Instance()->Set(coords[0], coords[1], coords[2], coords[3]);
+	Viewport::Instance()->Set(args[0], args[1], args[2], args[3]);
 
 	return TRUE;
 }

@@ -18,17 +18,12 @@ BOOL CCmdColor::execute(CString &params)
 		return FALSE;
 	}
 
+	// Convert the params to a float array
 	float rgb[numParams];
-	POSITION color = paramStrList.GetHeadPosition();
-	for (int i = 0; i < numParams; i++)
-	{
-		CString paramStr = paramStrList.GetNext(color);
-		rgb[i] = (float)(wcstod(paramStr, NULL));
-	}
+	CScriptParser::ToArray(paramStrList, numParams, rgb);
 
 	// Set the color in the state manager
 	StateManager::Instance()->SetColor(rgb[0], rgb[1], rgb[2]);
-
 	CRasterizer::Instance()->SetColor(rgb[0], rgb[1], rgb[2]);
 
 	return TRUE;
