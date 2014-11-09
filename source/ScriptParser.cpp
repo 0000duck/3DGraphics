@@ -15,15 +15,28 @@ CScriptParser::CScriptParser(void)
 	m_CommandDictionary.insert(std::make_pair(CString("fillmode"), new CCmdFillMode));
 	m_CommandDictionary.insert(std::make_pair(CString("drawbegin"), new CCmdDrawBegin));
 	m_CommandDictionary.insert(std::make_pair(CString("vertex2"), new CCmdVertex2));
+	m_CommandDictionary.insert(std::make_pair(CString("vertex3"), new CCmdVertex3));
 	m_CommandDictionary.insert(std::make_pair(CString("drawend"), new CCmdDrawEnd));
+
 	m_CommandDictionary.insert(std::make_pair(CString("viewport"), new CCmdViewport));
 	m_CommandDictionary.insert(std::make_pair(CString("showviewport"), new CCmdShowViewport));
 	m_CommandDictionary.insert(std::make_pair(CString("clip"), new CCmdClip));
+
 	m_CommandDictionary.insert(std::make_pair(CString("matrix2didentity"), new CCmdMatrix2DIdentity));
 	m_CommandDictionary.insert(std::make_pair(CString("matrix2dtranslate"), new CCmdMatrix2DTranslate));
 	m_CommandDictionary.insert(std::make_pair(CString("matrix2dscale"), new CCmdMatrix2DScale));
 	m_CommandDictionary.insert(std::make_pair(CString("matrix2drotate"), new CCmdMatrix2DRotate));
 	m_CommandDictionary.insert(std::make_pair(CString("matrix2dshear"), new CCmdMatrix2DShear));
+
+	m_CommandDictionary.insert(std::make_pair(CString("matrix3didentity"), new CCmdMatrix3DIdentity));
+	m_CommandDictionary.insert(std::make_pair(CString("matrix3dtranslate"), new CCmdMatrix3DTranslate));
+	m_CommandDictionary.insert(std::make_pair(CString("matrix3dscale"), new CCmdMatrix3DScale));
+	m_CommandDictionary.insert(std::make_pair(CString("matrix3drotate"), new CCmdMatrix3DRotate));
+
+	m_CommandDictionary.insert(std::make_pair(CString("camerafar"), new CCmdCameraFar));
+	m_CommandDictionary.insert(std::make_pair(CString("camerafov"), new CCmdCameraFOV));
+	m_CommandDictionary.insert(std::make_pair(CString("cameranear"), new CCmdCameraNear));
+	m_CommandDictionary.insert(std::make_pair(CString("camerapersp"), new CCmdCameraPersp));
 }
 
 CScriptParser::~CScriptParser(void)
