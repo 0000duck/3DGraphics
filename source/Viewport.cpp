@@ -1,6 +1,7 @@
 #include "Stdafx.h"
 #include "Viewport.h"
 #include "Rect2.h"
+#include "Vector4.h"
 
 // static singleton member initialization
 Viewport* Viewport::spInstance = nullptr;
@@ -35,6 +36,8 @@ void Viewport::Set(const CVector2& topleft, const CVector2& btmright)
 	mWidth = btmright.x;
 	mHeight = btmright.y;
 	mAspectRatio = mWidth / mHeight;
+
+	CreateNDCToScreenMatrix();
 }
 // ------------------------------------------------------------------------------------------
 
@@ -44,6 +47,8 @@ void Viewport::Set(float l, float t, float r, float b)
 	mWidth = r;
 	mHeight = b;
 	mAspectRatio = mWidth / mHeight;
+
+	CreateNDCToScreenMatrix();
 }
 
 void Viewport::EnableDrawing()
@@ -75,4 +80,21 @@ void Viewport::Draw()
 CRect2 Viewport::GetViewport()
 {
 	return CRect2(mOrigin.x, mOrigin.y, mWidth, mHeight);
+}
+
+void Viewport::CreateNDCToScreenMatrix()
+{
+	// temp depth until i figure out where to obtain the value
+	float d = 1.0f;
+
+	mNDCToScreen.Identity();
+	CVector4 c0, c1, c2, c3;
+	mNDCToScreen.GetColumns(c0, c1, c2, c3);
+	c0.x = mWidth / 2;
+	c1.y = -(mHeight / 2);
+	c2.z = d / 2;
+	c3.x = (mWidth / 2) + mOrigin.x;
+	c3.y = (mHeight / 2) + mOrigin.y;
+	c3.z = d / 2;
+
 }

@@ -30,6 +30,11 @@ public:
 	// @param interest - what the camera is looking at
 	void Create(const CVector3& origin, const CVector3& interest);
 
+	// Setters
+	inline void SetFOV(float deg)	{ mFOV = deg; }
+	inline void SetNear(float n)	{ mNear = n; }
+	inline void SetFar(float f)		{ mFar = f; }
+
 private:
 	// Static instance
 	static Camera* spInstance;

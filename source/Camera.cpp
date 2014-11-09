@@ -1,5 +1,7 @@
 #include "Stdafx.h"
 #include "Camera.h"
+#include "PerspectiveMatrix.h"
+#include "Viewport.h"
 
 // static singleton member initialization
 Camera* Camera::spInstance = nullptr;
@@ -61,6 +63,10 @@ void Camera::Create(const CVector3& origin, const CVector3& interest)
 	c2.Set(vx.z, vy.z, vz.z, 0.0f);
 	c3.Set(-mLookFrom.x, -mLookFrom.y, -mLookFrom.z, 1.0f);
 	mWorldToView.SetColumns(c0, c1, c2, c3);
+
+	// Get the perspective projection matrix
+	float aspectratio = Viewport::Instance()->GetAspectRatio();
+	mPerspective = ComputeProjectionMatrix(mFOV, aspectratio, mNear, mFar);
 
 	// Camera is now set
 	mInitialized = true;

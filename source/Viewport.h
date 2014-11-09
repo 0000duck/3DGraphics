@@ -13,6 +13,7 @@
 
 #include "NonCopyable.h"
 #include "Vector2.h"
+#include "Matrix44.h"
 
 class CRect2;
 
@@ -34,9 +35,11 @@ public:
 	void DisableDrawing();
 
 	CRect2 GetViewport();
+	inline float GetAspectRatio() const { return mAspectRatio; }
 
 protected:
 	void Draw();
+	void CreateNDCToScreenMatrix();
 
 private:
 	// Static instance
@@ -46,6 +49,8 @@ private:
 	float mWidth;			// Width of the viewport
 	float mHeight;			// Height of the viewport
 	float mAspectRatio;		// Computed aspect ratio of the viewport (width/height)
+
+	CMatrix44 mNDCToScreen;
 
 	bool mDraw;
 };
