@@ -5,7 +5,9 @@
 #include "Primitives.h"
 #include "Containers/Matrix33.h"
 #include "Containers/Vector3.h"
+#include "Containers/Point.h"
 #include "Utility/Transforms.h"
+#include "Utility/MiniMath.h"
 
 CTriangle::CTriangle() 
 	:	CPrimitive(PrimType::Triangle)
@@ -44,10 +46,10 @@ bool CTriangle::IsValid() const
 	else
 	{
 		// Ensure no more than 2 verticies are parallel
-		if (mV1.point.x == mV2.point.x &&
-			mV1.point.x == mV3.point.x ||
-			mV1.point.y == mV2.point.y &&
-			mV1.point.y == mV3.point.y)
+		if (CompareFloat(mV1.point.x, mV2.point.x) &&
+			CompareFloat(mV1.point.x, mV3.point.x) ||
+			CompareFloat(mV1.point.y, mV2.point.y) &&
+			CompareFloat(mV1.point.y, mV3.point.y))
 		{
 			return false;
 		}
@@ -179,24 +181,28 @@ void CTriangle::DrawPoints()
 void CTriangle::Fill()
 {
 	// Sort the verts from top to bottom
-	CVertex2 p1, p2, p3;
-	SortVertsY(p1, p2, p3);
+	CVertex2 v1, v2, v3;
+	SortVertsY(v1, v2, v3);
+
+	Point p1(v1.point.x + 0.5f, v1.point.y + 0.5f);
+	Point p2(v2.point.x + 0.5f, v2.point.y + 0.5f);
+	Point p3(v3.point.x + 0.5f, v3.point.y + 0.5f);
 
 	// Initialize assuming there will be a breakpoint.
 	// Determine if p2 is on the left or right of p1
-	CLine left = (p2.point.x <= p1.point.x) ? CLine(p1, p2) : CLine(p1, p3);
-	CLine right = (p2.point.x > p1.point.x) ? CLine(p1, p2) : CLine(p1, p3);
+	CLine left = (p2.x < p1.x) ? CLine(v1, v2) : CLine(v1, v3);
+	CLine right = (p2.x > p1.x) ? CLine(v1, v2) : CLine(v1, v3);
 
 	// Determine if there is a breakpoint
 	bool breakpoint = true;
-	if (p2.point.y == p1.point.y)
+	if (p2.y == p1.y)
 	{
 		// Top is flat. Only need to re-assign for this case
-		left = CLine(p1, p3);
-		right = CLine(p2, p3);
+		left = CLine(v1, v3);
+		right = CLine(v2, v3);
 		breakpoint = false;
 	}
-	else if (p2.point.y == p3.point.y)
+	else if (p2.y == p3.y)
 	{
 		// Bottom is flat
 		breakpoint = false;
@@ -208,29 +214,29 @@ void CTriangle::Fill()
 
 	// x1 and 2's values will be changed if the corresponding line isn't vertical.
 	// If it is, then x would stay the same.
-	int x1 = (int)left.MinX();
-	int x2 = (int)right.MinX();
+	int x1 = static_cast<int>(left.MinX());
+	int x2 = static_cast<int>(right.MinX());
 
-	int y = (int)p1.point.y;
-	while (y != (int)p3.point.y)
+	int y = p1.y;
+	while (y != p3.y)
 	{
 		// Check if we are going to run into a breakpoint at some time
 		if (breakpoint)
 		{
 			// Check if we have reached the breakpoint
-			if (y == p2.point.y)
+			if (y == p2.y)
 			{
 				// Re-assign the corresponding line and
 				// re-evaluate if it is straight vertical.
-				if (p2.point.x < p1.point.x)
+				if (p2.x < p1.x)
 				{
-					left = CLine(p2, p3);
-					lvert = (left.MinX() == left.MaxX());
+					left = CLine(v2, v3);
+					lvert = CompareFloat(left.MinX(), left.MaxX());
 				}
 				else
 				{
-					right = CLine(p2, p3);
-					rvert = (right.MinX() == right.MaxX());
+					right = CLine(v2, v3);
+					rvert = CompareFloat(right.MinX(), right.MaxX());
 				}
 				// Set to false since we have dealt with it now
 				breakpoint = false;
@@ -244,8 +250,8 @@ void CTriangle::Fill()
 			x2 = right.GetMaxRightX(y);
 
 		// Create verts from the left and right points
-		CVertex2 v1((float)x1, (float)y, left.GetColorAtY(y)), 
-				 v2((float)x2, (float)y, right.GetColorAtY(y)); 
+		CVertex2 v1(x1, y, left.GetColorAtY(y)), 
+				 v2(x2, y, right.GetColorAtY(y)); 
 
 		// Draw a line between them
 		DrawLine(v1, v2);
@@ -283,4 +289,51 @@ void CTriangle::SortVertsY(CVertex2& p1, CVertex2& p2, CVertex2& p3)
 		p2 = (mV1.point.y <= mV2.point.y) ? mV1 : mV2;
 		p3 = (p2 == mV1) ? mV2 : mV1;
 	}
+}
+// ------------------------------------------------------------------------------------------
+
+void CTriangle::SortVertsX(CVertex2& p1, CVertex2& p2, CVertex2& p3)
+{
+	if (mV1.point.x <= mV2.point.x &&
+		mV1.point.x <= mV3.point.x)
+	{
+		p1 = mV1;
+		p2 = (mV2.point.x <= mV3.point.x) ? mV2 : mV3;
+		p3 = (p2 == mV2) ? mV3 : mV2;
+	}
+	else if (mV2.point.x <= mV1.point.x &&
+			mV2.point.x <= mV3.point.x)
+	{
+		p1 = mV2;
+		p2 = (mV1.point.x <= mV3.point.x) ? mV1 : mV3;
+		p3 = (p2 == mV1) ? mV3 : mV1;
+	}
+	else
+	{
+		p1 = mV3;
+		p2 = (mV1.point.x <= mV2.point.x) ? mV1 : mV2;
+		p3 = (p2 == mV1) ? mV2 : mV1;
+	}
+}
+// ------------------------------------------------------------------------------------------
+
+void CTriangle::SortVertsY(int* p1, int* p2, int* p3)
+{
+	int vals[3] = { mV1.point.y, mV2.point.y, mV3.point.y };
+	SortArray(vals, 3);
+
+	*p1 = vals[0];
+	*p2 = vals[1];
+	*p3 = vals[2];
+}
+// ------------------------------------------------------------------------------------------
+
+void CTriangle::SortVertsX(int* p1, int* p2, int* p3)
+{
+	int vals[3] = { mV1.point.x, mV2.point.x, mV3.point.x };
+	SortArray(vals, 3);
+
+	*p1 = vals[0];
+	*p2 = vals[1];
+	*p3 = vals[2];
 }
