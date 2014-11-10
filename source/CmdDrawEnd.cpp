@@ -13,9 +13,6 @@ BOOL CCmdDrawEnd::execute(CString &params)
 	{
 		return FALSE;
 	}
-	
-	// Don't accept any more verticies
-	PrimManager::Instance()->DisableReading();
 
 	// Decode parameters
 	CStringList paramStrList;
@@ -33,6 +30,9 @@ BOOL CCmdDrawEnd::execute(CString &params)
 
 	// Tell stateman that we are finished drawing
 	StateManager::Instance()->StopDrawing();
+
+	// Don't accept any more verticies
+	PrimManager::Instance()->DisableReading();
 
 	return TRUE;
 }

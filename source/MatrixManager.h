@@ -49,7 +49,7 @@ public:
 	// @param deg - amount the matrix is rotated (counter clockwise) 
 	//				by in degrees around the z axis
 	void Rotate2D(const float deg);
-	void Rotate3D(const float deg);
+	void Rotate3D(const CVector3& r);
 
 	// Shears the current matrix
 	// @param s - vector the matrix is sheared by

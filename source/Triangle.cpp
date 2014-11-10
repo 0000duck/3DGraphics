@@ -63,10 +63,13 @@ void CTriangle::AddVertex(const CVertex2& vert)
 	{
 	case 0:
 		mV1 = vert;
+		break;
 	case 1:
 		mV2 = vert;
+		break;
 	case 2:
 		mV3 = vert;
+		break;
 	}
 }
 // ------------------------------------------------------------------------------------------

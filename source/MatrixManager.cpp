@@ -65,28 +65,30 @@ void MatrixManager::Translate2D(const CVector2& v)
 
 void MatrixManager::Translate3D(const CVector3& v)
 {
-	CVector4 col0, col1, col2, col3;
-	mMatrix44.GetColumns(col0, col1, col2, col3);
-
-	col3.x += v.x;
-	col3.y += v.y;
-	col3.z += v.z;
-
-	mMatrix44.SetColumns(col0, col1, col2, col3);
+	CMatrix44 t;
+	t.Identity();
+	t.Translation(v);
+	mMatrix44 = t * mMatrix44;
 }
 // ------------------------------------------------------------------------------------------
 
 void MatrixManager::Scale2D(const CVector2& s)
 {
 	CVector3 scalevec(s.x, s.y, 1.0f);
-	mMatrix33.Scaling(scalevec);
+	CMatrix33 sm;
+	sm.Identity();
+	sm = sm.Scaling(scalevec);
+	mMatrix33 = sm * mMatrix33;
 }
 // ------------------------------------------------------------------------------------------
 
 void MatrixManager::Scale3D(const CVector3& s)
 {
 	CVector3 scalevec(s.x, s.y, s.z);
-	mMatrix44.Scaling(scalevec);
+	CMatrix44 sm;
+	sm.Identity();
+	sm = sm.Scaling(scalevec);
+	mMatrix44 = sm * mMatrix44;
 }
 // ------------------------------------------------------------------------------------------
 
@@ -94,23 +96,26 @@ void MatrixManager::Rotate2D(const float deg)
 {
 	ASSERT(deg >= 0.0f && deg <= 360.0f, "Invalid degree value");
 
-	CMatrix33 rot;
-	rot.Identity();
-	rot.RotationZ(DEG2RAD(deg));
+	CMatrix33 rz;
+	rz.Identity();
+	rz = rz.RotationZ(DEG2RAD(deg));
 	
-	mMatrix33 = rot * mMatrix33;
+	mMatrix33 = rz * mMatrix33;
 }
 // ------------------------------------------------------------------------------------------
 
-void MatrixManager::Rotate3D(const float deg)
+void MatrixManager::Rotate3D(const CVector3& r)
 {
-	ASSERT(deg >= 0.0f && deg <= 360.0f, "Invalid degree value");
+	CMatrix44 rx, ry, rz;
+	rx.Identity();
+	ry.Identity();
+	rz.Identity();
 
-	CMatrix44 rot;
-	rot.Identity();
-	rot.RotationZ(DEG2RAD(deg));
+	rx = rx.RotationX(DEG2RAD(r.x));
+	ry = ry.RotationY(DEG2RAD(r.y));
+	rz = rz.RotationZ(DEG2RAD(r.z));
 	
-	mMatrix44 = rot * mMatrix44;
+	mMatrix44 = rx * ry * rz * mMatrix44;
 }
 // ------------------------------------------------------------------------------------------
 
@@ -121,7 +126,7 @@ void MatrixManager::Shear2D(const CVector2& s)
 	sm(0, 1) = s.x;
 	sm(1, 0) = s.y;
 
-	mMatrix33 *= sm;
+	mMatrix33 = sm * mMatrix33;
 }
 // ------------------------------------------------------------------------------------------
 

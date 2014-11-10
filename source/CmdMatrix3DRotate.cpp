@@ -2,6 +2,7 @@
 #include "CmdMatrix3DRotate.h"
 #include "ScriptParser.h"
 #include "MatrixManager.h"
+#include "Vector3.h"
 
 BOOL CCmdMatrix3DRotate::execute(CString &params)
 {
@@ -10,15 +11,17 @@ BOOL CCmdMatrix3DRotate::execute(CString &params)
 	CScriptParser::StringSplit(paramStrList, params, CString(' '));
 
 	// Need n params for dimensions
-	const int numParams = 0;
+	const int numParams = 3;
 	if (paramStrList.GetCount() != numParams)
 	{
 		return FALSE;
 	}
 
-	CString paramStr = paramStrList.GetHead();
-	float deg = (float)(wcstod(paramStr, NULL));
-	MatrixManager::Instance()->Rotate3D(deg);
+	
+	float rots[numParams];
+	CScriptParser::ToArray(paramStrList, numParams, rots);
+	CVector3 rot(rots[0], rots[1], rots[2]);
+	MatrixManager::Instance()->Rotate3D(rot);
 
 	return TRUE;
 }
