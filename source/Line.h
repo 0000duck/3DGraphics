@@ -68,9 +68,6 @@ protected:
 	virtual void DrawSolid();	// Called when fill mode is line
 	virtual void DrawPoints();	// Called when fill mode is point
 
-	// Returns true if the colors for both verticies aren't the same
-	bool DoColorLerp();
-
 private:
 	int mVertCount;		// Number of verticies assigned
 	CVertex2 mV1;

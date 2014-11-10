@@ -169,8 +169,8 @@ void CLine::DrawSolid()
 	float m = CalcSlope(mV1.point, mV2.point);
 	float b = mV1.point.y - (m * mV1.point.x);
 
-	// If the slope is greater than 1, we want to iterate over the Y
-	if (m > 1)
+	// Only iterate over x for slopes between 0 and 1
+	if (abs(m) > 1)
 	{
 		const int y1 = RoundPixel(mV1.point.y);
 		const int y2 = RoundPixel(mV2.point.y);
@@ -272,20 +272,12 @@ void CLine::DrawPoints()
 }
 // ------------------------------------------------------------------------------------------
 
-bool CLine::DoColorLerp()
-{
-	// If the colors are the same for both verticies we don't need
-	// to interpolate.
-	return (mV1.color != mV2.color);
-}
-// ------------------------------------------------------------------------------------------
-
 float CLine::CalcSlope(const CVector2& p1, const CVector2& p2)
 {
 	float m = 0.0f;
-	float dy = static_cast<float>(p2.y - p1.y);		// rise
-	float dx = static_cast<float>(p2.x - p1.x);		// run
-	if (dx)
+	float dy = p2.y - p1.y;		// rise
+	float dx = p2.x - p1.x;		// run
+	if (dx > 0.0f || dx < 0.0f)
 	{
 		m = dy / dx;
 	}
