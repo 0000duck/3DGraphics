@@ -4,8 +4,6 @@ showviewport on
 
 matrix2DIdentity
 
-matrix2DShear 0.5 1.5
-
 drawbegin triangle
 
 color 1 0 0

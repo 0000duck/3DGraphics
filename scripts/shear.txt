@@ -1,0 +1,17 @@
+fillmode line
+matrix2DIdentity
+
+drawbegin triangle
+vertex2 45 45
+vertex2 90 45
+vertex2 67.5 30
+drawend
+
+matrix2DShear 0 1.1
+matrix2DTranslate 100 0
+
+drawbegin triangle
+vertex2 45 45
+vertex2 90 45
+vertex2 67.5 30
+drawend

@@ -1,10 +1,8 @@
-viewport 10 10 400 300
+viewport 10 10 600 500
 showviewport on
 clip on
-backfacecull on
-zbuffer off
 
-cameraPersp 0 3 -10 0 0 1
+cameraPersp 0 2 -5 0 0 1
 cameraFOV 90
 cameraNear 0.1
 cameraFar 1000.0
