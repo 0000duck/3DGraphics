@@ -24,6 +24,9 @@ MatrixManager* MatrixManager::Instance()
 // Default constructor
 MatrixManager::MatrixManager()
 {
+	// Initialize to 
+	mMatrix33.Identity();
+	mMatrix44.Identity();
 }
 // ------------------------------------------------------------------------------------------
 
