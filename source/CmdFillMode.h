@@ -1,10 +1,12 @@
-// ----------------------------------------------------------------------------
+//====================================================================================================
 //	File: CmdFillMode.h
 //	Created by: Tyler Staples
 //	Date created: 6/10/2014
 //	Description: 
-//		Sets the draw color.
-// ----------------------------------------------------------------------------
+//		Implementation of the "fillmode" command.
+//		Takes a single parameter for the desired fill mode which dictates
+//		how the primitives are drawn.
+//====================================================================================================
 
 #ifndef INCLUDED_CMDFILLMODE_H
 #define INCLUDED_CMDFILLMODE_H

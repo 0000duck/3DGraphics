@@ -11,18 +11,17 @@
 #define INCLUDED_PRIMMANAGER_H
 #pragma once
 
+#include "NonCopyable.h"
 #include "Primitive.h"
 #include <vector>
 #include <memory>
 
 struct CVertex3;
 
-class PrimManager
+class PrimManager : private NonCopyable
 {
 	// Constructors
 	PrimManager();
-	PrimManager(const PrimManager&);
-	PrimManager& operator=(const PrimManager&);
 
 public:
 	typedef std::vector<std::unique_ptr<CPrimitive>> PrimList;

@@ -1,3 +1,10 @@
+//====================================================================================================
+//	File: Commands.h
+//	Created by: Tyler Staples
+//	Date created: 15/10/2014
+//	Description: Common include header for all script commands.
+//====================================================================================================
+
 #ifndef INCLUDED_COMMANDS_H
 #define INCLUDED_COMMANDS_H
 

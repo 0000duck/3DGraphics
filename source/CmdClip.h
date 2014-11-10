@@ -1,13 +1,11 @@
-// ----------------------------------------------------------------------------
-//	File: CmdShowViewport.h
+//====================================================================================================
+//	File: CmdClip.h
 //	Created by: Tyler Staples
 //	Date created: 26/10/2014
 //	Description: 
-//		Implementaion of the "showviewport" command.
-//		Takes 1 parameter: "on" or "off"
-//		on - enables the viewport causing it to be drawn
-//		off - disables the viewport
-// ----------------------------------------------------------------------------
+//		Implementaion of the "clip" command.
+//		Takes 1 parameter: "on" or "off" to enable/disable clipping
+//====================================================================================================
 
 #ifndef INCLUDED_CMDCLIP_H
 #define INCLUDED_CMDCLIP_H

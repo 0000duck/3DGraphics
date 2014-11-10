@@ -12,15 +12,14 @@
 #define INCLUDED_STATEMANAGER_H
 #pragma once
 
+#include "NonCopyable.h"
 #include "Color.h"
 #include "FillModes.h"
 
-class StateManager
+class StateManager : private NonCopyable
 {
 	// Constructors
 	StateManager();
-	StateManager(const StateManager&);
-	StateManager& operator=(const StateManager&);
 
 public:
 
