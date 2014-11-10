@@ -127,6 +127,10 @@
     <ClCompile Include="..\..\source\ChildFrm.cpp" />
     <ClCompile Include="..\..\source\Clipper.cpp" />
     <ClCompile Include="..\..\source\CLog.cpp" />
+    <ClCompile Include="..\..\source\CmdCameraFar.cpp" />
+    <ClCompile Include="..\..\source\CmdCameraFOV.cpp" />
+    <ClCompile Include="..\..\source\CmdCameraNear.cpp" />
+    <ClCompile Include="..\..\source\CmdCameraPersp.cpp" />
     <ClCompile Include="..\..\source\CmdClip.cpp" />
     <ClCompile Include="..\..\source\CmdColor.cpp" />
     <ClCompile Include="..\..\source\CmdDrawBegin.cpp" />
@@ -180,6 +184,10 @@
     <ClInclude Include="..\..\source\ChildFrm.h" />
     <ClInclude Include="..\..\source\Clipper.h" />
     <ClInclude Include="..\..\source\CLog.h" />
+    <ClInclude Include="..\..\source\CmdCameraFar.h" />
+    <ClInclude Include="..\..\source\CmdCameraFOV.h" />
+    <ClInclude Include="..\..\source\CmdCameraNear.h" />
+    <ClInclude Include="..\..\source\CmdCameraPersp.h" />
     <ClInclude Include="..\..\source\CmdClip.h" />
     <ClInclude Include="..\..\source\CmdColor.h" />
     <ClInclude Include="..\..\source\CmdCommand.h" />

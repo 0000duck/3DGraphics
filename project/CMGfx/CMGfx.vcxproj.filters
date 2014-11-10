@@ -50,6 +50,9 @@
     <Filter Include="Common\Utility">
       <UniqueIdentifier>{1d5ce7f1-e1eb-45ac-8d15-f8a5723bffa9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commands\Camera">
+      <UniqueIdentifier>{7f443ea1-0223-4622-8703-3f482b6d3e51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\ChildFrm.cpp">
@@ -204,6 +207,18 @@
     </ClCompile>
     <ClCompile Include="..\..\source\PerspectiveMatrix.cpp">
       <Filter>Common\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdCameraPersp.cpp">
+      <Filter>Commands\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdCameraFOV.cpp">
+      <Filter>Commands\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdCameraNear.cpp">
+      <Filter>Commands\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CmdCameraFar.cpp">
+      <Filter>Commands\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -389,6 +404,18 @@
     </ClInclude>
     <ClInclude Include="..\..\source\PerspectiveMatrix.h">
       <Filter>Common\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdCameraPersp.h">
+      <Filter>Commands\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdCameraFOV.h">
+      <Filter>Commands\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdCameraNear.h">
+      <Filter>Commands\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\CmdCameraFar.h">
+      <Filter>Commands\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
