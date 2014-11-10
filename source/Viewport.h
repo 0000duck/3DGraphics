@@ -36,6 +36,7 @@ public:
 
 	CRect2 GetViewport();
 	inline float GetAspectRatio() const { return mAspectRatio; }
+	const CMatrix44& GetNDCToScreenMatrix() const { return mNDCToScreen; }
 
 protected:
 	void Draw();

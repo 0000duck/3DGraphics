@@ -6,7 +6,9 @@
 #include "MatrixManager.h"
 #include "Matrix33.h"
 #include "Vertex3.h"
-#include <cassert>
+#include "Camera.h"
+#include "Viewport.h"
+#include "Transforms.h"
 #include <algorithm>
 
 // static singleton member initialization
@@ -88,12 +90,10 @@ void PrimManager::AddVertex(const CVertex2& vert)
 {
 	if (mReadingVerticies && mpCurrentPrim)
 	{
+		mpCurrentPrim->AddVertex(vert);
+
 		// Check that the primitive has room for more verticies
-		if (mpCurrentPrim->VertexCount() < mpCurrentPrim->MaxVerticies())
-		{
-			mpCurrentPrim->AddVertex(vert);
-		}
-		else
+		if (mpCurrentPrim->VertexCount() == mpCurrentPrim->MaxVerticies())
 		{
 			// Get the type of the current primitive
 			PrimType::Type pType = mpCurrentPrim->Type();
@@ -103,9 +103,6 @@ void PrimManager::AddVertex(const CVertex2& vert)
 			
 			// Create a new primitive of the same type
 			CreatePrimitive(pType);
-
-			// Recall this function to do necessary checks
-			AddVertex(vert);
 		}
 	}
 }
@@ -130,7 +127,7 @@ void PrimManager::VerifyCurrentPrimitive()
 }
 // ------------------------------------------------------------------------------------------
 
-void PrimManager::ApplyTransformations()
+void PrimManager::Apply2DTransformations()
 {
 	const CMatrix33& transform = MatrixManager::Instance()->GetMatrix2D();
 	if (!MatrixManager::Instance()->IsLoaded2D() ||
@@ -144,6 +141,37 @@ void PrimManager::ApplyTransformations()
 	for (it; it != mPrimitiveList.end(); ++it)
 	{
 		(*it)->Transform(transform);
+	}
+}
+// ------------------------------------------------------------------------------------------
+
+void PrimManager::Apply3DTransformations()
+{
+	// Cache all our matricies
+	const CMatrix44& transform = MatrixManager::Instance()->GetMatrix3D();
+	const CMatrix44& WTV = Camera::Instance()->GetWorldToViewMatrix();
+	const CMatrix44& ViewToWorld = Camera::Instance()->GetViewToWorldMatrix();
+	const CMatrix44& projection = Camera::Instance()->GetPerspectiveMatrix();
+	const CMatrix44& NDCtoScreen = Viewport::Instance()->GetNDCToScreenMatrix();
+
+	// Create the model view and transform it by the current matrix
+	CMatrix44 modelView;
+	modelView.Identity();
+	modelView = transform * modelView;
+
+	// Create the full transformation matrix
+	CMatrix44 MVP = NDCtoScreen * projection * WTV * modelView;
+
+	VertList::iterator it = mVertList.begin();
+	for (it; it != mVertList.end(); ++it)
+	{
+		it->point = MVP * it->point;
+		if (it->point.w > 1.0f)
+		{
+			it->point /= it->point.w;
+		}
+		// Add the now 2D point to the current primitive type to be drawn
+  		AddVertex(CVertex2(it->point.x, it->point.y, it->color));
 	}
 }
 // ------------------------------------------------------------------------------------------
@@ -189,14 +217,16 @@ void PrimManager::ClearAll()
 
 void PrimManager::DrawAll()
 {
-	// Check if the current primitive is valid
-	VerifyCurrentPrimitive();
+	// Handle all 2D stuff first as any 3D items will not be 
+	// in the primitive list at this point.
+	Apply2DTransformations();
 
-	// Apply any transformations to the primitives
-	ApplyTransformations();
+	// Transform the 3D verticies which will convert them to their respecting
+	// projected 2D counterparts which are added to the primitive list.
+	Apply3DTransformations();
 
 	// Remove anything outside the viewport and clip anything extending past it.
-	CullAndClip();
+	//CullAndClip();
 
 	PrimList::iterator it = mPrimitiveList.begin();
 	for (it; it != mPrimitiveList.end(); ++it)

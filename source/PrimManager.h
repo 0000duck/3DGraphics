@@ -42,7 +42,6 @@ public:
 	// Add a vertex to the current primitive.
 	// If the current primitive has the max amount of verticies
 	// it is added to the list and a new primitive is allocated.
-	// MAY BE DEPRECATED IN NEAR FUTURE
 	void AddVertex(const CVertex2& vert);
 
 	// New overloaded version to work with 3D verticies.
@@ -66,10 +65,14 @@ private:
 	void AddPrimitive(std::unique_ptr<CPrimitive>& pPrim);
 
 	// Verifies the integrity of the current primtive
+	// DEPRECATED
 	void VerifyCurrentPrimitive();
 
-	// Applies the matrix in MatrixManager to the primitives
-	void ApplyTransformations();
+	// Applies the matrix in MatrixManager to the 2D primitives
+	void Apply2DTransformations();
+
+	// Applies all transformations for 3D verticies (up to clipping stage)
+	void Apply3DTransformations();
 
 	// Ensures everything that will be drawn is within the viewport.
 	void CullAndClip();
@@ -84,6 +87,7 @@ private:
 	// List of complete primitives to be drawn
 	PrimList mPrimitiveList;
 
+	// 3D verticies
 	VertList mVertList;
 
 	// When true, allow verticies to be added to the current primitive

@@ -2,6 +2,7 @@
 #include "Viewport.h"
 #include "Rect2.h"
 #include "Vector4.h"
+#include "Camera.h"
 
 // static singleton member initialization
 Viewport* Viewport::spInstance = nullptr;
@@ -50,6 +51,7 @@ void Viewport::Set(float l, float t, float r, float b)
 
 	CreateNDCToScreenMatrix();
 }
+// ------------------------------------------------------------------------------------------
 
 void Viewport::EnableDrawing()
 {
@@ -84,17 +86,20 @@ CRect2 Viewport::GetViewport()
 
 void Viewport::CreateNDCToScreenMatrix()
 {
+	float n = Camera::Instance()->GetNear();
+	float f = Camera::Instance()->GetFar();
 	// temp depth until i figure out where to obtain the value
 	float d = 1.0f;
+	//float d = n;
 
 	mNDCToScreen.Identity();
 	CVector4 c0, c1, c2, c3;
 	mNDCToScreen.GetColumns(c0, c1, c2, c3);
-	c0.x = mWidth / 2;
+	c0.x = (mWidth / 2);
 	c1.y = -(mHeight / 2);
 	c2.z = d / 2;
 	c3.x = (mWidth / 2) + mOrigin.x;
 	c3.y = (mHeight / 2) + mOrigin.y;
 	c3.z = d / 2;
-
+	mNDCToScreen.SetColumns(c0, c1, c2, c3);
 }
