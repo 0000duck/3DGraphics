@@ -10,7 +10,7 @@ BOOL CCmdCameraNear::execute(CString &params)
 	CScriptParser::StringSplit(paramStrList, params, CString(' '));
 
 	// Need n params for dimensions
-	const int numParams = 0;
+	const int numParams = 1;
 	if (paramStrList.GetCount() != numParams)
 	{
 		return FALSE;

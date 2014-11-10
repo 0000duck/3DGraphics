@@ -35,11 +35,14 @@ public:
 	void DisableDrawing();
 
 	CRect2 GetViewport();
-	inline float GetAspectRatio() const { return mAspectRatio; }
-	const CMatrix44& GetNDCToScreenMatrix() const { return mNDCToScreen; }
+	inline float GetAspectRatio() const						{ return mAspectRatio; }
+	inline const CMatrix44& GetNDCToScreenMatrix() const	{ return mNDCToScreen; }
 
 protected:
+	// Draws the borders of the viewport on the screen
 	void Draw();
+
+	// Creates the NDC to screen matrix
 	void CreateNDCToScreenMatrix();
 
 private:
@@ -51,9 +54,9 @@ private:
 	float mHeight;			// Height of the viewport
 	float mAspectRatio;		// Computed aspect ratio of the viewport (width/height)
 
-	CMatrix44 mNDCToScreen;
+	CMatrix44 mNDCToScreen; // Transformation from NDC coords to screen coords
 
-	bool mDraw;
+	bool mDraw;				// Idicates if the viewport should be drawn.
 };
 
 #endif // #ifndef INCLUDED_CAMERA_H

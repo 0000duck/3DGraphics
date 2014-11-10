@@ -10,14 +10,12 @@
 CLine::CLine() 
 	:	CPrimitive(PrimType::Line)
 	,	mVertCount(0)
-	,	mSlope(0)
 {}
 // ------------------------------------------------------------------------------------------
 
 CLine::CLine(float x1, float y1, float x2, float y2, const CColor& c1, const CColor& c2)
 	:	CPrimitive(PrimType::Line)
 	,	mVertCount(0)
-	,	mSlope(0)
 	,	mV1(x1, y1, c1)
 	,	mV2(x2, y2, c2)
 {
@@ -27,7 +25,6 @@ CLine::CLine(float x1, float y1, float x2, float y2, const CColor& c1, const CCo
 CLine::CLine(const CVector2& p1, const CVector2& p2, const CColor& c1, const CColor& c2)
 	:	CPrimitive(PrimType::Line)
 	,	mVertCount(0)
-	,	mSlope(0)
 	,	mV1(p1, c1)
 	,	mV2(p2, c2)
 {
@@ -40,7 +37,6 @@ CLine::CLine(const CVertex2& p1, const CVertex2& p2)
 	,	mV1(p1)
 	,	mV2(p2)
 {
-	mSlope = CalcSlope(p1.point, p2.point);
 }
 // ------------------------------------------------------------------------------------------
 
@@ -154,10 +150,14 @@ void CLine::Draw()
 		break;
 	case FillMode::Line:
 	case FillMode::Fill:
-		if (!IsVertical())
-			DrawSolid();
-		else
-			DrawVertical();
+		{
+			if (IsVertical())
+				DrawVertical();
+			else if (IsHorizontal())
+				DrawHorizontal();
+			else
+				DrawSolid();
+		}
 		break;
 	}
 }

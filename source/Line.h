@@ -49,6 +49,7 @@ public:
 	// Returns the slope of the line
 	float CalcSlope(const CVector2& p1, const CVector2& p2);
 
+	// Helpers
 	int CalcY(int x);
 	int CalcX(int y);
 	int GetMaxLeftX(int y);
@@ -74,8 +75,6 @@ private:
 	int mVertCount;		// Number of verticies assigned
 	CVertex2 mV1;
 	CVertex2 mV2;
-
-	float mSlope;
 };
 
 #endif

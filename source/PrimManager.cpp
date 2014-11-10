@@ -130,8 +130,7 @@ void PrimManager::VerifyCurrentPrimitive()
 void PrimManager::Apply2DTransformations()
 {
 	const CMatrix33& transform = MatrixManager::Instance()->GetMatrix2D();
-	if (!MatrixManager::Instance()->IsLoaded2D() ||
-		transform.IsIdentity())
+	if (!MatrixManager::Instance()->IsLoaded2D() || transform.IsIdentity())
 	{
 		// Don't do pointless calculations
 		return;
@@ -154,10 +153,9 @@ void PrimManager::Apply3DTransformations()
 	const CMatrix44& projection = Camera::Instance()->GetPerspectiveMatrix();
 	const CMatrix44& NDCtoScreen = Viewport::Instance()->GetNDCToScreenMatrix();
 
-	// Create the model view and transform it by the current matrix
-	CMatrix44 modelView;
-	modelView.Identity();
-	modelView = transform * modelView;
+	// Create the model view and transform it by the current matrix.
+	// Note: since modelview is just an identity matrix we can just assign the transform directly.
+	CMatrix44 modelView = transform;
 
 	// Create the full transformation matrix
 	CMatrix44 MVP = NDCtoScreen * projection * WTV * modelView;
@@ -165,13 +163,17 @@ void PrimManager::Apply3DTransformations()
 	VertList::iterator it = mVertList.begin();
 	for (it; it != mVertList.end(); ++it)
 	{
-		it->point = MVP * it->point;
-		if (it->point.w > 1.0f)
+		// Apply the transformation to the point
+		CVector4 v = MVP * it->point;
+
+		// Convert back to legal HC matrix
+		if (v.w > 1.0f)
 		{
-			it->point /= it->point.w;
+			v /= v.w;
 		}
+
 		// Add the now 2D point to the current primitive type to be drawn
-  		AddVertex(CVertex2(it->point.x, it->point.y, it->color));
+		AddVertex(CVertex2(v.x, v.y, it->color));
 	}
 }
 // ------------------------------------------------------------------------------------------
@@ -208,8 +210,7 @@ void PrimManager::ClearPrimitive()
 
 void PrimManager::ClearAll()
 {
-	// Clear out the primitive list and the current primitive
-	mPrimitiveList.clear();;
+	mPrimitiveList.clear();
 	mVertList.clear();
 	ClearPrimitive();
 }

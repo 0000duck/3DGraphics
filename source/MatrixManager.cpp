@@ -123,8 +123,8 @@ void MatrixManager::Shear2D(const CVector2& s)
 {
 	CMatrix33 sm;
 	sm.Identity();
-	sm(0, 1) = s.x;
-	sm(1, 0) = s.y;
+	sm.mV[3] = s.x;
+	sm.mV[1] = s.y;
 
 	mMatrix33 = sm * mMatrix33;
 }

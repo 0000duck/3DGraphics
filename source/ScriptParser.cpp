@@ -9,7 +9,7 @@ CScriptParser::CScriptParser(void)
 
 	// Initialize dictionary
 
-	// basic commands
+	// Note: Keys values must be lowercase due to how the commands are compared.
 	m_CommandDictionary.insert(std::make_pair(CString("drawpixel"), new CCmdDrawPixel));
 	m_CommandDictionary.insert(std::make_pair(CString("color"), new CCmdColor));
 	m_CommandDictionary.insert(std::make_pair(CString("fillmode"), new CCmdFillMode));

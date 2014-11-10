@@ -35,13 +35,14 @@ public:
 	inline void SetNear(float n)	{ mNear = n; }
 	inline void SetFar(float f)		{ mFar = f; }
 
+	// Accessors
 	inline float GetNear() const	{ return mNear; }
 	inline float GetFar() const		{ return mFar; }
 	inline float GetFOV() const		{ return mFOV; }
 
-	const CMatrix44& GetViewToWorldMatrix() const { return mViewToWorld; }
-	const CMatrix44& GetWorldToViewMatrix() const { return mWorldToView; }
-	const CMatrix44& GetPerspectiveMatrix() const { return mPerspective; }
+	inline const CMatrix44& GetViewToWorldMatrix() const { return mViewToWorld; }
+	inline const CMatrix44& GetWorldToViewMatrix() const { return mWorldToView; }
+	inline const CMatrix44& GetPerspectiveMatrix() const { return mPerspective; }
 
 private:
 	// Static instance
