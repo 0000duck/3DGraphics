@@ -21,7 +21,7 @@ namespace CodeGenerator
             Console.WriteLine("[CodeGenerator] Writing CPP data to file...");
 
             // Write the data to the output file
-            string path = ConfigFile.Get().GetString("CPPOutput");
+            string path = ConfigFile.Get().GetString("CPPOutput") + "\\";
             string fullpath = path + OutputPath + ".cpp";
             if (Write(fullpath))
             {

@@ -22,7 +22,7 @@ namespace CodeGenerator
             Console.WriteLine("[CodeGenerator] Writing header data to file...");
 
             // Write the data to the output file
-            string path = ConfigFile.Get().GetString("HeaderOutput");
+            string path = ConfigFile.Get().GetString("HeaderOutput") + "\\";
             string fullpath = path + OutputPath + ".h";
             if (Write(fullpath))
             {
