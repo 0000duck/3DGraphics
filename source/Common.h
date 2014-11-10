@@ -16,7 +16,7 @@ const float MAX_COLOR = 1.0f;
 #define CLAMP(x, low, high)  (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 
 #if defined(_DEBUG)
-	#define ASSERT(condition, format, ...)\
+	#define AIASSERT(condition, format, ...)\
 	{\
 		if (!(condition))\
 		{\
@@ -33,7 +33,7 @@ const float MAX_COLOR = 1.0f;
 		}\
 	}
 #else
-	#define ASSERT(condition, format, ...)
+	#define AIASSERT(condition, format, ...)
 #endif
 
 //====================================================================================================
