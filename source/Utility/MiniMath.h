@@ -171,4 +171,23 @@ inline bool IntersectionLinePlane( const CVector2 &p1, const CVector2 &p2, const
 //-- Externs --------------------------------------------------------------------
 //-------------------------------------------------------------------------------
 
+inline bool CompareFloat(float a, float b)
+{
+	return ((fabsf(a - b)) < kEpsilon);
+}
+
+template<typename T>
+inline void SortArray(T* arr, int size)
+{
+	int r = size - 1;
+	for (int i=0; i < size; ++i)
+	{
+		if (arr[r] < arr[i])
+		{
+			arr[i] = arr[r];
+		}
+		r--;
+	}
+}
+
 #endif

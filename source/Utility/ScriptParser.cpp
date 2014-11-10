@@ -2,10 +2,15 @@
 #include "ScriptParser.h"
 #include "CLog.h"
 #include "Commands/Commands.h"
+#include "Graphics\MatrixManager.h"
 
 CScriptParser::CScriptParser(void)
 {
 	//CLog::Create();
+
+	// Reset the transformation matrices each time the script is run
+	MatrixManager::Instance()->LoadIdentity2D();
+	MatrixManager::Instance()->LoadIdentity3D();
 
 	// Initialize dictionary
 
