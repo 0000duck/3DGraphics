@@ -148,6 +148,7 @@
     <ClCompile Include="..\..\source\Commands\CmdViewport.cpp" />
     <ClCompile Include="..\..\source\Containers\Matrix33.cpp" />
     <ClCompile Include="..\..\source\Containers\Matrix44.cpp" />
+    <ClCompile Include="..\..\source\Containers\Point.cpp" />
     <ClCompile Include="..\..\source\Containers\Rect2.cpp" />
     <ClCompile Include="..\..\source\Containers\Vector2.cpp" />
     <ClCompile Include="..\..\source\Containers\Vector3.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="..\..\source\Containers\Matrix33.h" />
     <ClInclude Include="..\..\source\Containers\Matrix44.h" />
     <ClInclude Include="..\..\source\Containers\Plane2.h" />
+    <ClInclude Include="..\..\source\Containers\Point.h" />
     <ClInclude Include="..\..\source\Containers\Rect2.h" />
     <ClInclude Include="..\..\source\Containers\Vector2.h" />
     <ClInclude Include="..\..\source\Containers\Vector3.h" />

@@ -7,7 +7,6 @@
 // FOVDegrees are passed in as degrees then converted to radians
 CMatrix44 ComputeProjectionMatrix( float FOVDegrees, float fAspectRatio, float fNear, float fFar)
 {
-	//float projectionPlane = 1.0f / tanf( FOVDegrees / 2.0f );
 	float projectionPlane = 1.0f / tanf( DEG2RAD(FOVDegrees) / 2.0f );
 	float Near = projectionPlane + fNear;
 	float Far = projectionPlane + fFar;

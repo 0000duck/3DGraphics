@@ -89,7 +89,7 @@ void Viewport::CreateNDCToScreenMatrix()
 {
 	float n = Camera::Instance()->GetNear();
 	float f = Camera::Instance()->GetFar();
-	float d = 1.0f; // temp depth until i figure out where to obtain the value
+	float d = 1.0f; // Z depth scale
 
 	float width = mWidth * 0.5f;
 	float height = mHeight * 0.5f;

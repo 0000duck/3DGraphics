@@ -211,6 +211,9 @@
     <ClCompile Include="..\..\source\Graphics\Rasterizer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\Containers\Point.cpp">
+      <Filter>Common\Containers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\resource.h">
@@ -404,6 +407,9 @@
     </ClInclude>
     <ClInclude Include="..\..\source\Graphics\Rasterizer.h">
       <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Containers\Point.h">
+      <Filter>Common\Containers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
