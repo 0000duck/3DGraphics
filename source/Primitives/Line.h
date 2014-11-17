@@ -53,6 +53,7 @@ public:
 	// Returns the slope of the line
 	friend float CalcSlope(const CVector2& p1, const CVector2& p2);
 	float CalcSlope() const;
+	float CalcInvSlope() const;
 
 	// Helpers
 	int CalcY(int x) const;

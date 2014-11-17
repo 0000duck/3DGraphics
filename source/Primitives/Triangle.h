@@ -36,6 +36,9 @@ public:
 	virtual CVector2 GetPivot();
 	virtual void Transform(const CMatrix33& tm);
 
+	// Returns a vertex that intersects V1V3 on v2.y
+	CVertex2 GetSplitPoint(const CVertex2& v1, const CVertex2& v2, const CVertex2& v3);
+
 protected:
 	// Called when fill mode is line
 	virtual void DrawSolid();
@@ -48,7 +51,6 @@ protected:
 
 	// Assigns the verts to the params based on ascending order of the y coord.
 	void SortVertsY(CVertex2& p1, CVertex2& p2, CVertex2& p3);
-	void SortVertsX(CVertex2& p1, CVertex2& p2, CVertex2& p3);
 
 private:
 	int mVertIndex;					// Current number of verticies
@@ -56,5 +58,7 @@ private:
 	CVertex2 mV2;
 	CVertex2 mV3;
 };
+
+bool IsLeft(const CVertex2& v1, const CVertex2& v2);
 
 #endif

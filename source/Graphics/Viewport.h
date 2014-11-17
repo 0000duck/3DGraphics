@@ -31,8 +31,11 @@ public:
 	void Set(float l, float t, float r, float b);
 
 	// Draws the outline of the viewport
-	void EnableDrawing();
-	void DisableDrawing();
+	inline void EnableDrawing()				{ mDraw = true; }
+	inline void DisableDrawing()			{ mDraw = false; }
+
+	inline void EnableBackfaceCulling()		{ mBackfaceCull = true; }
+	inline void DisableBackfaceCulling()	{ mBackfaceCull = false; }
 
 	CRect2 GetViewport();
 	inline float GetAspectRatio() const						{ return mAspectRatio; }
@@ -57,6 +60,7 @@ private:
 	CMatrix44 mNDCToScreen; // Transformation from NDC coords to screen coords
 
 	bool mDraw;				// Idicates if the viewport should be drawn.
+	bool mBackfaceCull;
 };
 
 #endif // #ifndef INCLUDED_CAMERA_H

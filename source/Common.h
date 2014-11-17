@@ -52,7 +52,7 @@ inline float CalcTimeDivisor(float a, float b)
 
 inline int RoundPixel(float val)
 {
-	return static_cast<int>(val + 0.5f);
+	return static_cast<int>(ceilf(val));
 }
 
 // Referencd from Quake III Arena (including original comments because lol)

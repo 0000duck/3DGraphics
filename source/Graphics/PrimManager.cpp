@@ -166,11 +166,11 @@ void PrimManager::Apply3DTransformations()
 		v = projection * v;
 
 		// Convert back to legal HC matrix
-		if (v.w > 1.0f)
-		{
+		//if (v.w > 1.0f)
+		//{
 			v /= v.w;
 			v.w = 1.0f;
-		}
+		//}
 		// Transform the point back to screen space
 		v = NDCtoScreen * v;
 

@@ -295,8 +295,21 @@ float CLine::CalcSlope() const
 	float dx = mV2.point.x - mV1.point.x;	// run
 	if (dx > 0.0f || dx < 0.0f)
 	{
-		//m = dx / dy;
+		// rise over run
 		m = dy / dx;
+	}
+	return m;
+}
+
+float CLine::CalcInvSlope() const
+{
+	float m = 0.0f;
+	float dy = mV2.point.y - mV1.point.y;	// rise
+	float dx = mV2.point.x - mV1.point.x;	// run
+	if (dx > 0.0f || dx < 0.0f)
+	{
+		// run over rise
+		m = dx / dy;
 	}
 	return m;
 }
@@ -346,12 +359,8 @@ int CLine::GetMaxLeftX(int y) const
 
 	while (y1 == y)
 	{
-		x--;
+		minX = x--;
 		y1 = CalcY(x);
-		if (y1 == y)
-		{
-			minX = x;
-		}
 	}
 	return minX;
 }
@@ -365,12 +374,8 @@ int CLine::GetMaxRightX(int y) const
 
 	while (y1 == y)
 	{
-		x++;
+		maxX = x++;
 		y1 = CalcY(x);
-		if (y1 == y)
-		{
-			maxX = x;
-		}
 	}
 	return maxX;
 }

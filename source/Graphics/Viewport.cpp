@@ -27,6 +27,7 @@ Viewport::Viewport()
 	,	mHeight(0.0f)
 	,	mAspectRatio(0.0f)
 	,	mDraw(false)
+	,	mBackfaceCull(false)
 {
 }
 // ------------------------------------------------------------------------------------------
@@ -50,19 +51,6 @@ void Viewport::Set(float l, float t, float r, float b)
 	mAspectRatio = mWidth / mHeight;
 
 	CreateNDCToScreenMatrix();
-}
-// ------------------------------------------------------------------------------------------
-
-void Viewport::EnableDrawing()
-{
-	mDraw = true;
-	Draw();
-}
-// ------------------------------------------------------------------------------------------
-
-void Viewport::DisableDrawing()
-{
-	mDraw = false;
 }
 // ------------------------------------------------------------------------------------------
 
