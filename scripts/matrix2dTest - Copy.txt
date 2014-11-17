@@ -1,0 +1,15 @@
+fillmode fill
+viewport 100 100 700 500
+showviewport on
+
+
+drawbegin triangle
+
+color 1 0 0
+vertex2 491.245728 330.899323
+color 0 1 0
+vertex2 291.251221 331.578247
+color 0 1 1
+vertex2 390.569458 131.244278
+
+drawend

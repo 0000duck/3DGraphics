@@ -49,8 +49,6 @@ protected:
 	// Assigns the verts to the params based on ascending order of the y coord.
 	void SortVertsY(CVertex2& p1, CVertex2& p2, CVertex2& p3);
 	void SortVertsX(CVertex2& p1, CVertex2& p2, CVertex2& p3);
-	void SortVertsY(int* p1, int* p2, int* p3);
-	void SortVertsX(int* p1, int* p2, int* p3);
 
 private:
 	int mVertIndex;					// Current number of verticies

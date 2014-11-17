@@ -140,6 +140,22 @@ void CLine::Transform(const CMatrix33& tm)
 }
 // ------------------------------------------------------------------------------------------
 
+void CLine::SetVerts(const CVertex2& v1, const CVertex2& v2)
+{
+	mV1 = v1;
+	mV2 = v2;
+}
+
+void CLine::Ceil()
+{
+	mV1.Ceil();
+}
+
+void CLine::Floor()
+{
+	mV2.Floor();
+}
+
 void CLine::Draw()
 {
 	FillMode::Mode fMode = StateManager::Instance()->GetFillMode();
@@ -166,7 +182,7 @@ void CLine::Draw()
 void CLine::DrawSolid()
 {
 	// Get slope and y intercept
-	float m = CalcSlope(mV1.point, mV2.point);
+	float m = CalcSlope();
 	float b = mV1.point.y - (m * mV1.point.x);
 
 	// Only iterate over x for slopes between 0 and 1
@@ -272,7 +288,20 @@ void CLine::DrawPoints()
 }
 // ------------------------------------------------------------------------------------------
 
-float CLine::CalcSlope(const CVector2& p1, const CVector2& p2)
+float CLine::CalcSlope() const
+{
+	float m = 0.0f;
+	float dy = mV2.point.y - mV1.point.y;	// rise
+	float dx = mV2.point.x - mV1.point.x;	// run
+	if (dx > 0.0f || dx < 0.0f)
+	{
+		//m = dx / dy;
+		m = dy / dx;
+	}
+	return m;
+}
+
+float CalcSlope(const CVector2& p1, const CVector2& p2)
 {
 	float m = 0.0f;
 	float dy = p2.y - p1.y;		// rise
@@ -285,33 +314,31 @@ float CLine::CalcSlope(const CVector2& p1, const CVector2& p2)
 }
 // ------------------------------------------------------------------------------------------
 
-int CLine::CalcY(int x)
+int CLine::CalcY(int x) const
 {
-	float m = CalcSlope(mV1.point, mV2.point);
+	float m = CalcSlope();
 	if (m == 0.0f)
 	{
-		// Avoid dividing by 0.
-		return NULL;
+		return mV1.point.y;
 	}
 	float b = mV1.point.y - (m * mV1.point.x);
 	return RoundPixel(m * x + b);
 }
 // ------------------------------------------------------------------------------------------
 
-int CLine::CalcX(int y)
+int CLine::CalcX(int y) const
 {
-	float m = CalcSlope(mV1.point, mV2.point);
+	float m = CalcSlope();
 	if (m == 0.0f || m == -INT_MAX)
 	{
-		// 
-		return NULL;
+		return mV1.point.x;
 	}
 	float b = mV1.point.y - (m * mV1.point.x);
 	return RoundPixel((y - b) / m);
 }
 // ------------------------------------------------------------------------------------------
 
-int CLine::GetMaxLeftX(int y)
+int CLine::GetMaxLeftX(int y) const
 {
 	int x = CalcX(y);
 	int minX = x;
@@ -330,7 +357,7 @@ int CLine::GetMaxLeftX(int y)
 }
 // ------------------------------------------------------------------------------------------
 
-int CLine::GetMaxRightX(int y)
+int CLine::GetMaxRightX(int y) const
 {
 	int x = CalcX(y);
 	int maxX = x;
@@ -349,7 +376,7 @@ int CLine::GetMaxRightX(int y)
 }
 // ------------------------------------------------------------------------------------------
 
-CColor CLine::GetColorAtY(int y)
+CColor CLine::GetColorAtY(int y) const
 {
 	// Calling CalcTimeDivisor saves us from handling divide by 0
 	float divisor = CalcTimeDivisor(mV1.point.y, mV2.point.y);
@@ -359,7 +386,7 @@ CColor CLine::GetColorAtY(int y)
 }
 // ------------------------------------------------------------------------------------------
 
-float CLine::MinX()
+float CLine::MinX() const
 {
 	float x1 = mV1.point.x;
 	float x2 = mV2.point.x;
@@ -367,7 +394,7 @@ float CLine::MinX()
 }
 // ------------------------------------------------------------------------------------------
 
-float CLine::MinY()
+float CLine::MinY() const
 {
 	float y1 = mV1.point.y;
 	float y2 = mV2.point.y;
@@ -375,7 +402,7 @@ float CLine::MinY()
 }
 // ------------------------------------------------------------------------------------------
 
-float CLine::MaxX()
+float CLine::MaxX() const
 {
 	float x1 = mV1.point.x;
 	float x2 = mV2.point.x;
@@ -383,7 +410,7 @@ float CLine::MaxX()
 }
 // ------------------------------------------------------------------------------------------
 
-float CLine::MaxY()
+float CLine::MaxY() const
 {
 	float y1 = mV1.point.y;
 	float y2 = mV2.point.y;
@@ -391,13 +418,13 @@ float CLine::MaxY()
 }
 // ------------------------------------------------------------------------------------------
 
-bool CLine::IsVertical()
+bool CLine::IsVertical() const
 {
 	return (mV1.point.x == mV2.point.x);
 }
 // ------------------------------------------------------------------------------------------
 
-bool CLine::IsHorizontal()
+bool CLine::IsHorizontal() const
 {
 	return (mV1.point.y == mV2.point.y);
 }
