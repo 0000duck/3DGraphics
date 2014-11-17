@@ -10,8 +10,20 @@ Point::Point(int _x, int _y)
 
 Point::Point(float _x, float _y)
 {
-	x = static_cast<int>(_x);
-	y = static_cast<int>(_y);
+	x = static_cast<int>(ceilf(_x));
+	y = static_cast<int>(ceilf(_y));
+}
+
+Point::Point(const CVector2& v)
+{
+	x = static_cast<int>(ceilf(v.x));
+	y = static_cast<int>(ceilf(v.y));
+}
+
+Point::Point(const CVertex2& v)
+{
+	x = static_cast<int>(ceilf(v.point.x));
+	y = static_cast<int>(ceilf(v.point.y));
 }
 
 Point::Point()

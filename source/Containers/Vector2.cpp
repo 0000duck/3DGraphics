@@ -114,6 +114,17 @@ CVector2::Clean()
 
 }   // End of CVector2::Clean()
 
+void CVector2::Ceil()
+{
+	x = ceilf(x);
+	y = ceilf(y);
+}
+
+void CVector2::Floor()
+{
+	x = floorf(x);
+	y = floorf(y);
+}
 
 //-------------------------------------------------------------------------------
 // @ CVector2::Normalize()

@@ -49,8 +49,10 @@ public:
 
     // manipulators
     inline void Set( float _x, float _y );
-    void Clean();       // sets near-zero elements to 0
     inline void Zero(); // sets all elements to 0
+    void Clean();       // sets near-zero elements to 0
+	void Ceil();		// Round up all the verticies
+	void Floor();		// Round down all the vertices
     void Normalize();   // sets to unit vector
 
     // operators
@@ -63,11 +65,11 @@ public:
     CVector2& operator-=( const CVector2& other );
 
     // scalar multiplication
-    CVector2   operator*( float scalar );
-    friend CVector2    operator*( float scalar, const CVector2& vector );
-    CVector2&          operator*=( float scalar );
-    CVector2   operator/( float scalar );
-    CVector2&          operator/=( float scalar );
+    friend CVector2 operator*( float scalar, const CVector2& vector );
+    CVector2 operator*( float scalar );
+    CVector2& operator*=( float scalar );
+    CVector2 operator/( float scalar );
+    CVector2& operator/=( float scalar );
 
     // dot product
     float               Dot( const CVector2& vector ) const;
@@ -121,5 +123,15 @@ CVector2::Zero()
 //-------------------------------------------------------------------------------
 //-- Externs --------------------------------------------------------------------
 //-------------------------------------------------------------------------------
+
+inline CVector2 Min(const CVector2& lhs, const CVector2& rhs)
+{
+	return CVector2(min(lhs.x, rhs.x), min(lhs.y, rhs.y));
+}
+
+inline CVector2 Max(const CVector2& lhs, const CVector2& rhs)
+{
+	return CVector2(max(lhs.x, rhs.x), max(lhs.y, rhs.y));
+}
 
 #endif

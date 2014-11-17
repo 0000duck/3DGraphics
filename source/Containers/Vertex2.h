@@ -15,6 +15,9 @@ struct CVertex2
 	CVertex2(float x, float y, const CColor& c)
 		:	point(x, y), color(c) {}
 
+	inline void Ceil();		// Round up all the verticies
+	inline void Floor();    // Round down all the vertices
+
 	friend bool operator==(const CVertex2& lhs, const CVertex2& rhs)
 	{
 		if (lhs.point.x == rhs.point.x &&
@@ -32,13 +35,14 @@ struct CVertex2
 	}
 };
 
-inline void Vertex2Round( CVertex2 &v )
+inline void Vertex2Round(CVertex2 &v)
 {
-	v.point.x = (float)(int)(v.point.x + 0.5f);
-	v.point.y = (float)(int)(v.point.y + 0.5f);
+	// Round up
+	v.point.x = ceilf(v.point.x);
+	v.point.y = ceilf(v.point.y);
 }
 
-inline CVertex2 Vertex2Lerp( const CVertex2 &v1, const CVertex2 &v2, const float t )
+inline CVertex2 Vertex2Lerp(const CVertex2 &v1, const CVertex2 &v2, const float t)
 {
 	CVertex2 result;
 	result.point.x = v1.point.x + t * (v2.point.x - v1.point.x);
@@ -47,6 +51,16 @@ inline CVertex2 Vertex2Lerp( const CVertex2 &v1, const CVertex2 &v2, const float
 	result.color.g = v1.color.g + t * (v2.color.g - v1.color.g);
 	result.color.b = v1.color.b + t * (v2.color.b - v1.color.b);
 	return result;
+}
+
+inline void CVertex2::Ceil()
+{
+	point.Ceil();
+}
+
+inline void CVertex2::Floor()
+{
+	point.Floor();
 }
 
 #endif // __VERTEX_H__
