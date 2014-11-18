@@ -42,7 +42,7 @@ void Viewport::Set(const CVector2& topleft, const CVector2& btmright)
 	mHeight = btmright.y;
 	mAspectRatio = mWidth / mHeight;
 
-	mZBuffer.Resize(mWidth, mHeight, UINT_MAX);
+	mZBuffer.Resize((int)mWidth, (int)mHeight, UINT_MAX);
 
 	CreateNDCToScreenMatrix();
 }
@@ -55,7 +55,7 @@ void Viewport::Set(float l, float t, float r, float b)
 	mHeight = b;
 	mAspectRatio = mWidth / mHeight;
 	
-	mZBuffer.Resize(mWidth, mHeight, UINT_MAX);
+	mZBuffer.Resize((int)mWidth, (int)mHeight, UINT_MAX);
 
 	CreateNDCToScreenMatrix();
 }
@@ -67,11 +67,11 @@ void Viewport::BackfaceCull(PrimList& primitives)
 	if (!mBackfaceCull)
 		return;
 
+	CVector3 cameraLook = Camera::Instance()->GetLookDirection();
 	const int sz = primitives.size();
 	for (int i = sz-1; i >= 0; --i)
 	{
 		CVector3 norm = primitives[i]->ComputeNormal();
-		CVector3 cameraLook = Camera::Instance()->GetLookDirection();
 		if (Dot(norm, cameraLook) > 0.0f)
 		{
 			// Not visible to us; don't draw it

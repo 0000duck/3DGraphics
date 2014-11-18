@@ -53,6 +53,9 @@ protected:
 	// Assigns the verts to the params based on ascending order of the y coord.
 	void SortVertsY(CVertex2& p1, CVertex2& p2, CVertex2& p3);
 
+	// Draws a flat top or flat bottom triangle
+	void DrawSection(const CLine& left, const CLine& right);
+
 private:
 	int mVertIndex;					// Current number of verticies
 	CVertex2 mV1;

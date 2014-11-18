@@ -147,6 +147,7 @@ CVector3 CTriangle::ComputeNormal()
 
 	return Cross(Normalize(v2 - v1), Normalize(v3 - v2));
 }
+// ------------------------------------------------------------------------------------------
 
 void CTriangle::Draw()
 {
@@ -187,24 +188,28 @@ void CTriangle::DrawPoints()
 }
 // ------------------------------------------------------------------------------------------
 
-void DrawSection(const CLine& left, const CLine& right)
+void CTriangle::DrawSection(const CLine& left, const CLine& right)
 {
-	float leftM = left.CalcInvSlope();
-	float rightM = right.CalcInvSlope();
-	int y1 = static_cast<int>(left.mV1.point.y);
-	int y2 = static_cast<int>(left.mV2.point.y);
+	// Precompute inverse slope of the lines
+	const float leftM = left.CalcInvSlope();
+	const float rightM = right.CalcInvSlope();
+
+	const int y1 = static_cast<int>(left.mV1.point.y);
+	const int y2 = static_cast<int>(left.mV2.point.y);
+
 	float leftX = left.mV1.point.x;
 	float rightX = right.mV1.point.x;
 
 	for (int y=y1; y < y2; ++y)
 	{
 		// Create verts from the left and right points
-		CVertex2 v1(ceilf(leftX), y, left.GetColorAtY(y));
-		CVertex2 v2(ceilf(rightX), y, right.GetColorAtY(y)); 
+		CVertex2 v1(ceilf(leftX), (float)y, left.GetColorAtY(y));
+		CVertex2 v2(ceilf(rightX), (float)y, right.GetColorAtY(y)); 
 
 		// Draw a line between them
 		DrawLine(v1, v2);
 
+		// Increment by the inverse of the slope
 		leftX += leftM;
 		rightX += rightM;
 	}
@@ -264,7 +269,7 @@ CVertex2 CTriangle::GetSplitPoint(const CVertex2& v1, const CVertex2& v2, const 
 
 	// Create a temp line to find the color at that intersection
 	CLine l(v1, v3);
-	v4.color = l.GetColorAtY(v2.point.y);
+	v4.color = l.GetColorAtY((int)v2.point.y);
 
 	return v4;
 }
