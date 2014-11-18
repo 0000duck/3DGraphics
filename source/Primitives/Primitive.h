@@ -10,6 +10,7 @@
 #define INCLUDED_PRIMITIVE_H
 
 #include "Containers/Vertex2.h"
+#include "Containers/Vector3.h"
 #include "PrimitiveTypes.h"
 #include <vector>
 
@@ -43,6 +44,9 @@ public:
 
 	// Returns the pivot/center of the primitive
 	virtual CVector2 GetPivot() = 0;
+
+	// Returns the normal of the primitive
+	virtual CVector3 ComputeNormal() { AIASSERT(false, "Invoked bas class definition"); return CVector3(); }
 
 	// The primitive's draw logic
 	virtual void Draw() = 0;

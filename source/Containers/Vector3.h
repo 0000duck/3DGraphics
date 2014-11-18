@@ -28,7 +28,8 @@ class CVector3
 {
 public:
     // constructor/destructor
-    inline CVector3() {}
+    inline CVector3() 
+		:	x(0.0f), y(0.0f), z(0.0f) {}
     inline CVector3(float _x, float _y, float _z) :
         x(_x), y(_y), z(_z)
     {
@@ -50,6 +51,7 @@ public:
 	float Length() const;
 	float LengthSquared() const;
 	friend CVector3 Normalize(const CVector3& vector);
+	friend float Dot(const CVector3& v1, const CVector3& v2);
 	float Dot(const CVector3& vector) const;
 	CVector3 Cross(const CVector3& vector) const;
 	friend CVector3 Cross(const CVector3& a, const CVector3& b);
@@ -60,6 +62,8 @@ public:
     bool operator!=(const CVector3& other) const;
     bool IsZero() const;
     bool IsUnit() const;
+	void Ceil();		// Round up all the verticies
+	void Floor();		// Round down all the vertices
 
     // manipulators
     inline void Set(float _x, float _y, float _z);

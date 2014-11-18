@@ -16,6 +16,9 @@
 #include "Containers/Matrix44.h"
 
 class CRect2;
+class CPrimitive;
+
+typedef std::vector<std::unique_ptr<CPrimitive>> PrimList;
 
 class Viewport : private NonCopyable
 {
@@ -29,6 +32,8 @@ public:
 	// Initializes the viewport to the rectangle described by the two points
 	void Set(const CVector2& topleft, const CVector2& btmright);
 	void Set(float l, float t, float r, float b);
+
+	void BackfaceCull(PrimList& primitives);
 
 	// Draws the outline of the viewport
 	inline void EnableDrawing()				{ mDraw = true; }
@@ -56,11 +61,14 @@ private:
 	float mWidth;			// Width of the viewport
 	float mHeight;			// Height of the viewport
 	float mAspectRatio;		// Computed aspect ratio of the viewport (width/height)
+	bool mDraw;				// Idicates if the viewport should be drawn.
 
 	CMatrix44 mNDCToScreen; // Transformation from NDC coords to screen coords
 
-	bool mDraw;				// Idicates if the viewport should be drawn.
 	bool mBackfaceCull;
+
+	bool mZBufferOn;
+	float* mZBuffer;
 };
 
 #endif // #ifndef INCLUDED_CAMERA_H

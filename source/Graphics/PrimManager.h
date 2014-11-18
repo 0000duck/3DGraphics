@@ -18,15 +18,15 @@
 
 struct CVertex3;
 
+typedef std::vector<std::unique_ptr<CPrimitive>> PrimList;
+typedef std::vector<CVertex3> VertList;
+
 class PrimManager : private NonCopyable
 {
 	// Constructors
 	PrimManager();
 
 public:
-	typedef std::vector<std::unique_ptr<CPrimitive>> PrimList;
-	typedef std::vector<CVertex3> VertList;
-
 	// Singleton accessor
 	static PrimManager* Instance();
 

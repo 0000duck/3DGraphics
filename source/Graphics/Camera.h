@@ -44,6 +44,10 @@ public:
 	inline const CMatrix44& GetWorldToViewMatrix() const { return mWorldToView; }
 	inline const CMatrix44& GetPerspectiveMatrix() const { return mPerspective; }
 
+	inline CVector3 GetLookDirection() const	{ return mLookAt - mLookFrom; }
+	inline const CVector3& GetLookFrom() const	{ return mLookFrom; }
+	inline const CVector3& GetLookAt() const	{ return mLookAt; }
+
 private:
 	// Static instance
 	static Camera* spInstance;

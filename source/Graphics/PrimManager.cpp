@@ -166,16 +166,14 @@ void PrimManager::Apply3DTransformations()
 		v = projection * v;
 
 		// Convert back to legal HC matrix
-		//if (v.w > 1.0f)
-		//{
-			v /= v.w;
-			v.w = 1.0f;
-		//}
+		v /= v.w;
+		v.w = 1.0f;
+
 		// Transform the point back to screen space
 		v = NDCtoScreen * v;
 
 		// Add the now 2D point to the current primitive type to be drawn
-		AddVertex(CVertex2(v.x, v.y, it->color));
+		AddVertex(CVertex2(v.x, v.y, it->color, v.z));
 	}
 }
 // ------------------------------------------------------------------------------------------
@@ -230,6 +228,7 @@ void PrimManager::DrawAll()
 
 	// Remove anything outside the viewport and clip anything extending past it.
 	//CullAndClip();
+	Viewport::Instance()->BackfaceCull(mPrimitiveList);
 
 	PrimList::iterator it = mPrimitiveList.begin();
 	for (it; it != mPrimitiveList.end(); ++it)

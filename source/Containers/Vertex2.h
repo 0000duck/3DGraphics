@@ -8,12 +8,13 @@ struct CVertex2
 {
 	CColor color;
 	CVector2 point;
+	float z;
 
 	CVertex2() {}
 	CVertex2(const CVector2& p, const CColor& c)
-		:	point(p), color(c) {}
-	CVertex2(float x, float y, const CColor& c)
-		:	point(x, y), color(c) {}
+		:	point(p), z(0.0f), color(c) {}
+	CVertex2(float x, float y, const CColor& c, float _z = 0.0f)
+		:	point(x, y), z(_z), color(c) {}
 
 	inline void Ceil();		// Round up all the verticies
 	inline void Floor();    // Round down all the vertices

@@ -35,6 +35,7 @@ public:
 	virtual void SetVert(int index, const CVertex2& v);
 	virtual CVector2 GetPivot();
 	virtual void Transform(const CMatrix33& tm);
+	virtual CVector3 ComputeNormal();
 
 	// Returns a vertex that intersects V1V3 on v2.y
 	CVertex2 GetSplitPoint(const CVertex2& v1, const CVertex2& v2, const CVertex2& v3);

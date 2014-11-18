@@ -2,6 +2,8 @@
 #define __COMMON_H__
 
 #include <string>
+#include <vector>
+#include <memory>
 
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;

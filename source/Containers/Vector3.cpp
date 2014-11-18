@@ -146,6 +146,11 @@ CVector3 Normalize(const CVector3& vector)
 					vector.z / len);
 }
 
+float Dot(const CVector3& v1, const CVector3& v2)
+{
+	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
+}
+
 //-------------------------------------------------------------------------------
 // @ CVector3::Dot(const CVector3& vector) const
 //-------------------------------------------------------------------------------
@@ -238,6 +243,19 @@ CVector3::IsUnit() const
 
 }   // End of CVector3::IsUnit()
 
+void CVector3::Ceil()
+{
+	x = ceilf(x);
+	y = ceilf(y);
+	z = ceilf(z);
+}
+
+void CVector3::Floor()
+{
+	x = floorf(x);
+	y = floorf(y);
+	z = floorf(z);
+}
 
 //-------------------------------------------------------------------------------
 // @ CVector3::Clean()

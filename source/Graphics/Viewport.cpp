@@ -1,8 +1,10 @@
 #include "Stdafx.h"
 #include "Viewport.h"
 #include "Containers/Rect2.h"
+#include "Containers/Vector3.h"
 #include "Containers/Vector4.h"
 #include "Camera.h"
+#include "Primitives/Triangle.h"
 
 // static singleton member initialization
 Viewport* Viewport::spInstance = nullptr;
@@ -28,6 +30,8 @@ Viewport::Viewport()
 	,	mAspectRatio(0.0f)
 	,	mDraw(false)
 	,	mBackfaceCull(false)
+	,	mZBufferOn(false)
+	,	mZBuffer(nullptr)
 {
 }
 // ------------------------------------------------------------------------------------------
@@ -51,6 +55,26 @@ void Viewport::Set(float l, float t, float r, float b)
 	mAspectRatio = mWidth / mHeight;
 
 	CreateNDCToScreenMatrix();
+}
+// ------------------------------------------------------------------------------------------
+
+void Viewport::BackfaceCull(PrimList& primitives)
+{
+	// Backface culling is disabled
+	if (!mBackfaceCull)
+		return;
+
+	const int sz = primitives.size();
+	for (int i = sz-1; i >= 0; --i)
+	{
+		CVector3 norm = primitives[i]->ComputeNormal();
+		CVector3 cameraLook = Camera::Instance()->GetLookDirection();
+		if (Dot(norm, cameraLook) > 0.0f)
+		{
+			// Not visible to us; don't draw it
+			primitives.erase(primitives.begin() + i);
+		}
+	}
 }
 // ------------------------------------------------------------------------------------------
 

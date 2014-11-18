@@ -139,6 +139,15 @@ void CTriangle::Transform(const CMatrix33& tm)
 }
 // ------------------------------------------------------------------------------------------
 
+CVector3 CTriangle::ComputeNormal()
+{
+	CVector3 v1(mV1.point.x, mV1.point.y, mV1.z);
+	CVector3 v2(mV2.point.x, mV2.point.y, mV2.z);
+	CVector3 v3(mV3.point.x, mV3.point.y, mV3.z);
+
+	return Cross(Normalize(v2 - v1), Normalize(v3 - v2));
+}
+
 void CTriangle::Draw()
 {
 	FillMode::Mode fMode = StateManager::Instance()->GetFillMode();

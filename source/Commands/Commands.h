@@ -19,6 +19,7 @@
 #include "CmdViewport.h"
 #include "CmdShowViewport.h"
 #include "CmdClip.h"
+#include "CmdBackfaceCull.h"
 
 #include "CmdMatrix2DIdentity.h"
 #include "CmdMatrix2DTranslate.h"
