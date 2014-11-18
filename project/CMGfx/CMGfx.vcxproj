@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\source\Commands\CmdBackfaceCull.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdCameraFar.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdCameraFOV.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdCameraNear.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="..\..\source\Commands\CmdVertex2.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdVertex3.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdViewport.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdZBuffer.cpp" />
     <ClCompile Include="..\..\source\Containers\Matrix33.cpp" />
     <ClCompile Include="..\..\source\Containers\Matrix44.cpp" />
     <ClCompile Include="..\..\source\Containers\Point.cpp" />
@@ -180,6 +182,7 @@
     <ClCompile Include="..\..\source\Utility\Transforms.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\source\Commands\CmdBackfaceCull.h" />
     <ClInclude Include="..\..\source\Commands\CmdCameraFar.h" />
     <ClInclude Include="..\..\source\Commands\CmdCameraFOV.h" />
     <ClInclude Include="..\..\source\Commands\CmdCameraNear.h" />
@@ -204,8 +207,10 @@
     <ClInclude Include="..\..\source\Commands\CmdVertex2.h" />
     <ClInclude Include="..\..\source\Commands\CmdVertex3.h" />
     <ClInclude Include="..\..\source\Commands\CmdViewport.h" />
+    <ClInclude Include="..\..\source\Commands\CmdZBuffer.h" />
     <ClInclude Include="..\..\source\Commands\Commands.h" />
     <ClInclude Include="..\..\source\Common.h" />
+    <ClInclude Include="..\..\source\Containers\Array2.h" />
     <ClInclude Include="..\..\source\Containers\Color.h" />
     <ClInclude Include="..\..\source\Containers\Matrix33.h" />
     <ClInclude Include="..\..\source\Containers\Matrix44.h" />

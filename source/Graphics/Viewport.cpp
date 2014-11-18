@@ -31,7 +31,6 @@ Viewport::Viewport()
 	,	mDraw(false)
 	,	mBackfaceCull(false)
 	,	mZBufferOn(false)
-	,	mZBuffer(nullptr)
 {
 }
 // ------------------------------------------------------------------------------------------
@@ -43,6 +42,8 @@ void Viewport::Set(const CVector2& topleft, const CVector2& btmright)
 	mHeight = btmright.y;
 	mAspectRatio = mWidth / mHeight;
 
+	mZBuffer.Resize(mWidth, mHeight, UINT_MAX);
+
 	CreateNDCToScreenMatrix();
 }
 // ------------------------------------------------------------------------------------------
@@ -53,6 +54,8 @@ void Viewport::Set(float l, float t, float r, float b)
 	mWidth = r;
 	mHeight = b;
 	mAspectRatio = mWidth / mHeight;
+	
+	mZBuffer.Resize(mWidth, mHeight, UINT_MAX);
 
 	CreateNDCToScreenMatrix();
 }

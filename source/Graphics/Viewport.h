@@ -14,6 +14,7 @@
 #include "Utility/NonCopyable.h"
 #include "Containers/Vector2.h"
 #include "Containers/Matrix44.h"
+#include "Containers/Array2.h"
 
 class CRect2;
 class CPrimitive;
@@ -42,6 +43,9 @@ public:
 	inline void EnableBackfaceCulling()		{ mBackfaceCull = true; }
 	inline void DisableBackfaceCulling()	{ mBackfaceCull = false; }
 
+	inline void EnableZBuffer()		{ mZBufferOn = true; }
+	inline void DisableZBuffer()	{ mZBufferOn = false; }
+
 	CRect2 GetViewport();
 	inline float GetAspectRatio() const						{ return mAspectRatio; }
 	inline const CMatrix44& GetNDCToScreenMatrix() const	{ return mNDCToScreen; }
@@ -61,14 +65,14 @@ private:
 	float mWidth;			// Width of the viewport
 	float mHeight;			// Height of the viewport
 	float mAspectRatio;		// Computed aspect ratio of the viewport (width/height)
-	bool mDraw;				// Idicates if the viewport should be drawn.
 
 	CMatrix44 mNDCToScreen; // Transformation from NDC coords to screen coords
 
+	bool mDraw;				// Idicates if the viewport should be drawn.
 	bool mBackfaceCull;
-
 	bool mZBufferOn;
-	float* mZBuffer;
+
+	Array2<unsigned int> mZBuffer;
 };
 
 #endif // #ifndef INCLUDED_CAMERA_H
