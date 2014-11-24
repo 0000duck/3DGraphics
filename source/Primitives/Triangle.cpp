@@ -160,9 +160,9 @@ void CTriangle::DrawSolid()
 
 void CTriangle::DrawPoints()
 {
-	CRasterizer::Instance()->DrawVertex(mV1);
-	CRasterizer::Instance()->DrawVertex(mV2);
-	CRasterizer::Instance()->DrawVertex(mV3);
+	DrawVertex(mV1);
+	DrawVertex(mV2);
+	DrawVertex(mV3);
 }
 // ------------------------------------------------------------------------------------------
 
@@ -190,11 +190,12 @@ void CTriangle::DrawSection(const CLine& left, const CLine& right)
 		// Draw the horizontal span between the two points
 		if (zEnabled)
 		{
-			DrawStraightLine_ZEnabled(leftX, rightX, y, leftZ, rightZ, left.GetColorAtY(y), right.GetColorAtY(y));
+			DrawHorizontalLine_Z(leftX, rightX, y, leftZ, rightZ, left.GetColorAtY(y), right.GetColorAtY(y));
 		}
 		else
 		{
-			DrawStraightLine(leftX, rightX, y, left.GetColorAtY(y), right.GetColorAtY(y));
+			// No need for depth checks
+			DrawHorizontalLine(leftX, rightX, y, left.GetColorAtY(y), right.GetColorAtY(y));
 		}
 
 		// Increment by the inverse of the slope

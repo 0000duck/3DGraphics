@@ -206,20 +206,20 @@ void CLine::DrawLine(const int _from, const int _to, IInterceptFunctor& getInter
 
 void CLine::DrawHorizontal()
 {
-	DrawStraightLine(mFrom.point.x, mTo.point.x, mFrom.point.y, mFrom.color, mTo.color);
+	DrawHorizontalLine(mFrom.point.x, mTo.point.x, mFrom.point.y, mFrom.color, mTo.color);
 }
 // ------------------------------------------------------------------------------------------
 
 void CLine::DrawVertical()
 {
-	DrawStraightLine(mFrom.point.y, mTo.point.y, mFrom.point.x, mFrom.color, mTo.color, DrawSwapXY());
+	DrawVerticalLine(mFrom.point.y, mTo.point.y, mFrom.point.x, mFrom.color, mTo.color);
 }
 // ------------------------------------------------------------------------------------------
 
 void CLine::DrawPoints()
 {
-	CRasterizer::Instance()->DrawVertex((int)mFrom.point.x, (int)mFrom.point.y, mFrom.color);
-	CRasterizer::Instance()->DrawVertex((int)mTo.point.x, (int)mTo.point.y, mTo.color);
+	DrawVertex(mFrom);
+	DrawVertex(mTo);
 }
 // ------------------------------------------------------------------------------------------
 
@@ -238,10 +238,6 @@ float CLine::CalcInvSlope() const
 int CLine::CalcY(int x) const
 {
 	float m = CalcSlope();
-	//if (m == 0.0f)
-	//{
-	//	return mFrom.point.y;
-	//}
 	float b = mFrom.point.y - (m * mFrom.point.x);
 	return RoundPixel(m * x + b);
 }
@@ -250,10 +246,6 @@ int CLine::CalcY(int x) const
 int CLine::CalcX(int y) const
 {
 	float m = CalcSlope();
-	//if (m == 0.0f || m == -INT_MAX)
-	//{
-	//	return mFrom.point.x;
-	//}
 	float b = mFrom.point.y - (m * mFrom.point.x);
 	return RoundPixel((y - b) / m);
 }
@@ -279,24 +271,27 @@ bool CLine::IsHorizontal() const
 	return (RoundPixel(mFrom.point.y) == RoundPixel(mTo.point.y));
 }
 
-// ------------------------------------------------------------------------------------------
+//====================================================================================================
 // Helper definitions
-// ------------------------------------------------------------------------------------------
+//====================================================================================================
 
 float GetYIntercept(const CVector2& from, const float slope)
 {
 	return (from.y - (slope * from.x));
 }
+// ------------------------------------------------------------------------------------------
 
 float GetYIntercept(const CVertex2& from, const float slope)
 {
 	return (from.point.y - (slope * from.point.x));
 }
+// ------------------------------------------------------------------------------------------
 
 float GetYIntercept(const int fromX, const int fromY, const float slope)
 {
 	return (fromY - (slope * fromX));
 }
+// ------------------------------------------------------------------------------------------
 
 float CalcSlope(const CVector2& from, const CVector2& to)
 {
@@ -309,18 +304,13 @@ float CalcSlope(const CVector2& from, const CVector2& to)
 	}
 	return m;
 }
+// ------------------------------------------------------------------------------------------
 
 float CalcSlope(const CVertex2& from, const CVertex2& to)
 {
-	float m = 0.0f;
-	float dy = to.point.y - from.point.y;		// rise
-	float dx = to.point.x - from.point.x;		// run
-	if (dx > 0.0f || dx < 0.0f)
-	{
-		m = dy / dx;
-	}
-	return m;
+	return CalcSlope(from.point, to.point);
 }
+// ------------------------------------------------------------------------------------------
 
 float CalcInvSlope(const CVector2& from, const CVector2& to)
 {
@@ -329,69 +319,124 @@ float CalcInvSlope(const CVector2& from, const CVector2& to)
 	float dx = to.x - from.x;	// run
 	if (dx > 0.0f || dx < 0.0f)
 	{
-		// run over rise
-		m = dx / dy;
+		m = dx / dy; // run over rise
 	}
 	return m;
 }
+// ------------------------------------------------------------------------------------------
 
 float CalcInvSlope(const CVertex2& from, const CVertex2& to)
 {
-	float m = 0.0f;
-	float dy = to.point.y - from.point.y;	// rise
-	float dx = to.point.x - from.point.x;	// run
-	if (dx > 0.0f || dx < 0.0f)
-	{
-		// run over rise
-		m = dx / dy;
-	}
-	return m;
+	return CalcInvSlope(from.point, to.point);
 }
+// ------------------------------------------------------------------------------------------
 
-void DrawStraightLine(const float from, const float to, const float axis, 
-					  const CColor& cfrom, const CColor& cto, IDrawMode& drawpoint)
+void DrawHorizontalLine(const CVertex2& from, const CVertex2& to)
 {
-	const int _axis = RoundPixel(axis);
-	const int _from = RoundPixel(from);
-	const int _to = RoundPixel(to);
+	DrawHorizontalLine(from.point.x, to.point.x, from.point.y, from.color, to.color);
+}
+// ------------------------------------------------------------------------------------------
 
-	float divisor = CalcTimeDivisor(from, to);
+void DrawHorizontalLine(const float fromX, const float toX, const float y, const CColor& cfrom, const CColor& cto)
+{
+	const int _axis = RoundPixel(y);
+	const int _from = RoundPixel(fromX);
+	const int _to = RoundPixel(toX);
+
+	float divisor = CalcTimeDivisor(fromX, toX);
 	int inc = (divisor < 0.0f) ? -1 : 1;
 
-	for (int p = _from; p != _to; p += inc)
+	for (int x = _from; x != _to; x += inc)
 	{
-		float t = (p - _from) * divisor;
+		float t = (x - _from) * divisor;
 		CColor pixelColor = LerpColor(cfrom, cto, t);
-		drawpoint(p, _axis, NULL, pixelColor);
+		DrawVertex(x, _axis, pixelColor);
 	}
 }
+// ------------------------------------------------------------------------------------------
 
-void DrawStraightLine_ZEnabled(const float from, const float to, const float axis, 
-							   const float z1, const float z2,
-							   const CColor& cfrom, const CColor& cto)
+void DrawVerticalLine(const CVertex2& from, const CVertex2& to)
 {
-	const int _axis = RoundPixel(axis);
-	const int _from = RoundPixel(from);
-	const int _to = RoundPixel(to);
+	DrawHorizontalLine(from.point.x, to.point.x, from.point.y, from.color, to.color);
+}
+// ------------------------------------------------------------------------------------------
 
-	float divisor = CalcTimeDivisor(from, to);
+void DrawVerticalLine(const float fromY, const float toY, const float x, const CColor& cfrom, const CColor& cto)
+{
+	const int _axis = RoundPixel(x);
+	const int _from = RoundPixel(fromY);
+	const int _to = RoundPixel(toY);
+
+	float divisor = CalcTimeDivisor(fromY, toY);
 	int inc = (divisor < 0.0f) ? -1 : 1;
 
-	for (int p = _from; p != _to; p += inc)
+	for (int y = _from; y != _to; y += inc)
 	{
-		float t = (p - _from) * divisor;
+		float t = (y - _from) * divisor;
+		CColor pixelColor = LerpColor(cfrom, cto, t);
+		DrawVertex(_axis, y, pixelColor);
+	}
+}
+// ------------------------------------------------------------------------------------------
+
+void DrawHorizontalLine_Z(const CVertex2& from, const CVertex2& to)
+{
+	DrawHorizontalLine_Z(from.point.x, to.point.x, from.point.y, from.z, to.z, from.color, to.color);
+}
+// ------------------------------------------------------------------------------------------
+
+void DrawHorizontalLine_Z(const float fromX, const float toX, const float y, const float z1, const float z2, const CColor& cfrom, const CColor& cto)
+{
+	const int _axis = RoundPixel(y);
+	const int _from = RoundPixel(fromX);
+	const int _to = RoundPixel(toX);
+
+	float divisor = CalcTimeDivisor(fromX, toX);
+	int inc = (divisor < 0.0f) ? -1 : 1;
+
+	for (int x = _from; x != _to; x += inc)
+	{
+		float t = (x - _from) * divisor;
 		CColor pixelColor = LerpColor(cfrom, cto, t);
 
 		float z = Lerp(z1, z2, t);
-		CRasterizer::Instance()->DrawVertex_ZEnabled(p, _axis, z, pixelColor);
+		DrawVertex_Z(x, _axis, z, pixelColor);
 	}
 }
+// ------------------------------------------------------------------------------------------
+
+void DrawVerticalLine_Z(const CVertex2& from, const CVertex2& to)
+{
+	DrawVerticalLine_Z(from.point.x, to.point.x, from.point.y, from.z, to.z, from.color, to.color);
+}
+// ------------------------------------------------------------------------------------------
+
+void DrawVerticalLine_Z(const float fromY, const float toY, const float x, const float z1, const float z2, const CColor& cfrom, const CColor& cto)
+{
+	const int _axis = RoundPixel(x);
+	const int _from = RoundPixel(fromY);
+	const int _to = RoundPixel(toY);
+
+	float divisor = CalcTimeDivisor(fromY, toY);
+	int inc = (divisor < 0.0f) ? -1 : 1;
+
+	for (int y = _from; y != _to; y += inc)
+	{
+		float t = (y - _from) * divisor;
+		CColor pixelColor = LerpColor(cfrom, cto, t);
+
+		float z = Lerp(z1, z2, t);
+		DrawVertex_Z(_axis, y, z, pixelColor);
+	}
+}
+// ------------------------------------------------------------------------------------------
 
 void DrawLine(const CVertex2& from, const CVertex2& to)
 {
 	CLine line(from, to);
 	line.Draw();
 }
+// ------------------------------------------------------------------------------------------
 
 void DrawLine(const CVector2& from, const CVector2& to, 
 			  const CColor& cfrom, const CColor& cto)
@@ -399,12 +444,14 @@ void DrawLine(const CVector2& from, const CVector2& to,
 	CLine line(from, to, cfrom, cto);
 	line.Draw();
 }
+// ------------------------------------------------------------------------------------------
 
 void DrawLine(int x1, int y1, int x2, int y2, 
 			  const CColor& c1, const CColor& c2)
 {
 	CLine line((float)x1, (float)y1, (float)x2, (float)y2, c1, c2);
 }
+// ------------------------------------------------------------------------------------------
 
 void DrawLinef(float x1, float y1, float x2, float y2, 
 			  const CColor& c1, const CColor& c2)
