@@ -184,13 +184,13 @@ void CTriangle::DrawSection(const CLine& left, const CLine& right)
 	for (int y=y1; y < y2; ++y)
 	{
 		float t = (y - y1) * divisor;
-		float lz = Lerp(left.mFrom.z, left.mTo.z, t);
-		float rz = Lerp(right.mFrom.z, right.mTo.z, t);
+		float leftZ = Lerp(left.mFrom.z, left.mTo.z, t);
+		float rightZ = Lerp(right.mFrom.z, right.mTo.z, t);
 
 		// Draw the horizontal span between the two points
 		if (zEnabled)
 		{
-			DrawStraightLine_ZEnabled(leftX, rightX, y, lz, rz, left.GetColorAtY(y), right.GetColorAtY(y));
+			DrawStraightLine_ZEnabled(leftX, rightX, y, leftZ, rightZ, left.GetColorAtY(y), right.GetColorAtY(y));
 		}
 		else
 		{

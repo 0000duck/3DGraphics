@@ -133,29 +133,28 @@ void Viewport::DisableZBuffer()
 
 bool Viewport::CheckZDepth(const int x, const int y, const FLOAT z)
 {
-	//const float zfar = 1000.0f, znear = 0.1f, d = 1.0f;
-	//float a = zfar / (zfar - znear);
-	//float b = zfar * znear / (znear-zfar);
-	//UINT32 zbuffval = (1<<((sizeof(int) * 8)-1)) * (a + b / 1.0f);
-	UINT32 zi = (1 << ((sizeof(int) * 8)-1)) * z;
-	//FLOAT zi = z;
+	// Bounds check
+	if (x < mOrigin.x || y < mOrigin.y || x >= mWidth || y >= mHeight)
+		return false;
+
+	// Must be cast to an UINT32 since '1' defaults as signed.
+	UINT32 shift = (UINT32)(1 << (sizeof(int) * ZBUFF32_PRECISION));
+	UINT32 zi =  (UINT32)(shift * z);
 	if (zi < mZBuffer.Get(x, y))
 	{
-		if (mZBuffer.Get(x, y) != ZBUFF_DEFAULT)
-		{
-			int i = 0;
-		}
 		// Update that index with the new value
 		mZBuffer.Set(x, y, zi);
 		return true;
 	}
 	return false;
 }
+// ------------------------------------------------------------------------------------------
 
 void Viewport::WipeZBuffer()
 {
 	mZBuffer.SetAll(ZBUFF_DEFAULT);
 }
+// ------------------------------------------------------------------------------------------
 
 void Viewport::BackfaceCull(PrimList& primitives)
 {

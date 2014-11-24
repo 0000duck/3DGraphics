@@ -153,7 +153,6 @@ void CScriptParser::ExecuteScript()
 		if (command != NULL)
 		{
  			command->execute(cmdLine.params);
-			AIDebugPrint(L"Executing command: %S", cmdLine.keyword);
 		}
 	}
 }

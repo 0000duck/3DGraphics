@@ -11,6 +11,13 @@
 #define INCLUDED_VIEWPORT_H
 #pragma once
 
+// Zbuffer specific macros
+#define ZBUFF32_PRECISION 8
+#define ZBUFF32_DEFAULT UINT32_MAX
+
+#define ZBUFF_PRECISION ZBUFF32_PRECISION
+#define ZBUFF_DEFAULT ZBUFF32_DEFAULT
+
 #include "Utility/NonCopyable.h"
 #include "Containers/Vector2.h"
 #include "Containers/Matrix44.h"
@@ -19,10 +26,6 @@
 class CRect2;
 class CPrimitive;
 
-#define ZBUFF_DEFAULT UINT32_MAX
-//#define ZBUFF_DEFAULT FLT_MAX
-typedef FLOAT ZDEPTH;
-typedef UINT32 ZPRECISON;
 typedef std::vector<std::unique_ptr<CPrimitive>> PrimList;
 
 class Viewport : private NonCopyable
@@ -50,7 +53,7 @@ public:
 	inline bool ZbufferEnabled() const { return mZBufferOn; }
 	void EnableZBuffer();
 	void DisableZBuffer();
-	bool CheckZDepth(const int x, const int y, const ZDEPTH z);
+	bool CheckZDepth(const int x, const int y, const FLOAT z);
 	void WipeZBuffer();
 
 	// Draws the outline of the viewport
@@ -88,7 +91,6 @@ private:
 	bool mZBufferIsset;		// Has the buffer been initialized
 
 	Array2<UINT32> mZBuffer;
-	//Array2<FLOAT> mZBuffer;
 };
 
 #endif // #ifndef INCLUDED_CAMERA_H
