@@ -1,6 +1,7 @@
 viewport 10 10 600 500
 showviewport on
 clip on
+backfacecull on
 
 cameraPersp 0 2 -5 0 0 1
 cameraFOV 90
@@ -9,7 +10,7 @@ cameraFar 1000.0
 
 matrix3DRotate 0 1 0
 
-fillmode line
+fillmode fill
 
 drawbegin triangle
 

@@ -1,17 +1,17 @@
 zbuffer on
-viewport 10 10 400 300
+viewport 10 10 600 500
 showviewport on
 clip on
 backfacecull on
 
-cameraPersp 0 1.5 -15 0 0 1
+cameraPersp 0 1.5 -12 0 0 1
 cameraFOV 90
 cameraNear 0.1
 cameraFar 1000.0
 
 fillmode fill
 
-matrix3DRotate 0 1 0
+//matrix3DRotate 0 1 0
 
 color 1 0 0
 drawbegin triangle

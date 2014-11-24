@@ -12,7 +12,16 @@
 #include "oglMFCDialogDlg.h"
 
 #include "Graphics/Rasterizer.h"
+#include "Graphics/MatrixManager.h"
+#include "Graphics/Viewport.h"
+#include "Graphics/Camera.h"
+#include "Graphics/Clipper.h"
+#include "Graphics/PrimManager.h"
+#include "Graphics/StateManager.h"
 
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -203,11 +212,24 @@ void CCMGfxApp::InitSingletons()
 
 void CCMGfxApp::CleanUpSingletons()
 {
+	MatrixManager::Instance()->Reset();
+	Viewport::Instance()->Reset();
+	Camera::Instance()->Reset();
+	PrimManager::Instance()->Reset();
+	Clipper::Instance()->Reset();
+	StateManager::Instance()->Reset();
 }
 
 void CCMGfxApp::DeleteSingletons()
 {
 	CRasterizer *pRasterizer = CRasterizer::Instance(); delete pRasterizer;
+
+	MatrixManager::Instance()->DestroyInstance();
+	Viewport::Instance()->DestroyInstance();
+	Camera::Instance()->DestroyInstance();
+	PrimManager::Instance()->DestroyInstance();
+	Clipper::Instance()->DestroyInstance();
+	StateManager::Instance()->DestroyInstance();
 }
 
 

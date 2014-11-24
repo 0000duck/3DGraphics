@@ -23,6 +23,7 @@ struct CVertex2
 	{
 		if (lhs.point.x == rhs.point.x &&
 			lhs.point.y == rhs.point.y &&
+			lhs.z == rhs.z &&
 			lhs.color == rhs.color)
 		{
 			return true;

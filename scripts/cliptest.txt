@@ -1,5 +1,5 @@
 fillmode line
-viewport 100 100 700 500
+viewport 100 100 600 500
 showviewport on
 clip on
 

@@ -1,7 +1,7 @@
 #include "Stdafx.h"
 #include "Clipper.h"
-#include "Primitives/Primitives.h"
 #include "Viewport.h"
+#include "Primitives/Line.h"
 #include <cassert>
 
 // static singleton member initialization
@@ -20,11 +20,27 @@ Clipper* Clipper::Instance()
 }
 // --------------------------------------------------------------------
 
+void Clipper::DestroyInstance()
+{
+	if (spInstance)
+	{
+		delete spInstance;
+		spInstance = nullptr;
+	}
+}
+// --------------------------------------------------------------------
+
 Clipper::Clipper()
 	:	mClippingOn(false)
 {
 }
 
+// --------------------------------------------------------------------
+
+void Clipper::Reset()
+{
+	mClippingOn = false;
+}
 // --------------------------------------------------------------------
 
 void Clipper::EnableClipping()
@@ -54,10 +70,11 @@ eState Clipper::ClipPrimitive(CPrimitive* prim)
 	switch (prim->Type())
 	{
 	case PrimType::Point:
-		rc = ClipPoint(prim, vp);
+		// todo: fix this
+		//rc = ClipPoint(prim, vp);
 		break;
 	case PrimType::Line:
-		rc = ClipLine(prim, vp);
+		rc = ClipLine(*static_cast<CLine*>(prim), vp);
 		break;
 	case PrimType::Triangle:
 		rc = ClipTriangle(prim, vp);	// Not yet implemented
@@ -67,10 +84,8 @@ eState Clipper::ClipPrimitive(CPrimitive* prim)
 }
 // ------------------------------------------------------------------------------------------
 
-eState Clipper::ClipPoint(CPrimitive* prim, const CRect2& vp)
+eState Clipper::ClipPoint(CVertex2& v, const CRect2& vp)
 {
-	CVertex2 v;
-	prim->GetVert(0, v);
 	unsigned int r1 = ComputeRegion(v.point, vp);
 	if (r1 == Inside)
 	{
@@ -80,12 +95,11 @@ eState Clipper::ClipPoint(CPrimitive* prim, const CRect2& vp)
 }
 // ------------------------------------------------------------------------------------------
 
-eState Clipper::ClipLine(CPrimitive* prim, const CRect2& vp)
+eState Clipper::ClipLine(CLine& line, const CRect2& vp)
 {
 	// Computer the regions of the 2 points
-	CVertex2 v1, v2;
-	prim->GetVert(0, v1);
-	prim->GetVert(1, v2);
+	CVertex2 v1(line.mFrom);
+	CVertex2 v2(line.mTo);
 	REGION r1 = ComputeRegion(v1.point, vp);
 	REGION r2 = ComputeRegion(v2.point, vp);
 
@@ -103,19 +117,18 @@ eState Clipper::ClipLine(CPrimitive* prim, const CRect2& vp)
 	}
 
 	// Trim the line so it fits within the region
-	CLine line(v1, v2);
 	TrimLine(v1, line, vp);
 	TrimLine(v2, line, vp);
 
 	// Assign the fully clipped verts to the primitive
-	prim->SetVert(0, v1);
-	prim->SetVert(1, v2);
+	line.mFrom = v1;
+	line.mTo = v2;
 
 	return Clipped;
 }
 // ------------------------------------------------------------------------------------------
 
-void Clipper::TrimLine(CVertex2& v, CLine& line, const CRect2& vp)
+void Clipper::TrimLine(CVertex2& v, const CLine& line, const CRect2& vp)
 {
 	// Compute the region the point is in and trim until it is inside the viewport
 	REGION r = ComputeRegion(v.point, vp);

@@ -174,7 +174,6 @@
     <ClCompile Include="..\..\source\Primitives\FillModes.cpp" />
     <ClCompile Include="..\..\source\Primitives\Line.cpp" />
     <ClCompile Include="..\..\source\Primitives\Primitive.cpp" />
-    <ClCompile Include="..\..\source\Primitives\Primitives.cpp" />
     <ClCompile Include="..\..\source\Primitives\PrimitiveTypes.cpp" />
     <ClCompile Include="..\..\source\Primitives\Triangle.cpp" />
     <ClCompile Include="..\..\source\stdafx.cpp" />
@@ -241,7 +240,6 @@
     <ClInclude Include="..\..\source\Primitives\FillModes.h" />
     <ClInclude Include="..\..\source\Primitives\Line.h" />
     <ClInclude Include="..\..\source\Primitives\Primitive.h" />
-    <ClInclude Include="..\..\source\Primitives\Primitives.h" />
     <ClInclude Include="..\..\source\Primitives\PrimitiveTypes.h" />
     <ClInclude Include="..\..\source\Primitives\Triangle.h" />
     <ClInclude Include="..\..\source\resource.h" />

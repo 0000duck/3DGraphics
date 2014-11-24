@@ -26,6 +26,11 @@ class MatrixManager : private NonCopyable
 public:
 	// Singleton accessor
 	static MatrixManager* Instance();
+	// Destroys the current instance of this class.
+	static void DestroyInstance();
+
+	// Resets all data members to default values
+	void Reset();
 
 	// Returns if true if the matrix has been initialized
 	bool IsLoaded2D();

@@ -27,11 +27,30 @@ PrimManager* PrimManager::Instance()
 }
 // ------------------------------------------------------------------------------------------
 
+void PrimManager::DestroyInstance()
+{
+	if (spInstance)
+	{
+		delete spInstance;
+		spInstance = nullptr;
+	}
+}
+// ------------------------------------------------------------------------------------------
+
 // Default constructor
 PrimManager::PrimManager()
 	:	mpCurrentPrim(nullptr)
 	,	mReadingVerticies(false)
 {
+}
+// ------------------------------------------------------------------------------------------
+
+void PrimManager::Reset()
+{
+	mpCurrentPrim.release();
+	mReadingVerticies = false;
+	mPrimitiveList.clear();
+	mVertList.clear();
 }
 // ------------------------------------------------------------------------------------------
 
@@ -54,6 +73,7 @@ void PrimManager::CreatePrimitive(const PrimType::Type primType)
 	switch (primType)
 	{
 	case PrimType::Point:
+		AIASSERT(false, "Point shouldn't be here. fix this");
 		break;
 	case PrimType::Line:
 		mpCurrentPrim.reset(new CLine());
@@ -82,6 +102,7 @@ void PrimManager::AddVertex(const CVertex3& vert)
 	if (mReadingVerticies)
 	{
 		mVertList.push_back(vert);
+		//AddVertex(CVertex2(vert.point.x, vert.point.y, vert.color, vert.point.z));
 	}
 }
 // ------------------------------------------------------------------------------------------
@@ -91,6 +112,7 @@ void PrimManager::AddVertex(const CVertex2& vert)
 	if (mReadingVerticies && mpCurrentPrim)
 	{
 		mpCurrentPrim->AddVertex(vert);
+		//mVertList.push_back(CVertex3(vert.point.x, vert.point.y, vert.z, vert.color));
 
 		// Check that the primitive has room for more verticies
 		if (mpCurrentPrim->VertexCount() == mpCurrentPrim->MaxVerticies())
@@ -166,8 +188,11 @@ void PrimManager::Apply3DTransformations()
 		v = projection * v;
 
 		// Convert back to legal HC matrix
-		v /= v.w;
-		v.w = 1.0f;
+		if (v.w != 1.0f)
+		{
+			v /= v.w;
+			v.w = 1.0f;
+		}
 
 		// Transform the point back to screen space
 		v = NDCtoScreen * v;
@@ -198,6 +223,20 @@ void PrimManager::CullAndClip()
 }
 // ------------------------------------------------------------------------------------------
 
+bool CompareZ(PrimPtr& p1, PrimPtr& p2)
+{
+	return (p1->GetZDepth() < p2->GetZDepth());
+}
+// ------------------------------------------------------------------------------------------
+
+void PrimManager::DepthSort()
+{
+	std::sort(mPrimitiveList.begin(), mPrimitiveList.end(), CompareZ);
+	//const int sz = mPrimitiveList.size();
+
+}
+// ------------------------------------------------------------------------------------------
+
 void PrimManager::ClearPrimitive()
 {
 	if (mpCurrentPrim)
@@ -220,15 +259,18 @@ void PrimManager::DrawAll()
 {
 	// Handle all 2D stuff first as any 3D items will not be 
 	// in the primitive list at this point.
-	Apply2DTransformations();
+	//Apply2DTransformations();
 
 	// Transform the 3D verticies which will convert them to their respecting
 	// projected 2D counterparts which are added to the primitive list.
 	Apply3DTransformations();
 
+
 	// Remove anything outside the viewport and clip anything extending past it.
-	//CullAndClip();
 	Viewport::Instance()->BackfaceCull(mPrimitiveList);
+	CullAndClip();
+
+	DepthSort();
 
 	PrimList::iterator it = mPrimitiveList.begin();
 	for (it; it != mPrimitiveList.end(); ++it)

@@ -35,8 +35,26 @@ const float MAX_COLOR = 1.0f;
 		}\
 	}
 #else
-	#define AIASSERT(condition, format, ...)
-#endif
+	#define AIASSERT(...) void(0);
+#endif // #if defined(_DEBUG)
+
+#ifdef _DEBUG	
+	inline void AIDebugPrint(const wchar_t *pFormat, ...)
+	{
+		wchar_t buff[8196];
+		va_list va;
+		va_start(va, pFormat);
+		_vstprintf(buff, sizeof(buff), pFormat, va);
+		va_end(va);
+
+		::OutputDebugString(buff);
+		::OutputDebugString(L"\n");
+	}
+
+	#define dbPrintf AIDebugPrint
+#else
+	#define dbPrintf(...) void(0);
+#endif // #ifdef _DEBUG	
 
 //====================================================================================================
 // Helper Functions
@@ -50,6 +68,13 @@ inline float CalcTimeDivisor(float a, float b)
 		divisor = 1.0f / diff;
 	}
 	return divisor;
+}
+
+// Precise method which guarantees p = p1 when t = 1.
+inline float Lerp(float p0, float p1, float t)
+{
+	return (1.0f - t) * p0 + t * p1;
+	//return p0 + t * (p1 - p0);
 }
 
 inline int RoundPixel(float val)

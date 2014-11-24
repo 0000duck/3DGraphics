@@ -20,6 +20,7 @@
 #include "CmdShowViewport.h"
 #include "CmdClip.h"
 #include "CmdBackfaceCull.h"
+#include "CmdZBuffer.h"
 
 #include "CmdMatrix2DIdentity.h"
 #include "CmdMatrix2DTranslate.h"

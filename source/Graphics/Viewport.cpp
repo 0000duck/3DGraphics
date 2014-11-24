@@ -22,27 +22,69 @@ Viewport* Viewport::Instance()
 }
 // ------------------------------------------------------------------------------------------
 
+void Viewport::DestroyInstance()
+{
+	if (spInstance)
+	{
+		delete spInstance;
+		spInstance = nullptr;
+	}
+}
+// ------------------------------------------------------------------------------------------
+
 // Default constructor
 Viewport::Viewport()
 	:	mOrigin(0.0f, 0.0f)
-	,	mWidth(0.0f)
-	,	mHeight(0.0f)
+	,	mWidth(0)
+	,	mHeight(0)
 	,	mAspectRatio(0.0f)
 	,	mDraw(false)
 	,	mBackfaceCull(false)
 	,	mZBufferOn(false)
+	,	mZBufferIsset(false)
 {
+}
+// ------------------------------------------------------------------------------------------
+
+Viewport::~Viewport()
+{
+	if (mZBufferOn)
+	{
+		mZBuffer.Clear();
+	}
+}
+// ------------------------------------------------------------------------------------------
+
+void Viewport::Reset()
+{
+	mOrigin.Zero();
+	mWidth = 0;
+	mHeight = 0;
+	mAspectRatio = 0.0f;
+	mDraw = false;
+	mBackfaceCull = false;
+	mZBufferOn = false;
+	mZBufferIsset = false;
+
+	mNDCToScreen.Identity();
+	mZBuffer.Clear();
 }
 // ------------------------------------------------------------------------------------------
 
 void Viewport::Set(const CVector2& topleft, const CVector2& btmright)
 {
 	mOrigin = topleft;
-	mWidth = btmright.x;
-	mHeight = btmright.y;
-	mAspectRatio = mWidth / mHeight;
+	mWidth = RoundPixel(btmright.x);
+	mHeight = RoundPixel(btmright.y);
+	mAspectRatio = btmright.x / btmright.y;
 
-	mZBuffer.Resize((int)mWidth, (int)mHeight, UINT_MAX);
+	// Init the zbuffer if it hasn't been already (depends on what order zbuffer cmd called)
+	if (mZBufferOn && !mZBufferIsset)
+	{
+		mZBuffer.Clear();
+		mZBuffer.Resize(mWidth, mHeight, ZBUFF_DEFAULT);
+		mZBufferIsset = true;
+	}
 
 	CreateNDCToScreenMatrix();
 }
@@ -51,15 +93,69 @@ void Viewport::Set(const CVector2& topleft, const CVector2& btmright)
 void Viewport::Set(float l, float t, float r, float b)
 {
 	mOrigin = CVector2(l, t);
-	mWidth = r;
-	mHeight = b;
-	mAspectRatio = mWidth / mHeight;
-	
-	mZBuffer.Resize((int)mWidth, (int)mHeight, UINT_MAX);
+	mWidth = RoundPixel(r);
+	mHeight = RoundPixel(b);
+	mAspectRatio = r / b;
+
+	// Init the zbuffer if it hasn't been already (depends on what order zbuffer cmd called)
+	if (mZBufferOn && !mZBufferIsset)
+	{
+		mZBuffer.Clear();
+		mZBuffer.Resize(mWidth, mHeight, ZBUFF_DEFAULT);
+		mZBufferIsset = true;
+	}
 
 	CreateNDCToScreenMatrix();
 }
 // ------------------------------------------------------------------------------------------
+
+void Viewport::EnableZBuffer()
+{
+	mZBufferOn = true;
+	if (!mZBufferIsset && mWidth > 0 && mHeight > 0)
+	{
+		mZBuffer.Clear();
+		mZBuffer.Resize(mWidth, mHeight, ZBUFF_DEFAULT);
+		mZBufferIsset = true;
+	}
+	else
+	{
+		WipeZBuffer();
+	}
+}
+// ------------------------------------------------------------------------------------------
+
+void Viewport::DisableZBuffer()
+{
+	mZBufferOn = false;
+}
+// ------------------------------------------------------------------------------------------
+
+bool Viewport::CheckZDepth(const int x, const int y, const FLOAT z)
+{
+	//const float zfar = 1000.0f, znear = 0.1f, d = 1.0f;
+	//float a = zfar / (zfar - znear);
+	//float b = zfar * znear / (znear-zfar);
+	//UINT32 zbuffval = (1<<((sizeof(int) * 8)-1)) * (a + b / 1.0f);
+	UINT32 zi = (1 << ((sizeof(int) * 8)-1)) * z;
+	//FLOAT zi = z;
+	if (zi < mZBuffer.Get(x, y))
+	{
+		if (mZBuffer.Get(x, y) != ZBUFF_DEFAULT)
+		{
+			int i = 0;
+		}
+		// Update that index with the new value
+		mZBuffer.Set(x, y, zi);
+		return true;
+	}
+	return false;
+}
+
+void Viewport::WipeZBuffer()
+{
+	mZBuffer.SetAll(ZBUFF_DEFAULT);
+}
 
 void Viewport::BackfaceCull(PrimList& primitives)
 {
@@ -78,12 +174,14 @@ void Viewport::BackfaceCull(PrimList& primitives)
 			primitives.erase(primitives.begin() + i);
 		}
 	}
+	// Resize
+	primitives.shrink_to_fit();
 }
 // ------------------------------------------------------------------------------------------
 
 void Viewport::Draw()
 {
-	CRect2 r(mOrigin.x, mOrigin.y, mWidth, mHeight);
+	CRect2 r(mOrigin.x, mOrigin.y, (float)mWidth, (float)mHeight);
 	if (r.IsValid())
 	{
 		r.GetLeftSegment().DrawVertical();
@@ -96,7 +194,7 @@ void Viewport::Draw()
 
 CRect2 Viewport::GetViewport()
 {
-	return CRect2(mOrigin.x, mOrigin.y, mWidth, mHeight);
+	return CRect2(mOrigin.x, mOrigin.y, (float)mWidth, (float)mHeight);
 }
 // ------------------------------------------------------------------------------------------
 
@@ -106,8 +204,8 @@ void Viewport::CreateNDCToScreenMatrix()
 	float f = Camera::Instance()->GetFar();
 	float d = 1.0f; // Z depth scale
 
-	float width = mWidth * 0.5f;
-	float height = mHeight * 0.5f;
+	float width = static_cast<float>(mWidth) * 0.5f;
+	float height = static_cast<float>(mHeight) * 0.5f;
 
 	mNDCToScreen.Identity();
 	CVector4 c0, c1, c2, c3;

@@ -31,9 +31,8 @@ public:
 	virtual const int VertexCount() const;
 	virtual const int MaxVerticies() const;
 	virtual void Draw();
-	virtual void GetVert(int index, CVertex2& out);
-	virtual void SetVert(int index, const CVertex2& v);
 	virtual CVector2 GetPivot();
+	virtual float GetZDepth();
 	virtual void Transform(const CMatrix33& tm);
 	virtual CVector3 ComputeNormal();
 
@@ -56,7 +55,7 @@ protected:
 	// Draws a flat top or flat bottom triangle
 	void DrawSection(const CLine& left, const CLine& right);
 
-private:
+//private:
 	int mVertIndex;					// Current number of verticies
 	CVertex2 mV1;
 	CVertex2 mV2;

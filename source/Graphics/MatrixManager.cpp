@@ -21,10 +21,25 @@ MatrixManager* MatrixManager::Instance()
 }
 // ------------------------------------------------------------------------------------------
 
+void MatrixManager::DestroyInstance()
+{
+	if (spInstance)
+	{
+		delete spInstance;
+		spInstance = nullptr;
+	}
+}
+// ------------------------------------------------------------------------------------------
+
 // Default constructor
 MatrixManager::MatrixManager()
 {
-	// Initialize to 
+	Reset();
+}
+// ------------------------------------------------------------------------------------------
+
+void MatrixManager::Reset()
+{
 	mMatrix33.Identity();
 	mMatrix44.Identity();
 }

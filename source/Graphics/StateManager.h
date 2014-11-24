@@ -25,6 +25,11 @@ public:
 
 	// Singleton accessor
 	static StateManager* Instance();
+	// Destroys the current instance of this class.
+	static void DestroyInstance();
+
+	// Resets all data members to default values
+	void Reset();
 
 	// Mutators
 	void SetFillMode(const FillMode::Mode mode);

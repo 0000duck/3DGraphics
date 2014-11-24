@@ -19,6 +19,16 @@ Camera* Camera::Instance()
 }
 // ------------------------------------------------------------------------------------------
 
+void Camera::DestroyInstance()
+{
+	if (spInstance)
+	{
+		delete spInstance;
+		spInstance = nullptr;
+	}
+}
+// ------------------------------------------------------------------------------------------
+
 // Default constructor
 Camera::Camera()
 	:	mInitialized(false)
@@ -27,6 +37,25 @@ Camera::Camera()
 	,	mNear(0.1f)
 	,	mFar(1000.0f)
 {
+}
+// ------------------------------------------------------------------------------------------
+
+void Camera::Reset()
+{
+	mInitialized = false;
+	mFOV = 90.0f;
+	mProjectionPlane = 0.0f;
+	mNear = 0.1f;
+	mFar = 1000.0f;
+
+	mLookFrom.Zero();
+	mLookAt.Zero();
+	mLookUp.Zero();
+	mLookSide.Zero();
+
+	mViewToWorld.Identity();
+	mWorldToView.Identity();
+	mPerspective.Identity();
 }
 // ------------------------------------------------------------------------------------------
 

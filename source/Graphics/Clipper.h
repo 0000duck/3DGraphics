@@ -43,7 +43,12 @@ class Clipper
 public:
 	// Singleton accessor
 	static Clipper* Instance();
-	
+	// Destroys the current instance of this class.
+	static void DestroyInstance();
+
+	// Resets all data members to default values
+	void Reset();
+
 	void EnableClipping();
 	void DisableClipping();
 
@@ -53,12 +58,12 @@ public:
 
 protected:
 
-	eState ClipPoint(CPrimitive* prim, const CRect2& vp);
-	eState ClipLine(CPrimitive* prim, const CRect2& vp);
+	eState ClipPoint(CVertex2& v, const CRect2& vp);
+	eState ClipLine(CLine& prim, const CRect2& vp);
 	eState ClipTriangle(CPrimitive* prim, const CRect2& vp);
 
 	// Trims the line until point v is within the viewport
-	void TrimLine(CVertex2& v, CLine& line, const CRect2& vp);
+	void TrimLine(CVertex2& v, const CLine& line, const CRect2& vp);
 
 	// Returns a byte with the first 4 bits set corresponding to
 	// the region the coordinate is in.

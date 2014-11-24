@@ -1,15 +1,17 @@
 #include "StdAfx.h"
+#include "Rasterizer.h"
 #include <gl/gl.h>
 #include <gl/glu.h>
 #include <math.h>
 #include "Utility/MiniMath.h"
-#include "Rasterizer.h"
 #include "Containers/Color.h"
+#include "Containers/Vertex2.h"
+#include "Viewport.h"
 
-CRasterizer* CRasterizer::pinstance = 0;// initialize pointer
-CRasterizer* CRasterizer::Instance () 
+CRasterizer* CRasterizer::pinstance = nullptr;// initialize pointer
+CRasterizer* CRasterizer::Instance() 
 {
-	if (pinstance == 0)  // is it the first call?
+	if (pinstance == nullptr)  // is it the first call?
 	{  
 		pinstance = new CRasterizer; // create sole instance
 	}
@@ -49,3 +51,38 @@ void CRasterizer::DrawPoint( const float x, const float y, const float r, const 
 	DrawPoint( x, y );
 }
 
+void CRasterizer::DrawVertex(const CVertex2& vert)
+{
+	SetColor(vert.color);
+	DrawPoint(vert.point.x, vert.point.y);
+}
+
+void CRasterizer::DrawVertex(const int x, const int y, const CColor& color)
+{
+	SetColor(color);
+	DrawPoint(x, y);
+}
+
+void CRasterizer::DrawVertex(const float x, const float y, const CColor& color)
+{
+	SetColor(color);
+	DrawPoint(x, y);
+}
+
+void CRasterizer::DrawVertex_ZEnabled(const CVertex2& vert)
+{
+	if (Viewport::Instance()->CheckZDepth((int)vert.point.x, (int)vert.point.y, vert.z))
+	{
+		SetColor(vert.color);
+		DrawPoint(vert.point.x, vert.point.y);
+	}
+}
+
+void CRasterizer::DrawVertex_ZEnabled(const int x, const int y, const float z, const CColor& color)
+{
+	if (Viewport::Instance()->CheckZDepth(x, y, z))
+	{
+		SetColor(color);
+		DrawPoint(x, y);
+	}
+}

@@ -18,7 +18,8 @@
 
 struct CVertex3;
 
-typedef std::vector<std::unique_ptr<CPrimitive>> PrimList;
+typedef std::unique_ptr<CPrimitive> PrimPtr;
+typedef std::vector<PrimPtr> PrimList;
 typedef std::vector<CVertex3> VertList;
 
 class PrimManager : private NonCopyable
@@ -29,6 +30,12 @@ class PrimManager : private NonCopyable
 public:
 	// Singleton accessor
 	static PrimManager* Instance();
+
+	// Destroys the current instance of this class.
+	static void DestroyInstance();
+
+	// Resets all data members to default values
+	void Reset();
 
 	// Sets mpCurrentPrim to a Primitive type
 	void CreatePrimitive(CPrimitive* pPrim);
@@ -61,7 +68,7 @@ public:
 private:
 	// Adds a valid primitive to mPrimitiveList.
 	// Transfers ownership to PrimManager
-	void AddPrimitive(std::unique_ptr<CPrimitive>& pPrim);
+	void AddPrimitive(PrimPtr& pPrim);
 
 	// Verifies the integrity of the current primtive
 	// DEPRECATED
@@ -76,12 +83,15 @@ private:
 	// Ensures everything that will be drawn is within the viewport.
 	void CullAndClip();
 
+	// Sorts the primitives in ascending Z order
+	void DepthSort();
+
 private:
 	// Static instance
 	static PrimManager* spInstance;
 	
 	// Current primitive being drawn
-	std::unique_ptr<CPrimitive> mpCurrentPrim;
+	PrimPtr mpCurrentPrim;
 
 	// List of complete primitives to be drawn
 	PrimList mPrimitiveList;

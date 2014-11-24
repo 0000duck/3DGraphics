@@ -172,9 +172,6 @@
     <ClCompile Include="..\..\source\Primitives\Primitive.cpp">
       <Filter>Common\Primitives</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\Primitives\Primitives.cpp">
-      <Filter>Common\Primitives</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\Primitives\PrimitiveTypes.cpp">
       <Filter>Common\Primitives</Filter>
     </ClCompile>
@@ -370,9 +367,6 @@
       <Filter>Common\Primitives</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\Primitives\PrimitiveTypes.h">
-      <Filter>Common\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\Primitives\Primitives.h">
       <Filter>Common\Primitives</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\Primitives\FillModes.h">

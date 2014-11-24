@@ -18,12 +18,30 @@ StateManager* StateManager::Instance()
 }
 // --------------------------------------------------------------------
 
+void StateManager::DestroyInstance()
+{
+	if (spInstance)
+	{
+		delete spInstance;
+		spInstance = nullptr;
+	}
+}
+// --------------------------------------------------------------------
+
 // Default constructor
 StateManager::StateManager()
 	:	mFillMode(FillMode::Point)
 	,	mColor(CColor(1.0, 1.0, 1.0))
 	,	mIsDrawing(false)
 {
+}
+// --------------------------------------------------------------------
+
+void StateManager::Reset()
+{
+	mFillMode = FillMode::Point;
+	mColor = CColor(1.0, 1.0, 1.0);
+	mIsDrawing = false;
 }
 // --------------------------------------------------------------------
 

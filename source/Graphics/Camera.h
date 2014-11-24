@@ -24,6 +24,11 @@ class Camera : private NonCopyable
 public:
 	// Singleton accessor
 	static Camera* Instance();
+	// Destroys the current instance of this class.
+	static void DestroyInstance();
+
+	// Resets all data members to default values
+	void Reset();
 
 	// Creates a camera.
 	// @param origin - where the camera is located in 3D space

@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "Triangle.h"
+#include "Line.h"
 #include "Graphics/Rasterizer.h"
 #include "Graphics/StateManager.h"
-#include "Primitives.h"
+#include "Graphics/Viewport.h"
 #include "Containers/Matrix33.h"
 #include "Containers/Vector3.h"
 #include "Containers/Point.h"
@@ -64,7 +65,7 @@ void CTriangle::AddVertex(const CVertex2& vert)
 	switch (mVertIndex++)
 	{
 	case 0:
-		mV1 = vert;
+	mV1 = vert;
 		break;
 	case 1:
 		mV2 = vert;
@@ -88,30 +89,6 @@ const int CTriangle::MaxVerticies() const
 }
 // ------------------------------------------------------------------------------------------
 
-void CTriangle::GetVert(int index, CVertex2& out)
-{
-	AIASSERT(index >= 0 && index < kVerts, "Index out of range");
-	if (index == 0)
-		out = mV1;
-	if (index == 1)
-		out = mV2;
-	if (index == 2)
-		out = mV3;
-}
-// ------------------------------------------------------------------------------------------
-
-void CTriangle::SetVert(int index, const CVertex2& v)
-{
-	AIASSERT(index >= 0 && index < kVerts, "Index out of range");
-	if (index == 0)
-		mV1 = v;
-	if (index == 1)
-		mV2 = v;
-	if (index == 2)
-		mV3 = v;
-}
-// ------------------------------------------------------------------------------------------
-
 CVector2 CTriangle::GetPivot()
 {
 	// todo: call get center from bounding box class
@@ -124,6 +101,12 @@ CVector2 CTriangle::GetPivot()
 	float midy = (abs(pmax.y) - abs(pmin.y)) * 0.5f;
 
 	return CVector2(pmin.x + midx, pmin.y + midy);
+}
+// ------------------------------------------------------------------------------------------
+
+float CTriangle::GetZDepth()
+{
+	return ((mV1.z + mV2.z + mV3.z) / 3.0f);
 }
 // ------------------------------------------------------------------------------------------
 
@@ -169,45 +152,50 @@ void CTriangle::Draw()
 
 void CTriangle::DrawSolid()
 {
-	// Cache the points
-	CLine l1(mV1, mV2);
-	CLine l2(mV2, mV3);
-	CLine l3(mV1, mV3);
-
-	l1.Draw();
-	l2.Draw();
-	l3.Draw();
+	DrawLine(mV1, mV2);
+	DrawLine(mV2, mV3);
+	DrawLine(mV1, mV3);
 }
 // ------------------------------------------------------------------------------------------
 
 void CTriangle::DrawPoints()
 {
-	DrawVertex(mV1);
-	DrawVertex(mV2);
-	DrawVertex(mV3);
+	CRasterizer::Instance()->DrawVertex(mV1);
+	CRasterizer::Instance()->DrawVertex(mV2);
+	CRasterizer::Instance()->DrawVertex(mV3);
 }
 // ------------------------------------------------------------------------------------------
 
 void CTriangle::DrawSection(const CLine& left, const CLine& right)
 {
+	bool zEnabled = Viewport::Instance()->ZbufferEnabled();
+
 	// Precompute inverse slope of the lines
 	const float leftM = left.CalcInvSlope();
 	const float rightM = right.CalcInvSlope();
 
-	const int y1 = static_cast<int>(left.mV1.point.y);
-	const int y2 = static_cast<int>(left.mV2.point.y);
+	const int y1 = RoundPixel(left.mFrom.point.y);
+	const int y2 = RoundPixel(left.mTo.point.y);
 
-	float leftX = left.mV1.point.x;
-	float rightX = right.mV1.point.x;
+	float leftX = left.mFrom.point.x;
+	float rightX = right.mFrom.point.x;
 
+	float divisor = CalcTimeDivisor(y1, y2);
 	for (int y=y1; y < y2; ++y)
 	{
-		// Create verts from the left and right points
-		CVertex2 v1(ceilf(leftX), (float)y, left.GetColorAtY(y));
-		CVertex2 v2(ceilf(rightX), (float)y, right.GetColorAtY(y)); 
+		float t = (y - y1) * divisor;
+		float lz = Lerp(left.mFrom.z, left.mTo.z, t);
+		float rz = Lerp(right.mFrom.z, right.mTo.z, t);
 
-		// Draw a line between them
-		DrawLine(v1, v2);
+		// Draw the horizontal span between the two points
+		if (zEnabled)
+		{
+			DrawStraightLine_ZEnabled(leftX, rightX, y, lz, rz, left.GetColorAtY(y), right.GetColorAtY(y));
+		}
+		else
+		{
+			DrawStraightLine(leftX, rightX, y, left.GetColorAtY(y), right.GetColorAtY(y));
+		}
 
 		// Increment by the inverse of the slope
 		leftX += leftM;
@@ -220,7 +208,7 @@ void CTriangle::Fill()
 {
 	// Sort the verts from top to bottom
 	CVertex2 v1(mV1), v2(mV2), v3(mV3);
-	v1.Ceil(); v2.Ceil(); v3.Ceil();
+	v1.Ceil(); v2.Ceil(); v3.Ceil();	// Prevent edge fighting
 	SortVertsY(v1, v2, v3);
 
 	if (CompareFloat(v1.point.y, v2.point.y))
@@ -264,7 +252,8 @@ CVertex2 CTriangle::GetSplitPoint(const CVertex2& v1, const CVertex2& v2, const 
 
 	// Interpolate along V1V3 to find where v2.x intersects
 	float t = (v2.point.y - v1.point.y) / (v3.point.y - v1.point.y);
-	v4.point.x = v1.point.x + t * (v3.point.x - v1.point.x);
+	v4.point.x = Lerp(v1.point.x, v3.point.x, t);
+	v4.z = Lerp(v1.z, v3.z, t);
 	v4.point.y = v2.point.y;
 
 	// Create a temp line to find the color at that intersection

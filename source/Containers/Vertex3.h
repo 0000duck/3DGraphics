@@ -13,9 +13,17 @@ struct CVertex3
 
 	inline CVertex3() {}
 	inline CVertex3(const CVector4& p, const CColor& c)
-		:	point(p), color(c) {}
+		:	point(p), color(c) 
+	{
+	}
 	inline CVertex3(const CVector3& p, const CColor& c)
-		:	point(p.x, p.y, p.z, 1.0f), color(c) {}
+		:	point(p.x, p.y, p.z, 1.0f), color(c) 
+	{
+	}
+	inline CVertex3(float x, float y, float z, const CColor& c)
+		:	point(x, y, z, 1.0f), color(c) 
+	{
+	}
 
 	friend bool operator==(const CVertex3& lhs, const CVertex3& rhs)
 	{

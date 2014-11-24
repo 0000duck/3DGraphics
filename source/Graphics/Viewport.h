@@ -19,16 +19,27 @@
 class CRect2;
 class CPrimitive;
 
+#define ZBUFF_DEFAULT UINT32_MAX
+//#define ZBUFF_DEFAULT FLT_MAX
+typedef FLOAT ZDEPTH;
+typedef UINT32 ZPRECISON;
 typedef std::vector<std::unique_ptr<CPrimitive>> PrimList;
 
 class Viewport : private NonCopyable
 {
 	// Constructor
 	Viewport();
+	~Viewport();
 
 public:
 	// Singleton accessor
 	static Viewport* Instance();
+
+	// Destroys the current instance of this class.
+	static void DestroyInstance();
+
+	// Resets all data members to default values
+	void Reset();
 
 	// Initializes the viewport to the rectangle described by the two points
 	void Set(const CVector2& topleft, const CVector2& btmright);
@@ -36,15 +47,18 @@ public:
 
 	void BackfaceCull(PrimList& primitives);
 
+	inline bool ZbufferEnabled() const { return mZBufferOn; }
+	void EnableZBuffer();
+	void DisableZBuffer();
+	bool CheckZDepth(const int x, const int y, const ZDEPTH z);
+	void WipeZBuffer();
+
 	// Draws the outline of the viewport
-	inline void EnableDrawing()				{ mDraw = true; }
+	inline void EnableDrawing()				{ mDraw = true; Draw(); }
 	inline void DisableDrawing()			{ mDraw = false; }
 
 	inline void EnableBackfaceCulling()		{ mBackfaceCull = true; }
 	inline void DisableBackfaceCulling()	{ mBackfaceCull = false; }
-
-	inline void EnableZBuffer()		{ mZBufferOn = true; }
-	inline void DisableZBuffer()	{ mZBufferOn = false; }
 
 	CRect2 GetViewport();
 	inline float GetAspectRatio() const						{ return mAspectRatio; }
@@ -62,8 +76,8 @@ private:
 	static Viewport* spInstance;
 
 	CVector2 mOrigin;		// Top left corner of the viewport (inits at 0,0)
-	float mWidth;			// Width of the viewport
-	float mHeight;			// Height of the viewport
+	int mWidth;				// Width of the viewport
+	int mHeight;			// Height of the viewport
 	float mAspectRatio;		// Computed aspect ratio of the viewport (width/height)
 
 	CMatrix44 mNDCToScreen; // Transformation from NDC coords to screen coords
@@ -71,8 +85,10 @@ private:
 	bool mDraw;				// Idicates if the viewport should be drawn.
 	bool mBackfaceCull;
 	bool mZBufferOn;
+	bool mZBufferIsset;		// Has the buffer been initialized
 
-	Array2<unsigned int> mZBuffer;
+	Array2<UINT32> mZBuffer;
+	//Array2<FLOAT> mZBuffer;
 };
 
 #endif // #ifndef INCLUDED_CAMERA_H

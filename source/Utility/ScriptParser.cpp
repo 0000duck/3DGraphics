@@ -2,16 +2,15 @@
 #include "ScriptParser.h"
 #include "CLog.h"
 #include "Commands/Commands.h"
-#include "Graphics\MatrixManager.h"
+#include "Graphics/MatrixManager.h"
+#include "Graphics/Viewport.h"
+#include "Graphics/Camera.h"
+#include "Graphics/Clipper.h"
+#include "Graphics/PrimManager.h"
+#include "Graphics/StateManager.h"
 
 CScriptParser::CScriptParser(void)
 {
-	//CLog::Create();
-
-	// Reset the transformation matrices each time the script is run
-	MatrixManager::Instance()->LoadIdentity2D();
-	MatrixManager::Instance()->LoadIdentity3D();
-
 	// Initialize dictionary
 
 	// Note: Keys values must be lowercase due to how the commands are compared.
@@ -27,6 +26,7 @@ CScriptParser::CScriptParser(void)
 	m_CommandDictionary.insert(std::make_pair(CString("showviewport"), new CCmdShowViewport));
 	m_CommandDictionary.insert(std::make_pair(CString("clip"), new CCmdClip));
 	m_CommandDictionary.insert(std::make_pair(CString("backfacecull"), new CCmdBackfaceCull));
+	m_CommandDictionary.insert(std::make_pair(CString("zbuffer"), new CCmdZBuffer));
 
 	m_CommandDictionary.insert(std::make_pair(CString("matrix2didentity"), new CCmdMatrix2DIdentity));
 	m_CommandDictionary.insert(std::make_pair(CString("matrix2dtranslate"), new CCmdMatrix2DTranslate));
@@ -53,6 +53,7 @@ CScriptParser::~CScriptParser(void)
 		delete m_CommandDictionary.begin()->second;
         m_CommandDictionary.erase(m_CommandDictionary.begin());
     }
+	m_CommandDictionary.clear();
 }
 
 // Split given input string into a string list, using given "splitString" as the separators
@@ -151,7 +152,8 @@ void CScriptParser::ExecuteScript()
 		CCmdCommand *command = CommandLookup(cmdLine.keyword);
 		if (command != NULL)
 		{
-			command->execute(cmdLine.params);
+ 			command->execute(cmdLine.params);
+			AIDebugPrint(L"Executing command: %S", cmdLine.keyword);
 		}
 	}
 }
