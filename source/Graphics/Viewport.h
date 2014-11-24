@@ -11,17 +11,10 @@
 #define INCLUDED_VIEWPORT_H
 #pragma once
 
-// Zbuffer specific macros
-#define ZBUFF32_PRECISION 8
-#define ZBUFF32_DEFAULT UINT32_MAX
-
-#define ZBUFF_PRECISION ZBUFF32_PRECISION
-#define ZBUFF_DEFAULT ZBUFF32_DEFAULT
-
 #include "Utility/NonCopyable.h"
 #include "Containers/Vector2.h"
 #include "Containers/Matrix44.h"
-#include "Containers/Array2.h"
+#include "Containers/ZBuffer.h"
 
 class CRect2;
 class CPrimitive;
@@ -50,11 +43,10 @@ public:
 
 	void BackfaceCull(PrimList& primitives);
 
-	inline bool ZbufferEnabled() const { return mZBufferOn; }
 	void EnableZBuffer();
 	void DisableZBuffer();
 	bool CheckZDepth(const int x, const int y, const FLOAT z);
-	void WipeZBuffer();
+	inline bool ZbufferEnabled() const { return mZBufferOn; }
 
 	// Draws the outline of the viewport
 	inline void EnableDrawing()				{ mDraw = true; Draw(); }
@@ -88,9 +80,8 @@ private:
 	bool mDraw;				// Idicates if the viewport should be drawn.
 	bool mBackfaceCull;
 	bool mZBufferOn;
-	bool mZBufferIsset;		// Has the buffer been initialized
 
-	Array2<UINT32> mZBuffer;
+	ZBuffer mZBuffer;
 };
 
 #endif // #ifndef INCLUDED_CAMERA_H

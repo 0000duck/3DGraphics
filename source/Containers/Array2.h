@@ -486,6 +486,7 @@ void Array2<T>::SetAll(const T& value)
 		}
 	}
 }
+// ------------------------------------------------------------------------
 
 template< class T >
 void Array2<T>::Set(std::size_t x, std::size_t y, const T& value)	

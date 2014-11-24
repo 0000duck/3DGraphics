@@ -155,6 +155,7 @@
     <ClCompile Include="..\..\source\Containers\Vector2.cpp" />
     <ClCompile Include="..\..\source\Containers\Vector3.cpp" />
     <ClCompile Include="..\..\source\Containers\Vector4.cpp" />
+    <ClCompile Include="..\..\source\Containers\ZBuffer.cpp" />
     <ClCompile Include="..\..\source\Framework\ChildFrm.cpp" />
     <ClCompile Include="..\..\source\Framework\CMGfx.cpp" />
     <ClCompile Include="..\..\source\Framework\CMGfxDoc.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="..\..\source\Containers\Vector4.h" />
     <ClInclude Include="..\..\source\Containers\Vertex2.h" />
     <ClInclude Include="..\..\source\Containers\Vertex3.h" />
+    <ClInclude Include="..\..\source\Containers\ZBuffer.h" />
     <ClInclude Include="..\..\source\Framework\ChildFrm.h" />
     <ClInclude Include="..\..\source\Framework\CMGfx.h" />
     <ClInclude Include="..\..\source\Framework\CMGfxDoc.h" />

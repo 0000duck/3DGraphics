@@ -217,6 +217,9 @@
     <ClCompile Include="..\..\source\Commands\CmdZBuffer.cpp">
       <Filter>Commands\Viewport</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\Containers\ZBuffer.cpp">
+      <Filter>Common\Containers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\resource.h">
@@ -419,6 +422,9 @@
     </ClInclude>
     <ClInclude Include="..\..\source\Commands\CmdZBuffer.h">
       <Filter>Commands\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Containers\ZBuffer.h">
+      <Filter>Common\Containers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -41,17 +41,13 @@ Viewport::Viewport()
 	,	mDraw(false)
 	,	mBackfaceCull(false)
 	,	mZBufferOn(false)
-	,	mZBufferIsset(false)
 {
 }
 // ------------------------------------------------------------------------------------------
 
 Viewport::~Viewport()
 {
-	if (mZBufferOn)
-	{
-		mZBuffer.Clear();
-	}
+	mZBuffer.Clear();
 }
 // ------------------------------------------------------------------------------------------
 
@@ -64,7 +60,6 @@ void Viewport::Reset()
 	mDraw = false;
 	mBackfaceCull = false;
 	mZBufferOn = false;
-	mZBufferIsset = false;
 
 	mNDCToScreen.Identity();
 	mZBuffer.Clear();
@@ -79,11 +74,9 @@ void Viewport::Set(const CVector2& topleft, const CVector2& btmright)
 	mAspectRatio = btmright.x / btmright.y;
 
 	// Init the zbuffer if it hasn't been already (depends on what order zbuffer cmd called)
-	if (mZBufferOn && !mZBufferIsset)
+	if (mZBufferOn)
 	{
-		mZBuffer.Clear();
-		mZBuffer.Resize(mWidth, mHeight, ZBUFF_DEFAULT);
-		mZBufferIsset = true;
+		mZBuffer.Init(mWidth, mHeight);
 	}
 
 	CreateNDCToScreenMatrix();
@@ -98,11 +91,9 @@ void Viewport::Set(float l, float t, float r, float b)
 	mAspectRatio = r / b;
 
 	// Init the zbuffer if it hasn't been already (depends on what order zbuffer cmd called)
-	if (mZBufferOn && !mZBufferIsset)
+	if (mZBufferOn)
 	{
-		mZBuffer.Clear();
-		mZBuffer.Resize(mWidth, mHeight, ZBUFF_DEFAULT);
-		mZBufferIsset = true;
+		mZBuffer.Init(mWidth, mHeight);
 	}
 
 	CreateNDCToScreenMatrix();
@@ -112,15 +103,13 @@ void Viewport::Set(float l, float t, float r, float b)
 void Viewport::EnableZBuffer()
 {
 	mZBufferOn = true;
-	if (!mZBufferIsset && mWidth > 0 && mHeight > 0)
+	if (!mZBuffer.Isset())
 	{
-		mZBuffer.Clear();
-		mZBuffer.Resize(mWidth, mHeight, ZBUFF_DEFAULT);
-		mZBufferIsset = true;
+		mZBuffer.Init(mWidth, mHeight);
 	}
 	else
 	{
-		WipeZBuffer();
+		mZBuffer.Wipe();
 	}
 }
 // ------------------------------------------------------------------------------------------
@@ -128,6 +117,7 @@ void Viewport::EnableZBuffer()
 void Viewport::DisableZBuffer()
 {
 	mZBufferOn = false;
+	mZBuffer.Clear();
 }
 // ------------------------------------------------------------------------------------------
 
@@ -137,22 +127,7 @@ bool Viewport::CheckZDepth(const int x, const int y, const FLOAT z)
 	if (x < mOrigin.x || y < mOrigin.y || x >= mWidth || y >= mHeight)
 		return false;
 
-	// Must be cast to an UINT32 since '1' defaults as signed.
-	UINT32 shift = (UINT32)(1 << (sizeof(int) * ZBUFF32_PRECISION));
-	UINT32 zi =  (UINT32)(shift * z);
-	if (zi < mZBuffer.Get(x, y))
-	{
-		// Update that index with the new value
-		mZBuffer.Set(x, y, zi);
-		return true;
-	}
-	return false;
-}
-// ------------------------------------------------------------------------------------------
-
-void Viewport::WipeZBuffer()
-{
-	mZBuffer.SetAll(ZBUFF_DEFAULT);
+	return mZBuffer.CompareAndSet(x, y, z);
 }
 // ------------------------------------------------------------------------------------------
 
