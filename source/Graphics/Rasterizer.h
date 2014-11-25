@@ -56,48 +56,4 @@ inline static void DrawVertex_Z(const int x, const int y, const float z, const C
 	CRasterizer::Instance()->DrawVertex_ZEnabled(x, y, z, color); 
 }
 
-//struct IDrawMode
-//{
-//	virtual void operator()(const CVertex2& vert) = 0;
-//	virtual void operator()(const int x, const int y, const float z, const CColor& color) = 0;
-//};
-//
-//// Calls Drawvertex as it normally would
-//struct DrawDefault : public IDrawMode
-//{
-//	inline virtual void operator()(const CVertex2& vert) override
-//	{ 
-//		CRasterizer::Instance()->DrawVertex(vert);
-//	}
-//	inline virtual void operator()(const int x, const int y, const float z, const CColor& color) override
-//	{ 
-//		CRasterizer::Instance()->DrawVertex(x, y, color);
-//	}
-//};
-//
-//// Used for iterating over y
-//struct DrawSwapXY : public IDrawMode
-//{
-//	inline virtual void operator()(const CVertex2& vert) override
-//	{ 
-//		CRasterizer::Instance()->DrawVertex(vert.point.y, vert.point.x, vert.color);
-//	}
-//	inline virtual void operator()(const int x, const int y, const float z, const CColor& color) override
-//	{ 
-//		CRasterizer::Instance()->DrawVertex(y, x, color);
-//	}
-//};
-//
-//struct DrawZEnabled : public IDrawMode
-//{
-//	inline virtual void operator()(const CVertex2& vert) override
-//	{ 
-//		CRasterizer::Instance()->DrawVertex_ZEnabled(vert);
-//	}
-//	inline virtual void operator()(const int x, const int y, const float z, const CColor& color) override
-//	{ 
-//		CRasterizer::Instance()->DrawVertex_ZEnabled(x, y, z, color);
-//	}
-//};
-
 #endif // __RASTERIZER_H__

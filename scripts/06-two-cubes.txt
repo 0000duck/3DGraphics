@@ -11,7 +11,7 @@ cameraFar 1000.0
 
 fillmode fill
 
-//matrix3DRotate 0 1 0
+matrix3DRotate 0 1 0
 
 color 1 0 0
 drawbegin triangle
