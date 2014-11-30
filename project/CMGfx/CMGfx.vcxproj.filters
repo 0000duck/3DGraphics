@@ -47,6 +47,12 @@
     <Filter Include="Commands\Camera">
       <UniqueIdentifier>{7f443ea1-0223-4622-8703-3f482b6d3e51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commands\Lighting">
+      <UniqueIdentifier>{7cc86205-fa09-4045-9287-74f9d203a316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Lighting">
+      <UniqueIdentifier>{3053bd3e-a2e4-4c6e-8743-8c7b20aca86a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\stdafx.cpp">
@@ -219,6 +225,18 @@
     </ClCompile>
     <ClCompile Include="..\..\source\Containers\ZBuffer.cpp">
       <Filter>Common\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Lighting\DirectionalLight.cpp">
+      <Filter>Common\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Lighting\PointLight.cpp">
+      <Filter>Common\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Lighting\SpotLight.cpp">
+      <Filter>Common\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Graphics\LightManager.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -425,6 +443,21 @@
     </ClInclude>
     <ClInclude Include="..\..\source\Containers\ZBuffer.h">
       <Filter>Common\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Lighting\Light.h">
+      <Filter>Common\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Lighting\DirectionalLight.h">
+      <Filter>Common\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Lighting\PointLight.h">
+      <Filter>Common\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Lighting\SpotLight.h">
+      <Filter>Common\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Graphics\LightManager.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -425,6 +425,7 @@ void FastDrawLine(const CVertex2& from, const CVertex2& to)
 		}
 	}
 }
+// ------------------------------------------------------------------------------------------
 
 void DrawLine(const CVertex2& from, const CVertex2& to)
 {
