@@ -12,6 +12,7 @@
 #include "Containers/Vertex2.h"
 #include "Containers/Vector3.h"
 #include "PrimitiveTypes.h"
+#include "FillModes.h"
 #include <vector>
 
 class CMatrix33;
@@ -46,7 +47,7 @@ public:
 	virtual CVector3 ComputeNormal() { AIASSERT(false, "Invoked bas class definition"); return CVector3(); }
 
 	// The primitive's draw logic
-	virtual void Draw() = 0;
+	virtual void Draw(FillMode::Mode mode) = 0;
 
 	// Transforms all the verticies by the transformation matrix
 	virtual void Transform(const CMatrix33& tm) = 0;

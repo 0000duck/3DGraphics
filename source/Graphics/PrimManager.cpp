@@ -2,13 +2,15 @@
 #include "PrimManager.h"
 #include "Primitives/Line.h"
 #include "Primitives/Triangle.h"
-#include "Clipper.h"
-#include "MatrixManager.h"
+#include "Primitives/FillModes.h"
 #include "Containers/Matrix33.h"
 #include "Containers/Vertex3.h"
+#include "Utility/Transforms.h"
+#include "StateManager.h"
+#include "Clipper.h"
+#include "MatrixManager.h"
 #include "Camera.h"
 #include "Viewport.h"
-#include "Utility/Transforms.h"
 #include <algorithm>
 
 // static singleton member initialization
@@ -272,13 +274,13 @@ void PrimManager::DrawAll()
 
 	DepthSort();
 
-	PrimList::iterator it = mPrimitiveList.begin();
-	for (it; it != mPrimitiveList.end(); ++it)
+	FillMode::Mode fmode = StateManager::Instance()->GetFillMode();
+	for (auto &it : mPrimitiveList)
 	{
-		if ((*it)->IsValid())
+		if (it->IsValid())
 		{
 			// Draw the primitive
-			(*it)->Draw();
+			it->Draw(fmode);
 		}
 	}
 

@@ -19,7 +19,7 @@ class CTriangle : public CPrimitive
 {
 public:
 	// Number of verticies required for this primitive
-	static const int kVerts = 3;
+	static const int MaxVerts = 3;
 
 	CTriangle();
 	CTriangle(const CTriangle& rhs);
@@ -30,7 +30,7 @@ public:
 	virtual void AddVertex(const CVertex2& vert);
 	virtual const int VertexCount() const;
 	virtual const int MaxVerticies() const;
-	virtual void Draw();
+	virtual void Draw(FillMode::Mode mode);
 	virtual CVector2 GetPivot();
 	virtual float GetZDepth();
 	virtual void Transform(const CMatrix33& tm);

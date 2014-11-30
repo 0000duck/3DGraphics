@@ -40,7 +40,7 @@ CTriangle& CTriangle::operator=(const CTriangle& rhs)
 bool CTriangle::IsValid() const
 {
 	// Check that we have the correct number of verticies
-	if (mVertIndex != kVerts)
+	if (mVertIndex != MaxVerts)
 	{
 		return false;
 	}
@@ -61,7 +61,7 @@ bool CTriangle::IsValid() const
 
 void CTriangle::AddVertex(const CVertex2& vert)
 {
-	AIASSERT(mVertIndex < kVerts, "All verticies already defined");
+	AIASSERT(mVertIndex < MaxVerts, "All verticies already defined");
 	switch (mVertIndex++)
 	{
 	case 0:
@@ -85,7 +85,7 @@ const int CTriangle::VertexCount() const
 
 const int CTriangle::MaxVerticies() const
 {
-	return kVerts;
+	return MaxVerts;
 }
 // ------------------------------------------------------------------------------------------
 
@@ -132,10 +132,9 @@ CVector3 CTriangle::ComputeNormal()
 }
 // ------------------------------------------------------------------------------------------
 
-void CTriangle::Draw()
+void CTriangle::Draw(FillMode::Mode mode)
 {
-	FillMode::Mode fMode = StateManager::Instance()->GetFillMode();
-	switch (fMode)
+	switch (mode)
 	{
 	case FillMode::Point:
 		DrawPoints();
@@ -180,7 +179,7 @@ void CTriangle::DrawSection(const CLine& left, const CLine& right)
 	float leftX = left.mFrom.point.x;
 	float rightX = right.mFrom.point.x;
 
-	float divisor = CalcTimeDivisor(y1, y2);
+	float divisor = CalcTimeDivisor(left.mFrom.point.y, left.mTo.point.y);
 	for (int y=y1; y < y2; ++y)
 	{
 		float t = (y - y1) * divisor;
@@ -190,12 +189,12 @@ void CTriangle::DrawSection(const CLine& left, const CLine& right)
 		// Draw the horizontal span between the two points
 		if (zEnabled)
 		{
-			DrawHorizontalLine_Z(leftX, rightX, y, leftZ, rightZ, left.GetColorAtY(y), right.GetColorAtY(y));
+			DrawHorizontalLine_Z(leftX, rightX, (float)y, leftZ, rightZ, left.GetColorAtY(y), right.GetColorAtY(y));
 		}
 		else
 		{
 			// No need for depth checks
-			DrawHorizontalLine(leftX, rightX, y, left.GetColorAtY(y), right.GetColorAtY(y));
+			DrawHorizontalLine(leftX, rightX, (float)y, left.GetColorAtY(y), right.GetColorAtY(y));
 		}
 
 		// Increment by the inverse of the slope
@@ -267,7 +266,7 @@ CVertex2 CTriangle::GetSplitPoint(const CVertex2& v1, const CVertex2& v2, const 
 
 void CTriangle::SortVertsY(CVertex2& p1, CVertex2& p2, CVertex2& p3)
 {
-	AIASSERT(mVertIndex == kVerts, "Not all verticies defined");
+	AIASSERT(mVertIndex == MaxVerts, "Not all verticies defined");
 
 	if (p1.point.y > p2.point.y) std::swap(p1, p2);
 	if (p1.point.y > p3.point.y) std::swap(p1, p3);

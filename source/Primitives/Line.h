@@ -21,7 +21,7 @@ class CLine : public CPrimitive
 {
 public:
 	// Number of verticies required for this primitive
-	static const int kVerts = 2;
+	static const int MaxVerts = 2;
 
 	// Constructors
 	CLine();
@@ -36,13 +36,12 @@ public:
 	virtual void AddVertex(const CVertex2& vert);
 	virtual const int VertexCount() const;
 	virtual const int MaxVerticies() const;
-	virtual void Draw();
+	virtual void Draw(FillMode::Mode mode);
 	virtual CVector2 GetPivot();
 	virtual float GetZDepth();
 	virtual void Transform(const CMatrix33& tm);
 
 	void SetVerts(const CVertex2& v1, const CVertex2& v2);
-	void DrawLine(const int from, const int to);
 	void DrawHorizontal();
 	void DrawVertical();
 
@@ -56,7 +55,7 @@ public:
 	bool IsHorizontal() const;
 
 protected:
-	virtual void DrawSolid();	// Called when fill mode is line
+	virtual void DrawSolid();	// Called when fill mode is line or fill
 	virtual void DrawPoints();	// Called when fill mode is point
 
 public:
@@ -70,32 +69,27 @@ public:
 // Extern Helpers
 //====================================================================================================
 
+bool IsVertical(const CVector2& from, const CVector2& to);
+bool IsHorizontal(const CVector2& from, const CVector2& to);
+
 float GetYIntercept(const CVector2& from, const float slope);
-float GetYIntercept(const CVertex2& from, const float slope);
 float GetYIntercept(const int fromX, const int fromY, const float slope);
 
 float CalcSlope(const CVector2& from, const CVector2& to);
-float CalcSlope(const CVertex2& from, const CVertex2& to);
 float CalcInvSlope(const CVector2& from, const CVector2& to);
-float CalcInvSlope(const CVertex2& from, const CVertex2& to);
 
-void DrawLine(const CLine& line);
+void FastDrawLine(const CVertex2& from, const CVertex2& to);
 void DrawLine(const CVertex2& from, const CVertex2& to);
 void DrawLine(const CVector2& from, const CVector2& to, const CColor& cfrom, const CColor& cto);
-void DrawLine(int x1, int y1, int x2, int y2, const CColor& c1, const CColor& c2);
-void DrawLinef(float x1, float y1, float x2, float y2, const CColor& c1, const CColor& c2);
-
-//void DrawStraightLine(const float from, const float to, const float axis, const CColor& cfrom, const CColor& cto, IDrawMode& drawpoint=DrawDefault());
-//void DrawStraightLine_ZEnabled(const float from, const float to, const float axis, const float z1, const float z2, const CColor& cfrom, const CColor& cto);
 
 void DrawHorizontalLine(const CVertex2& from, const CVertex2& to);
-void DrawHorizontalLine(const float fromX, const float toX, const float y, const CColor& cfrom, const CColor& cto);
+void DrawHorizontalLine(float fromX, float toX, float y, const CColor& cfrom, const CColor& cto);
 void DrawVerticalLine(const CVertex2& from, const CVertex2& to);
-void DrawVerticalLine(const float fromY, const float toY, const float x, const CColor& cfrom, const CColor& cto);
+void DrawVerticalLine(float fromY, float toY, float x, const CColor& cfrom, const CColor& cto);
 
 void DrawHorizontalLine_Z(const CVertex2& from, const CVertex2& to);
-void DrawHorizontalLine_Z(const float fromX, const float toX, const float y, const float z1, const float z2, const CColor& cfrom, const CColor& cto);
+void DrawHorizontalLine_Z(float fromX, float toX, float y, float z1, float z2, const CColor& cfrom, const CColor& cto);
 void DrawVerticalLine_Z(const CVertex2& from, const CVertex2& to);
-void DrawVerticalLine_Z(const float fromY, const float toY, const float x, const float z1, const float z2, const CColor& cfrom, const CColor& cto);
+void DrawVerticalLine_Z(float fromY, float toY, float x, float z1, float z2, const CColor& cfrom, const CColor& cto);
 
 #endif

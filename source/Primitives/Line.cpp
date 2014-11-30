@@ -66,7 +66,7 @@ CLine& CLine::operator=(const CLine& rhs)
 bool CLine::IsValid() const
 {
 	// Check that we have the correct number of verticies
-	if (mVertCount != kVerts)
+	if (mVertCount != MaxVerts)
 	{
 		return false;
 	}
@@ -81,7 +81,7 @@ void CLine::AddVertex(const CVertex2& vert)
 		mFrom = vert;
 		mVertCount++;
 	}
-	else if (mVertCount > 0 && mVertCount < kVerts)
+	else if (mVertCount > 0 && mVertCount < MaxVerts)
 	{
 		mTo = vert;
 		mVertCount++;
@@ -100,7 +100,7 @@ const int CLine::VertexCount() const
 
 const int CLine::MaxVerticies() const
 {
-	return kVerts;
+	return MaxVerts;
 }
 // ------------------------------------------------------------------------------------------
 
@@ -140,67 +140,22 @@ void CLine::SetVerts(const CVertex2& v1, const CVertex2& v2)
 }
 // ------------------------------------------------------------------------------------------
 
-void CLine::Draw()
+void CLine::Draw(FillMode::Mode mode)
 {
-	FillMode::Mode fMode = StateManager::Instance()->GetFillMode();
-	switch (fMode)
+	if (mode == FillMode::Point)
 	{
-	case FillMode::Point:
 		DrawPoints();
-		break;
-	case FillMode::Line:
-	case FillMode::Fill:
-		{
-		if (IsVertical()) DrawVertical();
-		else if (IsHorizontal()) DrawHorizontal();
-		else DrawSolid();
-		}
-		break;
+	}
+	else if (mode == FillMode::Line || mode == FillMode::Fill)
+	{
+		DrawLine(mFrom, mTo);
 	}
 }
 // ------------------------------------------------------------------------------------------
 
 void CLine::DrawSolid()
 {
-	// Get slope and y intercept
-	float m = CalcSlope();
-	float b = GetYIntercept(mFrom, m);;
-
-	// Only iterate over x for slopes between 0 and 1
-	if (abs(m) > 1)
-	{
-		const int y1 = RoundPixel(mFrom.point.y);
-		const int y2 = RoundPixel(mTo.point.y);
-		DrawLine(y1, y2, CalcXIntercept(m, b));
-	}
-	else
-	{
-		const int x1 = RoundPixel(mFrom.point.x);
-		const int x2 = RoundPixel(mTo.point.x);
-		DrawLine(x1, x2, CalcYIntercept(m, b));
-	}
-}
-// ------------------------------------------------------------------------------------------
-
-void CLine::DrawLine(const int _from, const int _to, IInterceptFunctor& getIntercept)
-{
-	// Cache time divisor so we can use multiplication
-	float divisor = CalcTimeDivisor((float)_from, (float)_to);
-
-	// Check if we need to increment in the positive or negative
-	int inc = (divisor < 0.0f) ? -1 : 1;
-
-	// Iterate over y pixels
-	for (int p1 = _from; p1 != _to; p1 += inc)
-	{
-		// Calculate the intercept
-		int p2 = getIntercept(p1);
-
-		// Calculate how far along the line we are and lerp the colors
-		float t = (p1 - _from) * divisor;
-		CColor pixelColor = LerpColor(mFrom.color, mTo.color, t);
-		getIntercept.DrawPixel(p1, p2, pixelColor);
-	}
+	DrawLine(mFrom, mTo);
 }
 // ------------------------------------------------------------------------------------------
 
@@ -225,13 +180,13 @@ void CLine::DrawPoints()
 
 float CLine::CalcSlope() const
 {
-	return ::CalcSlope(mFrom, mTo);
+	return ::CalcSlope(mFrom.point, mTo.point);
 }
 // ------------------------------------------------------------------------------------------
 
 float CLine::CalcInvSlope() const
 {
-	return ::CalcInvSlope(mFrom, mTo);
+	return ::CalcInvSlope(mFrom.point, mTo.point);
 }
 // ------------------------------------------------------------------------------------------
 
@@ -275,15 +230,20 @@ bool CLine::IsHorizontal() const
 // Helper definitions
 //====================================================================================================
 
-float GetYIntercept(const CVector2& from, const float slope)
+bool IsVertical(const CVector2& from, const CVector2& to)
 {
-	return (from.y - (slope * from.x));
+	return (RoundPixel(from.x) == RoundPixel(to.x));
 }
 // ------------------------------------------------------------------------------------------
 
-float GetYIntercept(const CVertex2& from, const float slope)
+bool IsHorizontal(const CVector2& from, const CVector2& to)
 {
-	return (from.point.y - (slope * from.point.x));
+	return (RoundPixel(from.y) == RoundPixel(to.y));
+}
+
+float GetYIntercept(const CVector2& from, const float slope)
+{
+	return (from.y - (slope * from.x));
 }
 // ------------------------------------------------------------------------------------------
 
@@ -306,12 +266,6 @@ float CalcSlope(const CVector2& from, const CVector2& to)
 }
 // ------------------------------------------------------------------------------------------
 
-float CalcSlope(const CVertex2& from, const CVertex2& to)
-{
-	return CalcSlope(from.point, to.point);
-}
-// ------------------------------------------------------------------------------------------
-
 float CalcInvSlope(const CVector2& from, const CVector2& to)
 {
 	float m = 0.0f;
@@ -325,19 +279,13 @@ float CalcInvSlope(const CVector2& from, const CVector2& to)
 }
 // ------------------------------------------------------------------------------------------
 
-float CalcInvSlope(const CVertex2& from, const CVertex2& to)
-{
-	return CalcInvSlope(from.point, to.point);
-}
-// ------------------------------------------------------------------------------------------
-
 void DrawHorizontalLine(const CVertex2& from, const CVertex2& to)
 {
 	DrawHorizontalLine(from.point.x, to.point.x, from.point.y, from.color, to.color);
 }
 // ------------------------------------------------------------------------------------------
 
-void DrawHorizontalLine(const float fromX, const float toX, const float y, const CColor& cfrom, const CColor& cto)
+void DrawHorizontalLine(float fromX, float toX, float y, const CColor& cfrom, const CColor& cto)
 {
 	const int _axis = RoundPixel(y);
 	const int _from = RoundPixel(fromX);
@@ -357,11 +305,11 @@ void DrawHorizontalLine(const float fromX, const float toX, const float y, const
 
 void DrawVerticalLine(const CVertex2& from, const CVertex2& to)
 {
-	DrawHorizontalLine(from.point.x, to.point.x, from.point.y, from.color, to.color);
+	DrawVerticalLine(from.point.y, to.point.y, from.point.x, from.color, to.color);
 }
 // ------------------------------------------------------------------------------------------
 
-void DrawVerticalLine(const float fromY, const float toY, const float x, const CColor& cfrom, const CColor& cto)
+void DrawVerticalLine(float fromY, float toY, float x, const CColor& cfrom, const CColor& cto)
 {
 	const int _axis = RoundPixel(x);
 	const int _from = RoundPixel(fromY);
@@ -385,7 +333,7 @@ void DrawHorizontalLine_Z(const CVertex2& from, const CVertex2& to)
 }
 // ------------------------------------------------------------------------------------------
 
-void DrawHorizontalLine_Z(const float fromX, const float toX, const float y, const float z1, const float z2, const CColor& cfrom, const CColor& cto)
+void DrawHorizontalLine_Z(float fromX, float toX, float y, float z1, float z2, const CColor& cfrom, const CColor& cto)
 {
 	const int _axis = RoundPixel(y);
 	const int _from = RoundPixel(fromX);
@@ -411,7 +359,7 @@ void DrawVerticalLine_Z(const CVertex2& from, const CVertex2& to)
 }
 // ------------------------------------------------------------------------------------------
 
-void DrawVerticalLine_Z(const float fromY, const float toY, const float x, const float z1, const float z2, const CColor& cfrom, const CColor& cto)
+void DrawVerticalLine_Z(float fromY, float toY, float x, float z1, float z2, const CColor& cfrom, const CColor& cto)
 {
 	const int _axis = RoundPixel(x);
 	const int _from = RoundPixel(fromY);
@@ -431,30 +379,72 @@ void DrawVerticalLine_Z(const float fromY, const float toY, const float x, const
 }
 // ------------------------------------------------------------------------------------------
 
+void FastDrawLine(const CVertex2& from, const CVertex2& to)
+{
+	// Get slope and y intercept
+	float m = CalcSlope(from.point, to.point);
+	float b = GetYIntercept(from.point, m);;
+
+	// Only iterate over x for slopes between 0 and 1
+	if (fabs(m) > 1.0f)
+	{
+		// Cache time divisor so we can use multiplication
+		float divisor = CalcTimeDivisor(from.point.y, to.point.y);
+		int inc = (divisor < 0.0f) ? -1 : 1;	// +/- direction
+
+		const int y1 = RoundPixel(from.point.y);
+		const int y2 = RoundPixel(to.point.y);
+
+		for (int y = y1; y != y2; y += inc)
+		{
+			int x = RoundPixel((y - b) / m);
+
+			// Calculate how far along the line we are and lerp the colors
+			float t = (y - y1) * divisor;
+			CColor pixelColor = LerpColor(from.color, to.color, t);
+			DrawVertex(x, y, pixelColor);
+		}
+	}
+	else
+	{
+		// Cache time divisor so we can use multiplication
+		float divisor = CalcTimeDivisor(from.point.x, to.point.x);
+		int inc = (divisor < 0.0f) ? -1 : 1;	// +/- direction
+
+		const int x1 = RoundPixel(from.point.x);
+		const int x2 = RoundPixel(to.point.x);
+
+		for (int x = x1; x != x2; x += inc)
+		{
+			int y = RoundPixel((m * x) + b);
+
+			// Calculate how far along the line we are and lerp the colors
+			float t = (x - x1) * divisor;
+			CColor pixelColor = LerpColor(from.color, to.color, t);
+			DrawVertex(x, y, pixelColor);
+		}
+	}
+}
+
 void DrawLine(const CVertex2& from, const CVertex2& to)
 {
-	CLine line(from, to);
-	line.Draw();
+	if (IsHorizontal(from.point, to.point))
+	{
+		DrawHorizontalLine(from, to);
+	}
+	else if (IsVertical(from.point, to.point))
+	{
+		DrawVerticalLine(from, to);
+	}
+	else
+	{
+		FastDrawLine(from, to);
+	}
 }
 // ------------------------------------------------------------------------------------------
 
 void DrawLine(const CVector2& from, const CVector2& to, 
 			  const CColor& cfrom, const CColor& cto)
 {
-	CLine line(from, to, cfrom, cto);
-	line.Draw();
-}
-// ------------------------------------------------------------------------------------------
-
-void DrawLine(int x1, int y1, int x2, int y2, 
-			  const CColor& c1, const CColor& c2)
-{
-	CLine line((float)x1, (float)y1, (float)x2, (float)y2, c1, c2);
-}
-// ------------------------------------------------------------------------------------------
-
-void DrawLinef(float x1, float y1, float x2, float y2, 
-			  const CColor& c1, const CColor& c2)
-{
-	CLine line(x1, y1, x2, y2, c1, c2);
+	DrawLine(CVertex2(from, cfrom), CVertex2(to, cto));
 }
