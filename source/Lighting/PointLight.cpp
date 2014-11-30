@@ -10,7 +10,7 @@ CPointLight::CPointLight(const CVector3& pos)
 	mPosition = pos;
 }
 
-CColor CPointLight::GetSurfaceColor(const CVector3& surfacePoint, const CVector3& viewerPos)
+CColor CPointLight::GetSurfaceColor(const SurfacePoint& sp, const CVector3& viewerPos)
 {
 	return CColor();
 }

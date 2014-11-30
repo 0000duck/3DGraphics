@@ -13,6 +13,17 @@
 #include "Containers/Color.h"
 #include "LightTypes.h"
 
+// This struct may get replaced when the details of the next assignment are given.
+struct SurfacePoint
+{
+	CVector3 position;
+	CVector3 normal;
+	CColor ambient;
+	CColor diffuse;
+	CColor specular;
+	CColor emissive;
+};
+
 class CLight
 {
 public:
@@ -21,7 +32,11 @@ public:
 	{
 	}
 
-	virtual CColor GetSurfaceColor(const CVector3& surfacePoint, const CVector3& viewerPos) = 0;
+	virtual CColor GetSurfaceColor(const SurfacePoint& sp, const CVector3& viewerPos) = 0;
+
+	void SetAmbient(const CColor& c)	{ mAmbient = c; }
+	void SetDiffuse(const CColor& c)	{ mDiffuse = c; }
+	void SetSpecular(const CColor& c)	{ mSpecular = c; }
 
 protected:
 	LightType::Type mType;

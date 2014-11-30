@@ -3,6 +3,7 @@
 #include "Lighting/DirectionalLight.h"
 #include "Lighting/PointLight.h"
 #include "Lighting/SpotLight.h"
+#include "Camera.h"
 
 // static singleton member initialization
 LightManager* LightManager::spInstance = nullptr;
@@ -69,7 +70,15 @@ void LightManager::Clear()
 
 CColor LightManager::GetSurfaceColor(const SurfacePoint& point)
 {
-	return CColor();	// stubbed
+	const CVector3& viewerpos = Camera::Instance()->GetLookFrom();
+	CColor color;
+	for (auto light : mLights)
+	{
+		// Get the sum of the intermediate per-light values from all the lights
+		color += light->GetSurfaceColor(point, viewerpos);
+	}
+	// Me + Wa * Ma + SumLights(Ca + Cd + Cs)
+	return ((mWorldAmbient * point.ambient) + point.emissive) + color;
 }
 // --------------------------------------------------------------------
 

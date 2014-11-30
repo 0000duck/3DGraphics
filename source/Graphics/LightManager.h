@@ -16,14 +16,6 @@
 #include "Lighting/Light.h"
 #include <vector>
 
-// This struct may get replaced when the details of the next assignment are given.
-struct SurfacePoint
-{
-	CVector3 position;
-	CVector3 normal;
-	CColor material;
-};
-
 class LightManager : private NonCopyable
 {
 	// Constructors

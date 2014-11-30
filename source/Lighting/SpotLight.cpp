@@ -13,7 +13,7 @@ CSpotLight::CSpotLight(const CVector3& pos, const CVector3& direction, float ang
 	mPosition = pos;
 }
 
-CColor CSpotLight::GetSurfaceColor(const CVector3& surfacePoint, const CVector3& viewerPos)
+CColor CSpotLight::GetSurfaceColor(const SurfacePoint& spt, const CVector3& viewerPos)
 {
 	return CColor();
 }
