@@ -11,16 +11,7 @@
 
 #include "Containers/Vector3.h"
 #include "Containers/Color.h"
-
-namespace LightType
-{
-	enum Type
-	{
-		Directional,
-		Point,
-		Spotlight
-	};
-}
+#include "LightTypes.h"
 
 class CLight
 {

@@ -60,6 +60,18 @@ const float MAX_COLOR = 1.0f;
 // Helper Functions
 //====================================================================================================
 
+// Cheeky alternative to: 'using std::literals::string_literals::operator"" s;'
+// since VS2012 doesn't support C++14 :(
+inline std::string S(const char* s) 
+{
+	return std::string(s);
+}
+
+inline std::wstring WS(const wchar_t* s) 
+{
+	return std::wstring(s);
+}
+
 inline float CalcTimeDivisor(float a, float b)
 {
 	float divisor = 0.0f;
