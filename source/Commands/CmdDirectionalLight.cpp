@@ -22,6 +22,9 @@ BOOL CCmdDirectionalLight::execute(CString &params)
 	CVector3 direction(args[0], args[1], args[2]);
 
 	CDirectionalLight* light = new CDirectionalLight(direction);
+	light->SetAmbient(LightManager::Instance()->GetAmbient());
+	light->SetDiffuse(LightManager::Instance()->GetDiffuse());
+	light->SetSpecular(LightManager::Instance()->GetSpecular());
 	LightManager::Instance()->AddLight(light);
 
 	return TRUE;

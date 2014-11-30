@@ -27,6 +27,10 @@ BOOL CCmdPointLight::execute(CString &params)
 	light->SetAttenLinear(LightManager::Instance()->GetAttenLinear());
 	light->SetAttenQuadratic(LightManager::Instance()->GetAttenQuadratic());
 
+	light->SetAmbient(LightManager::Instance()->GetAmbient());
+	light->SetDiffuse(LightManager::Instance()->GetDiffuse());
+	light->SetSpecular(LightManager::Instance()->GetSpecular());
+
 	LightManager::Instance()->AddLight(light);
 
 	return TRUE;
