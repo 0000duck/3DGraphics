@@ -184,6 +184,12 @@ CVector3 Cross(const CVector3& a, const CVector3& b)
 	return a.Cross(b);
 }
 
+CVector3 Reflect(const CVector3& v, const CVector3& normal)
+{
+	CVector3 temp = Dot(v, normal) * normal;
+	return CVector3(v - (2.0f * temp));
+}
+
 //-------------------------------------------------------------------------------
 // @ CVector3::operator==()
 //-------------------------------------------------------------------------------

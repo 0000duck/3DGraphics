@@ -56,6 +56,7 @@ public:
 	CVector3 Cross(const CVector3& vector) const;
 	friend CVector3 Cross(const CVector3& a, const CVector3& b);
 	inline CVector3 Inverse();
+	friend CVector3 Reflect(const CVector3& v, const CVector3& normal);
 
     // comparison
     bool operator==(const CVector3& other) const;
