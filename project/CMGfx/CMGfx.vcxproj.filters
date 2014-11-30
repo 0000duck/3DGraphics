@@ -178,12 +178,6 @@
     <ClCompile Include="..\..\source\Primitives\Primitive.cpp">
       <Filter>Common\Primitives</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\Primitives\PrimitiveTypes.cpp">
-      <Filter>Common\Primitives</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\Primitives\FillModes.cpp">
-      <Filter>Common\Primitives</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\Graphics\Clipper.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -237,6 +231,39 @@
     </ClCompile>
     <ClCompile Include="..\..\source\Graphics\LightManager.cpp">
       <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdWorldAmbient.cpp">
+      <Filter>Commands\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdLightAmbient.cpp">
+      <Filter>Commands\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdLightSpecular.cpp">
+      <Filter>Commands\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdLightDiffuse.cpp">
+      <Filter>Commands\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdAttenConstant.cpp">
+      <Filter>Commands\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdAttenQuadratic.cpp">
+      <Filter>Commands\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdAttenLinear.cpp">
+      <Filter>Commands\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdDirectionalLight.cpp">
+      <Filter>Commands\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdSpotLight.cpp">
+      <Filter>Commands\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdPointLight.cpp">
+      <Filter>Commands\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdClearLights.cpp">
+      <Filter>Commands\Lighting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -458,6 +485,42 @@
     </ClInclude>
     <ClInclude Include="..\..\source\Graphics\LightManager.h">
       <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdWorldAmbient.h">
+      <Filter>Commands\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Lighting\LightTypes.h">
+      <Filter>Common\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdLightAmbient.h">
+      <Filter>Commands\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdLightSpecular.h">
+      <Filter>Commands\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdLightDiffuse.h">
+      <Filter>Commands\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdAttenConstant.h">
+      <Filter>Commands\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdAttenQuadratic.h">
+      <Filter>Commands\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdAttenLinear.h">
+      <Filter>Commands\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdDirectionalLight.h">
+      <Filter>Commands\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdSpotLight.h">
+      <Filter>Commands\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdPointLight.h">
+      <Filter>Commands\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdClearLights.h">
+      <Filter>Commands\Lighting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -123,17 +123,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\source\Commands\CmdAttenConstant.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdAttenLinear.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdAttenQuadratic.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdBackfaceCull.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdCameraFar.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdCameraFOV.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdCameraNear.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdCameraPersp.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdClearLights.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdClip.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdColor.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdDirectionalLight.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdDrawBegin.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdDrawEnd.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdDrawPixel.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdFillMode.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdLightAmbient.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdLightDiffuse.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdLightSpecular.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdMatrix2DIdentity.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdMatrix2DRotate.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdMatrix2DScale.cpp" />
@@ -143,10 +151,13 @@
     <ClCompile Include="..\..\source\Commands\CmdMatrix3DRotate.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdMatrix3DScale.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdMatrix3DTranslate.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdPointLight.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdShowViewport.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdSpotLight.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdVertex2.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdVertex3.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdViewport.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdWorldAmbient.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdZBuffer.cpp" />
     <ClCompile Include="..\..\source\Containers\Matrix33.cpp" />
     <ClCompile Include="..\..\source\Containers\Matrix44.cpp" />
@@ -176,28 +187,34 @@
     <ClCompile Include="..\..\source\Lighting\DirectionalLight.cpp" />
     <ClCompile Include="..\..\source\Lighting\PointLight.cpp" />
     <ClCompile Include="..\..\source\Lighting\SpotLight.cpp" />
-    <ClCompile Include="..\..\source\Primitives\FillModes.cpp" />
     <ClCompile Include="..\..\source\Primitives\Line.cpp" />
     <ClCompile Include="..\..\source\Primitives\Primitive.cpp" />
-    <ClCompile Include="..\..\source\Primitives\PrimitiveTypes.cpp" />
     <ClCompile Include="..\..\source\Primitives\Triangle.cpp" />
     <ClCompile Include="..\..\source\stdafx.cpp" />
     <ClCompile Include="..\..\source\Utility\ScriptParser.cpp" />
     <ClCompile Include="..\..\source\Utility\Transforms.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\source\Commands\CmdAttenConstant.h" />
+    <ClInclude Include="..\..\source\Commands\CmdAttenLinear.h" />
+    <ClInclude Include="..\..\source\Commands\CmdAttenQuadratic.h" />
     <ClInclude Include="..\..\source\Commands\CmdBackfaceCull.h" />
     <ClInclude Include="..\..\source\Commands\CmdCameraFar.h" />
     <ClInclude Include="..\..\source\Commands\CmdCameraFOV.h" />
     <ClInclude Include="..\..\source\Commands\CmdCameraNear.h" />
     <ClInclude Include="..\..\source\Commands\CmdCameraPersp.h" />
+    <ClInclude Include="..\..\source\Commands\CmdClearLights.h" />
     <ClInclude Include="..\..\source\Commands\CmdClip.h" />
     <ClInclude Include="..\..\source\Commands\CmdColor.h" />
     <ClInclude Include="..\..\source\Commands\CmdCommand.h" />
+    <ClInclude Include="..\..\source\Commands\CmdDirectionalLight.h" />
     <ClInclude Include="..\..\source\Commands\CmdDrawBegin.h" />
     <ClInclude Include="..\..\source\Commands\CmdDrawEnd.h" />
     <ClInclude Include="..\..\source\Commands\CmdDrawPixel.h" />
     <ClInclude Include="..\..\source\Commands\CmdFillMode.h" />
+    <ClInclude Include="..\..\source\Commands\CmdLightAmbient.h" />
+    <ClInclude Include="..\..\source\Commands\CmdLightDiffuse.h" />
+    <ClInclude Include="..\..\source\Commands\CmdLightSpecular.h" />
     <ClInclude Include="..\..\source\Commands\CmdMatrix2DIdentity.h" />
     <ClInclude Include="..\..\source\Commands\CmdMatrix2DRotate.h" />
     <ClInclude Include="..\..\source\Commands\CmdMatrix2DScale.h" />
@@ -207,10 +224,13 @@
     <ClInclude Include="..\..\source\Commands\CmdMatrix3DRotate.h" />
     <ClInclude Include="..\..\source\Commands\CmdMatrix3DScale.h" />
     <ClInclude Include="..\..\source\Commands\CmdMatrix3DTranslate.h" />
+    <ClInclude Include="..\..\source\Commands\CmdPointLight.h" />
     <ClInclude Include="..\..\source\Commands\CmdShowViewport.h" />
+    <ClInclude Include="..\..\source\Commands\CmdSpotLight.h" />
     <ClInclude Include="..\..\source\Commands\CmdVertex2.h" />
     <ClInclude Include="..\..\source\Commands\CmdVertex3.h" />
     <ClInclude Include="..\..\source\Commands\CmdViewport.h" />
+    <ClInclude Include="..\..\source\Commands\CmdWorldAmbient.h" />
     <ClInclude Include="..\..\source\Commands\CmdZBuffer.h" />
     <ClInclude Include="..\..\source\Commands\Commands.h" />
     <ClInclude Include="..\..\source\Common.h" />
@@ -246,6 +266,7 @@
     <ClInclude Include="..\..\source\Graphics\Viewport.h" />
     <ClInclude Include="..\..\source\Lighting\DirectionalLight.h" />
     <ClInclude Include="..\..\source\Lighting\Light.h" />
+    <ClInclude Include="..\..\source\Lighting\LightTypes.h" />
     <ClInclude Include="..\..\source\Lighting\PointLight.h" />
     <ClInclude Include="..\..\source\Lighting\SpotLight.h" />
     <ClInclude Include="..\..\source\Primitives\FillModes.h" />
