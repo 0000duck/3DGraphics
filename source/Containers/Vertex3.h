@@ -23,8 +23,8 @@ struct CVertex3
 		:	point(p.x, p.y, p.z, 1.0f), color(c) 
 	{
 	}
-	inline CVertex3(const CVector3& p, const CColor& c, const CMaterial& mat)
-		:	point(p.x, p.y, p.z, 1.0f), color(c), material(mat)
+	inline CVertex3(const CVector3& p, const CColor& c, const CMaterial& mat, const CVector3& norm)
+		:	point(p.x, p.y, p.z, 1.0f), color(c), material(mat), normal(norm)
 	{
 	}
 	inline CVertex3(float x, float y, float z, const CColor& c)

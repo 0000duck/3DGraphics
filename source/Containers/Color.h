@@ -15,6 +15,11 @@ public:
 				r <= 1.0f && g <= 1.0f && b <= 1.0f);
 	}
 
+	friend CColor operator+( const CColor &lhs, const CColor &rhs )
+	{
+		return CColor( lhs.r + rhs.r, lhs.g + rhs.g, lhs.b + rhs.b );
+	}
+
 	CColor operator+( const CColor &other )
 	{
 		return CColor( r + other.r, g + other.g, b + other.b );

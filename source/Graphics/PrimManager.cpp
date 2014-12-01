@@ -112,6 +112,7 @@ void PrimManager::DisableReading()
 void PrimManager::SetCurrentNormal(const CVector3& norm)
 {
 	mCurrentNormal = norm;
+	mNormalInitialized = true;
 }
 // ------------------------------------------------------------------------------------------
 
@@ -238,7 +239,7 @@ void PrimManager::Apply3DTransformations()
 		{
 			// Gouraud lighting
 			CVector3 v3(v.x, v.y, v.z);		// convert point back to 3D components to get color
-			CVertex3 temp(v3, it->color, it->material);
+			CVertex3 temp(v3, it->color, it->material, it->normal);
 			CColor surfaceColor = LightManager::Instance()->GetSurfaceColor(temp);
 			it->color *= surfaceColor;
 		}

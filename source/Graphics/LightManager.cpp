@@ -78,7 +78,8 @@ CColor LightManager::GetSurfaceColor(const CVertex3& point)
 		color += light->GetSurfaceColor(point, viewerpos);
 	}
 	// Me + Wa * Ma + SumLights(Ca + Cd + Cs)
-	return ((mWorldAmbient * point.material.ambient) + point.material.emissive) + color;
+	//return ((mWorldAmbient * point.material.ambient) + point.material.emissive) + color;
+	return (point.material.ambient + point.material.emissive) + color;
 }
 // --------------------------------------------------------------------
 
