@@ -44,7 +44,10 @@ public:
 	virtual float GetZDepth() = 0;
 
 	// Returns the normal of the primitive
-	virtual CVector3 ComputeNormal() { AIASSERT(false, "Invoked bas class definition"); return CVector3(); }
+	virtual CVector3 ComputeNormal() = 0;
+
+	// Sets the normal of all the primitive's verticies to the normal passed in
+	virtual void SetVertexNormals(const CVector3& normal) = 0;
 
 	// The primitive's draw logic
 	virtual void Draw(FillMode::Mode mode) = 0;

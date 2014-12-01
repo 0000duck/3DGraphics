@@ -43,6 +43,8 @@ void PrimManager::DestroyInstance()
 PrimManager::PrimManager()
 	:	mpCurrentPrim(nullptr)
 	,	mReadingVerticies(false)
+	,	mCurrentNormal(0.0f, 0.1f, 0.0f)
+	,	mNormalInitialized(false)
 {
 }
 // ------------------------------------------------------------------------------------------
@@ -61,6 +63,13 @@ void PrimManager::AddPrimitive(std::unique_ptr<CPrimitive>& prim)
 	// Only set the current primitive if it is valid
 	if (prim->IsValid())
 	{
+		if (!mNormalInitialized)
+		{
+			// If the normal wasn't provided by the user, then we can compute it
+			// now that we have all the primitive's verticies.
+			prim->SetVertexNormals(prim->ComputeNormal());
+		}
+
 		// Obtain ownership over the primitive
 		mPrimitiveList.push_back(std::move(prim));
 	}
@@ -99,12 +108,50 @@ void PrimManager::DisableReading()
 }
 // ------------------------------------------------------------------------------------------
 
-void PrimManager::AddVertex(const CVertex3& vert)
+void PrimManager::SetCurrentNormal(const CVector3& norm)
+{
+	mCurrentNormal = norm;
+}
+// ------------------------------------------------------------------------------------------
+
+void PrimManager::SetMaterial(Material::Type type, const CColor& color)
+{
+	switch (type)
+	{
+	case Material::Ambient:
+		mCurrentMaterial.ambient = color;
+		break;
+	case Material::Diffuse:
+		mCurrentMaterial.diffuse = color;
+		break;
+	case Material::Specular:
+		mCurrentMaterial.specular = color;
+		break;
+	case Material::Emissive:
+		mCurrentMaterial.emissive = color;
+		break;
+	}
+}
+// ------------------------------------------------------------------------------------------
+
+void PrimManager::SetMaterialShine(float shine)
+{
+	mCurrentMaterial.shine = shine;
+}
+// ------------------------------------------------------------------------------------------
+
+void PrimManager::AddVertex(CVertex3& vert)
 {
 	if (mReadingVerticies)
 	{
+		if (mNormalInitialized)
+		{
+			// Set vert's normal to what was specified by user.
+			// If it wasn't provided, it will be calculated when all the verts are added
+			vert.normal = mCurrentNormal;
+		}
+		vert.material = mCurrentMaterial;
 		mVertList.push_back(vert);
-		//AddVertex(CVertex2(vert.point.x, vert.point.y, vert.color, vert.point.z));
 	}
 }
 // ------------------------------------------------------------------------------------------
@@ -114,7 +161,6 @@ void PrimManager::AddVertex(const CVertex2& vert)
 	if (mReadingVerticies && mpCurrentPrim)
 	{
 		mpCurrentPrim->AddVertex(vert);
-		//mVertList.push_back(CVertex3(vert.point.x, vert.point.y, vert.z, vert.color));
 
 		// Check that the primitive has room for more verticies
 		if (mpCurrentPrim->VertexCount() == mpCurrentPrim->MaxVerticies())
@@ -185,6 +231,8 @@ void PrimManager::Apply3DTransformations()
 	{
 		// Apply the transformation to the point
 		CVector4 v = modelView * it->point;
+
+		// Gouraud lighting is done here
 
 		// Project the point
 		v = projection * v;

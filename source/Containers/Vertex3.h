@@ -5,11 +5,14 @@
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Common.h"
+#include "Material.h"
 
 struct CVertex3
 {
 	CColor color;
 	CVector4 point;
+	CVector3 normal;
+	CMaterial material;
 
 	inline CVertex3() {}
 	inline CVertex3(const CVector4& p, const CColor& c)

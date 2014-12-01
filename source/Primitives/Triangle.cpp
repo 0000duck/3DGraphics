@@ -132,6 +132,14 @@ CVector3 CTriangle::ComputeNormal()
 }
 // ------------------------------------------------------------------------------------------
 
+void CTriangle::SetVertexNormals(const CVector3& normal)
+{
+	mV1.normal = normal;
+	mV2.normal = normal;
+	mV3.normal = normal;
+}
+// ------------------------------------------------------------------------------------------
+
 void CTriangle::Draw(FillMode::Mode mode)
 {
 	switch (mode)
@@ -186,15 +194,18 @@ void CTriangle::DrawSection(const CLine& left, const CLine& right)
 		float leftZ = Lerp(left.mFrom.z, left.mTo.z, t);
 		float rightZ = Lerp(right.mFrom.z, right.mTo.z, t);
 
+		CColor lc = left.GetColorAtY(y);
+		CColor rc = right.GetColorAtY(y);
+
 		// Draw the horizontal span between the two points
 		if (zEnabled)
 		{
-			DrawHorizontalLine_Z(leftX, rightX, (float)y, leftZ, rightZ, left.GetColorAtY(y), right.GetColorAtY(y));
+			DrawHorizontalLine_Z(leftX, rightX, (float)y, leftZ, rightZ, lc, rc);
 		}
 		else
 		{
 			// No need for depth checks
-			DrawHorizontalLine(leftX, rightX, (float)y, left.GetColorAtY(y), right.GetColorAtY(y));
+			DrawHorizontalLine(leftX, rightX, (float)y, lc, rc);
 		}
 
 		// Increment by the inverse of the slope

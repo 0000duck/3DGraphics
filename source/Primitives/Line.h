@@ -40,6 +40,8 @@ public:
 	virtual CVector2 GetPivot();
 	virtual float GetZDepth();
 	virtual void Transform(const CMatrix33& tm);
+	virtual CVector3 ComputeNormal();
+	virtual void SetVertexNormals(const CVector3& normal);
 
 	void SetVerts(const CVertex2& v1, const CVertex2& v2);
 	void DrawHorizontal();

@@ -13,6 +13,7 @@
 
 #include "Utility/NonCopyable.h"
 #include "Primitives/Primitive.h"
+#include "Material.h"
 #include <vector>
 #include <memory>
 
@@ -44,6 +45,13 @@ public:
 	// Enable/disable reading verticies into the current primitive
 	void EnableReading();
 	void DisableReading();
+
+	// Sets the current normal that read in verts take on
+	void SetCurrentNormal(const CVector3& norm);
+
+	void SetMaterial(Material::Type type, const CColor& color);
+	void SetMaterialShine(float shine);
+	const CMaterial& GetCurrentMaterial() const { return mCurrentMaterial; }
 	
 	// Add a vertex to the current primitive.
 	// If the current primitive has the max amount of verticies
@@ -51,7 +59,7 @@ public:
 	void AddVertex(const CVertex2& vert);
 
 	// New overloaded version to work with 3D verticies.
-	void AddVertex(const CVertex3& vert);
+	void AddVertex(CVertex3& vert);
 
 	// Clears the current primitive
 	void ClearPrimitive();
@@ -90,17 +98,13 @@ private:
 	// Static instance
 	static PrimManager* spInstance;
 	
-	// Current primitive being drawn
-	PrimPtr mpCurrentPrim;
-
-	// List of complete primitives to be drawn
-	PrimList mPrimitiveList;
-
-	// 3D verticies
-	VertList mVertList;
-
-	// When true, allow verticies to be added to the current primitive
-	bool mReadingVerticies;		
+	bool mReadingVerticies;		// Read in verts are added to current prim
+	PrimPtr mpCurrentPrim;		// Current primitive being drawn
+	PrimList mPrimitiveList;	// List of complete primitives to be drawn
+	VertList mVertList;			// 3D verticies
+	CVector3 mCurrentNormal;	// Normal of the verts being read in
+	bool mNormalInitialized;	// Normal was explicitly declared in script
+	CMaterial mCurrentMaterial;
 };
 
 #endif

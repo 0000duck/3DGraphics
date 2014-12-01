@@ -3,11 +3,14 @@
 
 #include "Color.h"
 #include "Vector2.h"
+#include "Material.h"
 
 struct CVertex2
 {
 	CColor color;
 	CVector2 point;
+	CVector3 normal;
+	CMaterial material;
 	float z;
 
 	CVertex2() {}

@@ -133,6 +133,22 @@ void CLine::Transform(const CMatrix33& tm)
 }
 // ------------------------------------------------------------------------------------------
 
+CVector3 CLine::ComputeNormal()
+{
+	float dx = mTo.point.x - mFrom.point.x;
+	float dy = mTo.point.y - mFrom.point.y;
+	CVector3 n1(-dy, dx, 0.0f), n2(dy, -dx, 0.0f);
+	return CVector3((n1 + n2) / 2.0f);
+}
+// ------------------------------------------------------------------------------------------
+
+void CLine::SetVertexNormals(const CVector3& normal)
+{
+	mFrom.normal = normal;
+	mTo.normal = normal;
+}
+// ------------------------------------------------------------------------------------------
+
 void CLine::SetVerts(const CVertex2& v1, const CVertex2& v2)
 {
 	mFrom = v1;

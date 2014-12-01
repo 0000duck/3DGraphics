@@ -35,6 +35,7 @@ public:
 	virtual float GetZDepth();
 	virtual void Transform(const CMatrix33& tm);
 	virtual CVector3 ComputeNormal();
+	virtual void SetVertexNormals(const CVector3& normal);
 
 	// Returns a vertex that intersects V1V3 on v2.y
 	CVertex2 GetSplitPoint(const CVertex2& v1, const CVertex2& v2, const CVertex2& v3);
