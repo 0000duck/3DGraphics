@@ -49,6 +49,13 @@ CScriptParser::CScriptParser(void)
 	m_CommandDictionary.insert(std::make_pair(CString("pointlight"), new CCmdPointLight));
 	m_CommandDictionary.insert(std::make_pair(CString("spotlight"), new CCmdSpotLight));
 	m_CommandDictionary.insert(std::make_pair(CString("clearlights"), new CCmdClearLights));
+
+	m_CommandDictionary.insert(std::make_pair(CString("normal"), new CCmdNormal));
+	m_CommandDictionary.insert(std::make_pair(CString("materialemissive"), new CCmdMaterialEmissive));
+	m_CommandDictionary.insert(std::make_pair(CString("materialambient"), new CCmdMaterialAmbient));
+	m_CommandDictionary.insert(std::make_pair(CString("materialdiffuse"), new CCmdMaterialDiffuse));
+	m_CommandDictionary.insert(std::make_pair(CString("materialspecular"), new CCmdMaterialSpecular));
+	m_CommandDictionary.insert(std::make_pair(CString("materialshininess"), new CCmdMaterialShininess));
 }
 
 CScriptParser::~CScriptParser(void)

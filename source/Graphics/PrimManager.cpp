@@ -11,6 +11,7 @@
 #include "MatrixManager.h"
 #include "Camera.h"
 #include "Viewport.h"
+#include "LightManager.h"
 #include <algorithm>
 
 // static singleton member initialization
@@ -226,13 +227,21 @@ void PrimManager::Apply3DTransformations()
 	// Note: since modelview is just an identity matrix we can just assign the transform directly.
 	CMatrix44 modelView = WTV * transform;
 
+	bool computeLighting = LightManager::Instance()->SceneHasLights();
 	VertList::iterator it = mVertList.begin();
 	for (it; it != mVertList.end(); ++it)
 	{
 		// Apply the transformation to the point
 		CVector4 v = modelView * it->point;
 
-		// Gouraud lighting is done here
+		if (computeLighting)
+		{
+			// Gouraud lighting
+			CVector3 v3(v.x, v.y, v.z);		// convert point back to 3D components to get color
+			CVertex3 temp(v3, it->color, it->material);
+			CColor surfaceColor = LightManager::Instance()->GetSurfaceColor(temp);
+			it->color *= surfaceColor;
+		}
 
 		// Project the point
 		v = projection * v;

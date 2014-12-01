@@ -44,6 +44,8 @@ public:
 	// Computes the color at the given surface point with the combined lighting equation
 	CColor GetSurfaceColor(const CVertex3& point);
 
+	bool SceneHasLights() const { return (mLights.size() > 0); }
+
 public:	// Mutators/Accessors
 	void SetMaterialColor(Material::Type mat, const CColor& color);
 	void SetAttenuation(LightType::Attenuation atten, float val);

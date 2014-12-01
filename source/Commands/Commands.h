@@ -56,4 +56,12 @@
 #include "CmdSpotLight.h"
 #include "CmdClearLights.h"
 
+// Shading
+#include "CmdNormal.h"
+#include "CmdMaterialAmbient.h"
+#include "CmdMaterialDiffuse.h"
+#include "CmdMaterialEmissive.h"
+#include "CmdMaterialShininess.h"
+#include "CmdMaterialSpecular.h"
+
 #endif
