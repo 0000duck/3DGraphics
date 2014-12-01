@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "DirectionalLight.h"
+#include "C:\Program Files (x86)\Visual Leak Detector\include\vld.h"
 
 CDirectionalLight::CDirectionalLight(const CVector3& direction)
 	:	CLight(LightType::Directional)

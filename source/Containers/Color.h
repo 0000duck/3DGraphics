@@ -6,7 +6,17 @@ class CColor
 public:
 	CColor() { r = g = b = 0.0f; }
 	CColor( const float rIn, const float gIn, const float bIn )
-		: r( rIn ), g( gIn ), b( bIn ) {}
+		: r( rIn ), g( gIn ), b( bIn )
+	{
+		Clamp();
+	}
+
+	void Clamp()
+	{
+		CLAMP(r, 0.0f, 1.0f);
+		CLAMP(g, 0.0f, 1.0f);
+		CLAMP(b, 0.0f, 1.0f);
+	}
 
 	bool IsValid() const
 	{
