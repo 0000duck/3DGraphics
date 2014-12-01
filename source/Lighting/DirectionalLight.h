@@ -17,6 +17,7 @@ public:
 	CDirectionalLight(const CVector3& direction);
 
 	virtual CColor GetSurfaceColor(const SurfacePoint& sp, const CVector3& viewerPos);
+	virtual float CalculateIntensity(const CVector3& sp);
 };
 
 #endif	// #ifndef INCLUDED_DIRECTIONALLIGHT_H

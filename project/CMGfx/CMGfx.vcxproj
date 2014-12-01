@@ -185,6 +185,7 @@
     <ClCompile Include="..\..\source\Graphics\StateManager.cpp" />
     <ClCompile Include="..\..\source\Graphics\Viewport.cpp" />
     <ClCompile Include="..\..\source\Lighting\DirectionalLight.cpp" />
+    <ClCompile Include="..\..\source\Lighting\Light.cpp" />
     <ClCompile Include="..\..\source\Lighting\PointLight.cpp" />
     <ClCompile Include="..\..\source\Lighting\SpotLight.cpp" />
     <ClCompile Include="..\..\source\Primitives\Line.cpp" />

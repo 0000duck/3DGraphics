@@ -27,19 +27,26 @@ struct SurfacePoint
 class CLight
 {
 public:
-	inline CLight(LightType::Type type)
-		:	mType(type)
-	{
-	}
+	CLight(const LightType::Type type);
 
+	// Computes the per-light part of the combined lighting equation
 	virtual CColor GetSurfaceColor(const SurfacePoint& sp, const CVector3& viewerPos) = 0;
 
+	// Mutators
 	void SetAmbient(const CColor& c)	{ mAmbient = c; }
 	void SetDiffuse(const CColor& c)	{ mDiffuse = c; }
 	void SetSpecular(const CColor& c)	{ mSpecular = c; }
 
 protected:
-	LightType::Type mType;
+	// Light type specific
+	virtual float CalculateIntensity(const CVector3& pointToLight) = 0;
+
+	virtual CColor ComputeAmbient(const float intensity, const CColor& spAmbient);
+	virtual CColor ComputeDiffuse(const float intensity, const CVector3& pToL, const SurfacePoint& sp);
+	virtual CColor ComputeSpecular(const float intensity, const CVector3& pToL, const CVector3& viewerPos, const SurfacePoint& sp);
+
+protected:
+	const LightType::Type mType;
 	CVector3 mPosition;
 	CColor mAmbient;
 	CColor mDiffuse;

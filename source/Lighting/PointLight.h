@@ -17,6 +17,7 @@ public:
 	CPointLight(const CVector3& pos);
 
 	virtual CColor GetSurfaceColor(const SurfacePoint& sp, const CVector3& viewerPos);
+	virtual float CalculateIntensity(const CVector3& sp);
 
 	inline void SetAttenConstant(float val)		{ mAttenConstant = val; }
 	inline void SetAttenLinear(float val)		{ mAttenLinear = val; }

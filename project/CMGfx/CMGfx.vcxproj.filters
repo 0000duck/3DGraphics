@@ -265,6 +265,9 @@
     <ClCompile Include="..\..\source\Commands\CmdClearLights.cpp">
       <Filter>Commands\Lighting</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\Lighting\Light.cpp">
+      <Filter>Common\Lighting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\resource.h">

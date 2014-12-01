@@ -17,6 +17,7 @@ public:
 	CSpotLight(const CVector3& pos, const CVector3& direction, float angle, float decay);
 
 	virtual CColor GetSurfaceColor(const SurfacePoint& sp, const CVector3& viewerPos);
+	virtual float CalculateIntensity(const CVector3& sp);
 
 	inline void SetAttenConstant(float val)		{ mAttenConstant = val; }
 	inline void SetAttenLinear(float val)		{ mAttenLinear = val; }
@@ -27,7 +28,7 @@ private:
 	float mAttenLinear;		// Linear attenuation
 	float mAttenQuadratic;	// Quadratic attenuation
 
-	float mAngle;			// Angle of the spotlight cone
+	float mAngle;			// Angle of the spotlight cone (rads)
 	float mDecay;			// Decay factor of brightness in center of cone to edge
 	CVector3 mDirection;	// Direction the light is facing
 };
