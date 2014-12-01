@@ -1,0 +1,50 @@
+viewport 10 10 400 300
+showviewport on
+clip on
+backfacecull on
+
+cameraPersp 0 0 3 0 0 -1
+cameraFOV 90
+cameraNear 0.1
+cameraFar 1000.0
+
+shadingmode phong
+
+lightAmbient 0.1 0.1 0.1
+lightDiffuse 0.9 0.9 0.9
+lightSpecular 1 1 1
+
+#attenConstant 0.5
+# attenLinear 0.05
+
+clearLights
+directionalLight 0 0 1
+spotLight 5 3 4 0 0 -1 60 1
+
+lightDiffuse .5 .5 .5
+pointLight -5 3 4
+
+#matrix3DRotate 0 0.01 0
+
+fillmode fill
+
+#color 1 1 0
+
+materialAmbient 0.1 0.1 0.1
+materialDiffuse 0.9 0.1 0.1
+materialSpecular 0.0 1.0 0.0
+materialShininess 10.0
+
+drawbegin triangle
+
+normal   0  0  1
+vertex3 -1  1  1
+vertex3 -1 -1  1
+vertex3  1 -1  1
+vertex3 -1  1  1
+vertex3  1 -1  1
+vertex3  1  1  1
+
+drawend
+
+
