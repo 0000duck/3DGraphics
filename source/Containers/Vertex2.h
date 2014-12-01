@@ -3,6 +3,7 @@
 
 #include "Color.h"
 #include "Vector2.h"
+#include "Vector3.h"
 #include "Material.h"
 
 struct CVertex2

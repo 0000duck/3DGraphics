@@ -53,6 +53,9 @@
     <Filter Include="Common\Lighting">
       <UniqueIdentifier>{3053bd3e-a2e4-4c6e-8743-8c7b20aca86a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commands\Shading">
+      <UniqueIdentifier>{94db81b5-053f-417e-adb8-e6919bed41be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\stdafx.cpp">
@@ -267,6 +270,24 @@
     </ClCompile>
     <ClCompile Include="..\..\source\Lighting\Light.cpp">
       <Filter>Common\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdNormal.cpp">
+      <Filter>Commands\Shading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdMaterialShininess.cpp">
+      <Filter>Commands\Shading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdMaterialSpecular.cpp">
+      <Filter>Commands\Shading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdMaterialDiffuse.cpp">
+      <Filter>Commands\Shading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdMaterialAmbient.cpp">
+      <Filter>Commands\Shading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdMaterialEmissive.cpp">
+      <Filter>Commands\Shading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -524,6 +545,27 @@
     </ClInclude>
     <ClInclude Include="..\..\source\Commands\CmdClearLights.h">
       <Filter>Commands\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdNormal.h">
+      <Filter>Commands\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Containers\Material.h">
+      <Filter>Common\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdMaterialShininess.h">
+      <Filter>Commands\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdMaterialSpecular.h">
+      <Filter>Commands\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdMaterialDiffuse.h">
+      <Filter>Commands\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdMaterialAmbient.h">
+      <Filter>Commands\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdMaterialEmissive.h">
+      <Filter>Commands\Shading</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

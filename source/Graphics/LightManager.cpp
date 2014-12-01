@@ -68,7 +68,7 @@ void LightManager::Clear()
 }
 // --------------------------------------------------------------------
 
-CColor LightManager::GetSurfaceColor(const SurfacePoint& point)
+CColor LightManager::GetSurfaceColor(const CVertex3& point)
 {
 	const CVector3& viewerpos = Camera::Instance()->GetLookFrom();
 	CColor color;
@@ -78,24 +78,24 @@ CColor LightManager::GetSurfaceColor(const SurfacePoint& point)
 		color += light->GetSurfaceColor(point, viewerpos);
 	}
 	// Me + Wa * Ma + SumLights(Ca + Cd + Cs)
-	return ((mWorldAmbient * point.ambient) + point.emissive) + color;
+	return ((mWorldAmbient * point.material.ambient) + point.material.emissive) + color;
 }
 // --------------------------------------------------------------------
 
-void LightManager::SetMaterialColor(LightType::Material mat, const CColor& color)
+void LightManager::SetMaterialColor(Material::Type mat, const CColor& color)
 {
 	switch (mat)
 	{
-	case LightType::WorldAmbient:
+	case Material::WorldAmbient:
 		mWorldAmbient = color;
 		break;
-	case LightType::Ambient:
+	case Material::Ambient:
 		mAmbient = color;
 		break;
-	case LightType::Diffuse:
+	case Material::Diffuse:
 		mDiffuse = color;
 		break;
-	case LightType::Specular:
+	case Material::Specular:
 		mSpecular = color;
 		break;
 	}

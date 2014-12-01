@@ -11,18 +11,8 @@
 
 #include "Containers/Vector3.h"
 #include "Containers/Color.h"
+#include "Containers/Vertex3.h"
 #include "LightTypes.h"
-
-// This struct may get replaced when the details of the next assignment are given.
-struct SurfacePoint
-{
-	CVector3 position;
-	CVector3 normal;
-	CColor ambient;
-	CColor diffuse;
-	CColor specular;
-	CColor emissive;
-};
 
 class CLight
 {
@@ -30,7 +20,7 @@ public:
 	CLight(const LightType::Type type);
 
 	// Computes the per-light part of the combined lighting equation
-	virtual CColor GetSurfaceColor(const SurfacePoint& sp, const CVector3& viewerPos) = 0;
+	virtual CColor GetSurfaceColor(const CVertex3& point, const CVector3& viewerPos) = 0;
 
 	// Mutators
 	void SetAmbient(const CColor& c)	{ mAmbient = c; }
@@ -42,8 +32,8 @@ protected:
 	virtual float CalculateIntensity(const CVector3& pointToLight) = 0;
 
 	virtual CColor ComputeAmbient(const float intensity, const CColor& spAmbient);
-	virtual CColor ComputeDiffuse(const float intensity, const CVector3& pToL, const SurfacePoint& sp);
-	virtual CColor ComputeSpecular(const float intensity, const CVector3& pToL, const CVector3& viewerPos, const SurfacePoint& sp);
+	virtual CColor ComputeDiffuse(const float intensity, const CVector3& pToL, const CVertex3& point);
+	virtual CColor ComputeSpecular(const float intensity, const CVector3& pToL, const CVector3& viewerPos, const CVertex3& point);
 
 protected:
 	const LightType::Type mType;

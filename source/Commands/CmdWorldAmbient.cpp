@@ -23,7 +23,7 @@ BOOL CCmdWorldAmbient::execute(CString &params)
 
 	if (color.IsValid())
 	{
-		LightManager::Instance()->SetMaterialColor(LightType::WorldAmbient, color);
+		LightManager::Instance()->SetMaterialColor(Material::WorldAmbient, color);
 	}
 
 	return TRUE;

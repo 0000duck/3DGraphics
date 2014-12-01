@@ -23,7 +23,7 @@ BOOL CCmdLightDiffuse::execute(CString &params)
 
 	if (color.IsValid())
 	{
-		LightManager::Instance()->SetMaterialColor(LightType::Diffuse, color);
+		LightManager::Instance()->SetMaterialColor(Material::Diffuse, color);
 	}
 
 	return TRUE;

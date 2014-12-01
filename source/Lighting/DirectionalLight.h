@@ -16,7 +16,7 @@ class CDirectionalLight : public CLight
 public:
 	CDirectionalLight(const CVector3& direction);
 
-	virtual CColor GetSurfaceColor(const SurfacePoint& sp, const CVector3& viewerPos);
+	virtual CColor GetSurfaceColor(const CVertex3& point, const CVector3& viewerPos);
 	virtual float CalculateIntensity(const CVector3& sp);
 };
 

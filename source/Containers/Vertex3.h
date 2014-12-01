@@ -28,6 +28,8 @@ struct CVertex3
 	{
 	}
 
+	inline CVector3 Get3DPoint() const { return CVector3(point.x, point.y, point.z); }
+
 	friend bool operator==(const CVertex3& lhs, const CVertex3& rhs)
 	{
 		if (lhs.point.x == rhs.point.x &&

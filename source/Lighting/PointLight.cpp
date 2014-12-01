@@ -20,12 +20,12 @@ float CPointLight::CalculateIntensity(const CVector3& sp)
 }
 // ------------------------------------------------------------------------------------------
 
-CColor CPointLight::GetSurfaceColor(const SurfacePoint& sp, const CVector3& viewerPos)
+CColor CPointLight::GetSurfaceColor(const CVertex3& sp, const CVector3& viewerPos)
 {
-	float intensity = CalculateIntensity(sp.position);
+	float intensity = CalculateIntensity(sp.Get3DPoint());
 
-	CVector3 pointToLight = Normalize(mPosition - sp.position);
-	CColor ambient = ComputeAmbient(intensity, sp.ambient);
+	CVector3 pointToLight = Normalize(mPosition - sp.Get3DPoint());
+	CColor ambient = ComputeAmbient(intensity, sp.material.ambient);
 	CColor diffuse = ComputeDiffuse(intensity, pointToLight, sp);
 	CColor specular = ComputeSpecular(intensity, pointToLight,  viewerPos, sp);
 

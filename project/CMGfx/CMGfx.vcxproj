@@ -142,6 +142,11 @@
     <ClCompile Include="..\..\source\Commands\CmdLightAmbient.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdLightDiffuse.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdLightSpecular.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdMaterialAmbient.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdMaterialDiffuse.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdMaterialEmissive.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdMaterialShininess.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdMaterialSpecular.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdMatrix2DIdentity.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdMatrix2DRotate.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdMatrix2DScale.cpp" />
@@ -151,6 +156,7 @@
     <ClCompile Include="..\..\source\Commands\CmdMatrix3DRotate.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdMatrix3DScale.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdMatrix3DTranslate.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdNormal.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdPointLight.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdShowViewport.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdSpotLight.cpp" />
@@ -216,6 +222,11 @@
     <ClInclude Include="..\..\source\Commands\CmdLightAmbient.h" />
     <ClInclude Include="..\..\source\Commands\CmdLightDiffuse.h" />
     <ClInclude Include="..\..\source\Commands\CmdLightSpecular.h" />
+    <ClInclude Include="..\..\source\Commands\CmdMaterialAmbient.h" />
+    <ClInclude Include="..\..\source\Commands\CmdMaterialDiffuse.h" />
+    <ClInclude Include="..\..\source\Commands\CmdMaterialEmissive.h" />
+    <ClInclude Include="..\..\source\Commands\CmdMaterialShininess.h" />
+    <ClInclude Include="..\..\source\Commands\CmdMaterialSpecular.h" />
     <ClInclude Include="..\..\source\Commands\CmdMatrix2DIdentity.h" />
     <ClInclude Include="..\..\source\Commands\CmdMatrix2DRotate.h" />
     <ClInclude Include="..\..\source\Commands\CmdMatrix2DScale.h" />
@@ -225,6 +236,7 @@
     <ClInclude Include="..\..\source\Commands\CmdMatrix3DRotate.h" />
     <ClInclude Include="..\..\source\Commands\CmdMatrix3DScale.h" />
     <ClInclude Include="..\..\source\Commands\CmdMatrix3DTranslate.h" />
+    <ClInclude Include="..\..\source\Commands\CmdNormal.h" />
     <ClInclude Include="..\..\source\Commands\CmdPointLight.h" />
     <ClInclude Include="..\..\source\Commands\CmdShowViewport.h" />
     <ClInclude Include="..\..\source\Commands\CmdSpotLight.h" />
@@ -237,6 +249,7 @@
     <ClInclude Include="..\..\source\Common.h" />
     <ClInclude Include="..\..\source\Containers\Array2.h" />
     <ClInclude Include="..\..\source\Containers\Color.h" />
+    <ClInclude Include="..\..\source\Containers\Material.h" />
     <ClInclude Include="..\..\source\Containers\Matrix33.h" />
     <ClInclude Include="..\..\source\Containers\Matrix44.h" />
     <ClInclude Include="..\..\source\Containers\Plane2.h" />

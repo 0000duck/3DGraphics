@@ -23,13 +23,13 @@ enum Type
 	Spotlight
 };
 
-enum Material
-{
-	WorldAmbient,
-	Ambient,
-	Diffuse,
-	Specular
-};
+//enum Material
+//{
+//	WorldAmbient,
+//	Ambient,
+//	Diffuse,
+//	Specular
+//};
 
 enum Attenuation
 {

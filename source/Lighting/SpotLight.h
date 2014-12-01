@@ -16,7 +16,7 @@ class CSpotLight : public CLight
 public:
 	CSpotLight(const CVector3& pos, const CVector3& direction, float angle, float decay);
 
-	virtual CColor GetSurfaceColor(const SurfacePoint& sp, const CVector3& viewerPos);
+	virtual CColor GetSurfaceColor(const CVertex3& point, const CVector3& viewerPos);
 	virtual float CalculateIntensity(const CVector3& sp);
 
 	inline void SetAttenConstant(float val)		{ mAttenConstant = val; }

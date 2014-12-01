@@ -13,6 +13,7 @@
 
 #include "Utility/NonCopyable.h"
 #include "Containers/Color.h"
+#include "Containers/Material.h"
 #include "Lighting/Light.h"
 #include <vector>
 
@@ -41,10 +42,10 @@ public:
 	void Clear();
 
 	// Computes the color at the given surface point with the combined lighting equation
-	CColor GetSurfaceColor(const SurfacePoint& point);
+	CColor GetSurfaceColor(const CVertex3& point);
 
 public:	// Mutators/Accessors
-	void SetMaterialColor(LightType::Material mat, const CColor& color);
+	void SetMaterialColor(Material::Type mat, const CColor& color);
 	void SetAttenuation(LightType::Attenuation atten, float val);
 
 	inline const CColor& GetWorldAmbient() const	{ return mWorldAmbient; }

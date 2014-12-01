@@ -16,7 +16,7 @@ class CPointLight : public CLight
 public:
 	CPointLight(const CVector3& pos);
 
-	virtual CColor GetSurfaceColor(const SurfacePoint& sp, const CVector3& viewerPos);
+	virtual CColor GetSurfaceColor(const CVertex3& point, const CVector3& viewerPos);
 	virtual float CalculateIntensity(const CVector3& sp);
 
 	inline void SetAttenConstant(float val)		{ mAttenConstant = val; }

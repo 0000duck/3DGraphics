@@ -23,7 +23,7 @@ BOOL CCmdLightAmbient::execute(CString &params)
 	
 	if (color.IsValid())
 	{
-		LightManager::Instance()->SetMaterialColor(LightType::Ambient, color);
+		LightManager::Instance()->SetMaterialColor(Material::Ambient, color);
 	}
 
 	return TRUE;

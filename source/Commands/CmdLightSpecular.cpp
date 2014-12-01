@@ -23,7 +23,7 @@ BOOL CCmdLightSpecular::execute(CString &params)
 
 	if (color.IsValid())
 	{
-		LightManager::Instance()->SetMaterialColor(LightType::Specular, color);
+		LightManager::Instance()->SetMaterialColor(Material::Specular, color);
 	}
 
 	return TRUE;

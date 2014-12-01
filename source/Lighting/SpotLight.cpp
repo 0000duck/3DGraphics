@@ -23,10 +23,11 @@ float CSpotLight::CalculateIntensity(const CVector3& sp)
 }
 // ------------------------------------------------------------------------------------------
 
-CColor CSpotLight::GetSurfaceColor(const SurfacePoint& sp, const CVector3& viewerPos)
+CColor CSpotLight::GetSurfaceColor(const CVertex3& sp, const CVector3& viewerPos)
 {
 	CColor color; // init to 0; result if point not inside cone
-	CVector3 pointToLight = Normalize(mPosition - sp.position); // L
+	const CVector3& pos = sp.Get3DPoint();
+	CVector3 pointToLight = Normalize(mPosition - pos); // L
 
 	// Check if point is inside the cone
 	float spot = Dot(pointToLight.Inverse(), mDirection);
@@ -34,9 +35,9 @@ CColor CSpotLight::GetSurfaceColor(const SurfacePoint& sp, const CVector3& viewe
 	{
 		// point is inside the cone; add decay factor
 		spot = powf(spot, mDecay);
-		float intensity = spot / CalculateIntensity(sp.position);
+		float intensity = spot / CalculateIntensity(pos);
 
-		CColor ambient = ComputeAmbient(intensity, sp.ambient);
+		CColor ambient = ComputeAmbient(intensity, sp.material.ambient);
 		CColor diffuse = ComputeDiffuse(intensity, pointToLight, sp);
 		CColor specular = ComputeSpecular(intensity, pointToLight,  viewerPos, sp);
 		color = (ambient + diffuse + specular);
