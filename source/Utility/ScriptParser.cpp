@@ -2,12 +2,6 @@
 #include "ScriptParser.h"
 #include "CLog.h"
 #include "Commands/Commands.h"
-#include "Graphics/MatrixManager.h"
-#include "Graphics/Viewport.h"
-#include "Graphics/Camera.h"
-#include "Graphics/Clipper.h"
-#include "Graphics/PrimManager.h"
-#include "Graphics/StateManager.h"
 
 CScriptParser::CScriptParser(void)
 {
@@ -43,6 +37,18 @@ CScriptParser::CScriptParser(void)
 	m_CommandDictionary.insert(std::make_pair(CString("camerafov"), new CCmdCameraFOV));
 	m_CommandDictionary.insert(std::make_pair(CString("cameranear"), new CCmdCameraNear));
 	m_CommandDictionary.insert(std::make_pair(CString("camerapersp"), new CCmdCameraPersp));
+
+	m_CommandDictionary.insert(std::make_pair(CString("worldambient"), new CCmdWorldAmbient));
+	m_CommandDictionary.insert(std::make_pair(CString("lightambient"), new CCmdLightAmbient));
+	m_CommandDictionary.insert(std::make_pair(CString("lightdiffuse"), new CCmdLightDiffuse));
+	m_CommandDictionary.insert(std::make_pair(CString("lightspecular"), new CCmdLightSpecular));
+	m_CommandDictionary.insert(std::make_pair(CString("attenconstant"), new CCmdAttenConstant));
+	m_CommandDictionary.insert(std::make_pair(CString("attenlinear"), new CCmdAttenLinear));
+	m_CommandDictionary.insert(std::make_pair(CString("attenquadratic"), new CCmdAttenQuadratic));
+	m_CommandDictionary.insert(std::make_pair(CString("directionallight"), new CCmdDirectionalLight));
+	m_CommandDictionary.insert(std::make_pair(CString("pointlight"), new CCmdPointLight));
+	m_CommandDictionary.insert(std::make_pair(CString("spotlight"), new CCmdSpotLight));
+	m_CommandDictionary.insert(std::make_pair(CString("clearlights"), new CCmdClearLights));
 }
 
 CScriptParser::~CScriptParser(void)
