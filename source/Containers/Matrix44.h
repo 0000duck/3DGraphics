@@ -115,6 +115,8 @@ public:
     // point ops
     CVector3 TransformPoint( const CVector3& point ) const;
 
+	CVector3 TransformNormal( CVector3& point ) const;
+
     // low-level data accessors - implementation-dependent
     operator float*() { return mV; }
     operator const float*() const { return mV; }

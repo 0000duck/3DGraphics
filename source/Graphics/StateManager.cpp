@@ -30,7 +30,8 @@ void StateManager::DestroyInstance()
 
 // Default constructor
 StateManager::StateManager()
-	:	mFillMode(FillMode::Point)
+	:	mShadingMode(ShadingMode::None)
+	,	mFillMode(FillMode::Point)
 	,	mColor(CColor(1.0, 1.0, 1.0))
 	,	mIsDrawing(false)
 {
@@ -39,9 +40,20 @@ StateManager::StateManager()
 
 void StateManager::Reset()
 {
+	mShadingMode = ShadingMode::None;
 	mFillMode = FillMode::Point;
 	mColor = CColor(1.0, 1.0, 1.0);
 	mIsDrawing = false;
+}
+// --------------------------------------------------------------------
+
+void StateManager::SetShadingMode(ShadingMode::Mode mode)
+{
+	if (IsValidType(mode, ShadingMode::NumModes))
+	{
+		mShadingMode = mode;
+	}
+	// Todo: exception/log error
 }
 // --------------------------------------------------------------------
 
@@ -73,22 +85,31 @@ void StateManager::StartDrawing()
 {
 	mIsDrawing = true;
 }
+// --------------------------------------------------------------------
 
 void StateManager::StopDrawing()
 {
 	mIsDrawing = false;
 }
+// --------------------------------------------------------------------
+
+const ShadingMode::Mode StateManager::GetShadingMode() const
+{
+	return mShadingMode;
+}
+// --------------------------------------------------------------------
 
 const FillMode::Mode StateManager::GetFillMode() const
 {
 	return mFillMode;
 }
-
 // --------------------------------------------------------------------
+
 const CColor& StateManager::GetColor() const
 {
 	return mColor;
 }
+// --------------------------------------------------------------------
 
 bool StateManager::IsDrawing()
 {

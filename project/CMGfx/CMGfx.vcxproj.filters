@@ -289,6 +289,9 @@
     <ClCompile Include="..\..\source\Commands\CmdMaterialEmissive.cpp">
       <Filter>Commands\Shading</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdShadingMode.cpp">
+      <Filter>Commands\Shading</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\resource.h">
@@ -438,12 +441,6 @@
     <ClInclude Include="..\..\source\Primitives\Triangle.h">
       <Filter>Common\Primitives</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\Primitives\PrimitiveTypes.h">
-      <Filter>Common\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\Primitives\FillModes.h">
-      <Filter>Common\Primitives</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\Graphics\StateManager.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -566,6 +563,12 @@
     </ClInclude>
     <ClInclude Include="..\..\source\Commands\CmdMaterialEmissive.h">
       <Filter>Commands\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdShadingMode.h">
+      <Filter>Commands\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\3DGFXTypes.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -16,6 +16,8 @@
 //-- Classes --------------------------------------------------------------------
 //-------------------------------------------------------------------------------
 
+#include "Vector3.h"
+
 class CVector4
 {
 public:
@@ -32,6 +34,8 @@ public:
     // copy operations
     CVector4(const CVector4& other);
     CVector4& operator=(const CVector4& other);
+
+	inline CVector3 ToV3() const { return CVector3(x, y, z); }
 
     // accessors
     inline float& operator[]( unsigned int i )         { return (&x)[i]; }

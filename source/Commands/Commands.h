@@ -64,4 +64,6 @@
 #include "CmdMaterialShininess.h"
 #include "CmdMaterialSpecular.h"
 
+#include "CmdShadingMode.h"
+
 #endif

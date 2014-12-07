@@ -94,6 +94,8 @@ private:
 	// Sorts the primitives in ascending Z order
 	void DepthSort();
 
+	CColor ComputeLighting(ShadingMode::Mode mode, CVertex3& point, int& vertCount);
+
 private:
 	// Static instance
 	static PrimManager* spInstance;

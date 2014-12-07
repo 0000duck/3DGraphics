@@ -2,7 +2,6 @@
 #include "PrimManager.h"
 #include "Primitives/Line.h"
 #include "Primitives/Triangle.h"
-#include "Primitives/FillModes.h"
 #include "Containers/Matrix33.h"
 #include "Containers/Vertex3.h"
 #include "Utility/Transforms.h"
@@ -228,21 +227,26 @@ void PrimManager::Apply3DTransformations()
 	// Note: since modelview is just an identity matrix we can just assign the transform directly.
 	CMatrix44 modelView = WTV * transform;
 
-	bool computeLighting = LightManager::Instance()->SceneHasLights();
+	int vertCount = 0;
+	ShadingMode::Mode shadingmode = StateManager::Instance()->GetShadingMode();
+
 	VertList::iterator it = mVertList.begin();
 	for (it; it != mVertList.end(); ++it)
 	{
-		// Apply the transformation to the point
-		CVector4 v = modelView * it->point;
+		// Put point and normal into world space.
+		CVector4 v = transform * it->point;
+		// worldNorm = normal in worldspace.
+		CVector3 worldNorm = transform.TransformNormal(it->normal);
 
-		if (computeLighting)
+		if (shadingmode != ShadingMode::None)
 		{
-			// Gouraud lighting
-			CVector3 v3(v.x, v.y, v.z);		// convert point back to 3D components to get color
-			CVertex3 temp(v3, it->color, it->material, it->normal);
-			CColor surfaceColor = LightManager::Instance()->GetSurfaceColor(temp);
-			it->color *= surfaceColor;
+			CVertex3 temp(v.ToV3(), it->color, it->material, worldNorm );
+			CColor lighting = ComputeLighting(shadingmode, temp, vertCount);
+			it->color *= lighting;
 		}
+
+		// Transform into camera space
+		v = WTV * v;
 
 		// Project the point
 		v = projection * v;
@@ -258,8 +262,27 @@ void PrimManager::Apply3DTransformations()
 		v = NDCtoScreen * v;
 
 		// Add the now 2D point to the current primitive type to be drawn
-		AddVertex(CVertex2(v.x, v.y, it->color, v.z));
+		AddVertex(CVertex2(v.x, v.y, it->color, it->normal, v.z));
 	}
+}
+// ------------------------------------------------------------------------------------------
+
+CColor PrimManager::ComputeLighting(ShadingMode::Mode mode, CVertex3& point, int& vertCount)
+{
+	CColor color;
+	int numVerts = mpCurrentPrim->MaxVerticies();
+	if (mode == ShadingMode::Flat && (vertCount % numVerts) == 0)
+	{
+		// Only compute lighting when we move to a new face
+		color = LightManager::Instance()->ComputeLighting(point);
+	}
+	else
+	{
+		// Otherwise calculate lighting for each vert
+		color = LightManager::Instance()->ComputeLighting(point);
+	}
+	++vertCount;
+	return color;
 }
 // ------------------------------------------------------------------------------------------
 

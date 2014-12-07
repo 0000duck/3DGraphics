@@ -19,7 +19,7 @@ BOOL CCmdFillMode::execute(CString &params)
 	}
 
 	CString modestr = paramStrList.GetHead();
-	int mode = FillMode::CompareMode(modestr);
+	int mode = GetTypeIndex(modestr, FillMode::ModeString, FillMode::NumModes);
 	
 	// Set the fill mode
 	StateManager::Instance()->SetFillMode(FillMode::Mode(mode));

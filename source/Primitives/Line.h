@@ -37,11 +37,12 @@ public:
 	virtual const int VertexCount() const;
 	virtual const int MaxVerticies() const;
 	virtual void Draw(FillMode::Mode mode);
-	virtual CVector2 GetPivot();
+	virtual CVector2 GetPivot() const;
 	virtual float GetZDepth();
 	virtual void Transform(const CMatrix33& tm);
-	virtual CVector3 ComputeNormal();
+	virtual CVector3 ComputeNormal() const;
 	virtual void SetVertexNormals(const CVector3& normal);
+	virtual void SetVertexColors(const CColor& color);
 
 	void SetVerts(const CVertex2& v1, const CVertex2& v2);
 	void DrawHorizontal();

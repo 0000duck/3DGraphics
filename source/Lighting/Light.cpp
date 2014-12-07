@@ -17,7 +17,7 @@ CColor CLight::ComputeAmbient(const float intensity, const CColor& spAmbient)
 CColor CLight::ComputeDiffuse(const float intensity, const CVector3& pToL, const CVertex3& sp)
 {
 	float angle = max(0, Dot(pToL, sp.normal));
-	return (intensity * angle * mDiffuse * sp.material.diffuse);
+	return (intensity * angle * CColor(1,1,1) );	//mDiffuse * sp.material.diffuse);
 }
 // ------------------------------------------------------------------------------------------
 

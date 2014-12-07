@@ -104,7 +104,7 @@ const int CLine::MaxVerticies() const
 }
 // ------------------------------------------------------------------------------------------
 
-CVector2 CLine::GetPivot()
+CVector2 CLine::GetPivot() const
 {
 	// todo: call get center from bounding box class
 	CVector2 pmax(max(mFrom.point.x, mTo.point.x), max(mFrom.point.y, mTo.point.y));
@@ -133,7 +133,7 @@ void CLine::Transform(const CMatrix33& tm)
 }
 // ------------------------------------------------------------------------------------------
 
-CVector3 CLine::ComputeNormal()
+CVector3 CLine::ComputeNormal() const
 {
 	float dx = mTo.point.x - mFrom.point.x;
 	float dy = mTo.point.y - mFrom.point.y;
@@ -146,6 +146,13 @@ void CLine::SetVertexNormals(const CVector3& normal)
 {
 	mFrom.normal = normal;
 	mTo.normal = normal;
+}
+// ------------------------------------------------------------------------------------------
+
+void CLine::SetVertexColors(const CColor& color)
+{
+	mFrom.color = color;
+	mTo.color = color;
 }
 // ------------------------------------------------------------------------------------------
 

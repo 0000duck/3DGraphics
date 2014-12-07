@@ -12,7 +12,7 @@ CPrimitive::CPrimitive(const int type)
 
 bool CPrimitive::IsValid() const
 { 
-	return (PrimType::IsValid(mType));
+	return (IsValidType(mType, PrimType::NumTypes));
 }
 
 const PrimType::Type CPrimitive::Type() const

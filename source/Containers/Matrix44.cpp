@@ -1184,3 +1184,15 @@ CMatrix44::TransformPoint( const CVector3& other ) const
     return result;
 
 }   // End of CMatrix44::TransformPoint()
+
+
+CVector3 CMatrix44::TransformNormal( CVector3& normal ) const
+{
+	CVector3 result;
+
+    result.x = mV[0]*normal.x + mV[4]*normal.y + mV[8]*normal.z;
+    result.y = mV[1]*normal.x + mV[5]*normal.y + mV[9]*normal.z;
+    result.z = mV[2]*normal.x + mV[6]*normal.y + mV[10]*normal.z;
+
+    return result;
+}

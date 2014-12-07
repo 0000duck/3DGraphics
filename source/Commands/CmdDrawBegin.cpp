@@ -25,8 +25,8 @@ BOOL CCmdDrawBegin::execute(CString &params)
 
 	// Check the primitive tpye is valid
 	CString typestr = paramStrList.GetHead();
-	int type = PrimType::CompareMode(typestr);
-	if (PrimType::IsValid(type))
+	int type = GetTypeIndex(typestr, PrimType::TypeString, PrimType::NumTypes);
+	if (IsValidType(type, PrimType::NumTypes))
 	{
 		// Set the primitive type and tell PrimManager to add any
 		// following verticies to this primitive.

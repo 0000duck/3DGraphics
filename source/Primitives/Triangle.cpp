@@ -89,7 +89,7 @@ const int CTriangle::MaxVerticies() const
 }
 // ------------------------------------------------------------------------------------------
 
-CVector2 CTriangle::GetPivot()
+CVector2 CTriangle::GetPivot() const
 {
 	// todo: call get center from bounding box class
 	CVector2 pmax(max(max(mV1.point.x, mV2.point.x), mV3.point.x),
@@ -122,7 +122,7 @@ void CTriangle::Transform(const CMatrix33& tm)
 }
 // ------------------------------------------------------------------------------------------
 
-CVector3 CTriangle::ComputeNormal()
+CVector3 CTriangle::ComputeNormal() const
 {
 	CVector3 v1(mV1.point.x, mV1.point.y, mV1.z);
 	CVector3 v2(mV2.point.x, mV2.point.y, mV2.z);
@@ -137,6 +137,14 @@ void CTriangle::SetVertexNormals(const CVector3& normal)
 	mV1.normal = normal;
 	mV2.normal = normal;
 	mV3.normal = normal;
+}
+// ------------------------------------------------------------------------------------------
+
+void CTriangle::SetVertexColors(const CColor& color)
+{
+	mV1.color = color;
+	mV2.color = color;
+	mV3.color = color;
 }
 // ------------------------------------------------------------------------------------------
 

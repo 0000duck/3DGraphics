@@ -14,7 +14,7 @@
 
 #include "Utility/NonCopyable.h"
 #include "Containers/Color.h"
-#include "Primitives/FillModes.h"
+#include "3DGFXTypes.h"
 
 class StateManager : private NonCopyable
 {
@@ -32,6 +32,7 @@ public:
 	void Reset();
 
 	// Mutators
+	void SetShadingMode(ShadingMode::Mode mode);
 	void SetFillMode(const FillMode::Mode mode);
 	void SetColor(const CColor& color);
 	void SetColor(float r, float g, float b);
@@ -39,6 +40,7 @@ public:
 	void StopDrawing();
 
 	// Accessors
+	const ShadingMode::Mode GetShadingMode() const;
 	const FillMode::Mode GetFillMode() const;
 	const CColor& GetColor() const;
 	bool IsDrawing();
@@ -46,6 +48,7 @@ public:
 private:
 	static StateManager* spInstance;	// Static instance
 
+	ShadingMode::Mode mShadingMode;
 	FillMode::Mode mFillMode;			// Current fill mode
 	CColor mColor;						// Current fill color
 

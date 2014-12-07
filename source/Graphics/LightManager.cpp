@@ -3,7 +3,9 @@
 #include "Lighting/DirectionalLight.h"
 #include "Lighting/PointLight.h"
 #include "Lighting/SpotLight.h"
+#include "Primitives/Primitive.h"
 #include "Camera.h"
+#include "StateManager.h"
 
 // static singleton member initialization
 LightManager* LightManager::spInstance = nullptr;
@@ -82,6 +84,33 @@ CColor LightManager::GetSurfaceColor(const CVertex3& point)
 	return (point.material.ambient + point.material.emissive) + color;
 }
 // --------------------------------------------------------------------
+
+CColor LightManager::ComputeLighting(CVertex3& point)
+{
+	ShadingMode::Mode shadingmode = StateManager::Instance()->GetShadingMode();
+	switch (shadingmode)
+	{
+	case ShadingMode::Flat:
+		return ComputeFlatShading(point);
+	case ShadingMode::Gouraud:
+		return ComputeGouraudShading(point);
+	}
+	return CColor(1.0f, 1.0f, 1.0f);
+}
+
+CColor LightManager::ComputeFlatShading(CVertex3& point)
+{
+	//CVector2 midpoint = prim->GetPivot();
+	//float z = prim->GetZDepth();
+	//CVector3 v3(midpoint.x, midpoint.y, z);
+
+	return GetSurfaceColor(point);
+}
+
+CColor LightManager::ComputeGouraudShading(CVertex3& point)
+{
+	return GetSurfaceColor(point);
+}
 
 void LightManager::SetMaterialColor(Material::Type mat, const CColor& color)
 {

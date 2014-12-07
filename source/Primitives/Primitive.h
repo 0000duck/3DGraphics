@@ -11,8 +11,7 @@
 
 #include "Containers/Vertex2.h"
 #include "Containers/Vector3.h"
-#include "PrimitiveTypes.h"
-#include "FillModes.h"
+#include "3DGFXTypes.h"
 #include <vector>
 
 class CMatrix33;
@@ -39,15 +38,17 @@ public:
 	virtual const int MaxVerticies() const = 0;
 
 	// Returns the pivot/center of the primitive
-	virtual CVector2 GetPivot() = 0;
+	virtual CVector2 GetPivot() const = 0;
 
 	virtual float GetZDepth() = 0;
 
 	// Returns the normal of the primitive
-	virtual CVector3 ComputeNormal() = 0;
+	virtual CVector3 ComputeNormal() const = 0;
 
 	// Sets the normal of all the primitive's verticies to the normal passed in
 	virtual void SetVertexNormals(const CVector3& normal) = 0;
+
+	virtual void SetVertexColors(const CColor& color) = 0;
 
 	// The primitive's draw logic
 	virtual void Draw(FillMode::Mode mode) = 0;

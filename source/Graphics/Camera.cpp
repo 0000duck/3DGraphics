@@ -85,13 +85,8 @@ void Camera::Create(const CVector3& origin, const CVector3& interest)
 	mViewToWorld.SetColumns(c0, c1, c2, c3);
 
 	// Create the World to view matrix.
-	// This is the VTW with the top left 3x3 transposed, and the last column inverted
-	mWorldToView.GetColumns(c0, c1, c2, c3);
-	c0.Set(vx.x, vy.x, vz.x, 0.0f);
-	c1.Set(vx.y, vy.y, vz.y, 0.0f);
-	c2.Set(vx.z, vy.z, vz.z, 0.0f);
-	c3.Set(-mLookFrom.x, -mLookFrom.y, -mLookFrom.z, 1.0f);
-	mWorldToView.SetColumns(c0, c1, c2, c3);
+	// AffineInverse is needed since the matrix is not ortho-normal
+	mWorldToView = AffineInverse(mViewToWorld);
 
 	// Get the perspective projection matrix
 	float aspectratio = Viewport::Instance()->GetAspectRatio();
