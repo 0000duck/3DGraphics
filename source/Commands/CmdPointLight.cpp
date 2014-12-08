@@ -22,7 +22,7 @@ BOOL CCmdPointLight::execute(CString &params)
 	CVector3 position(args[0], args[1], args[2]);
 
 	// Init atten values to the current ones in LightManager
-	CPointLight* light = new CPointLight(position);
+	std::unique_ptr<CPointLight> light(new CPointLight(position));
 	light->SetAttenConstant(LightManager::Instance()->GetAttenConstant());
 	light->SetAttenLinear(LightManager::Instance()->GetAttenLinear());
 	light->SetAttenQuadratic(LightManager::Instance()->GetAttenQuadratic());
@@ -31,7 +31,8 @@ BOOL CCmdPointLight::execute(CString &params)
 	light->SetDiffuse(LightManager::Instance()->GetDiffuse());
 	light->SetSpecular(LightManager::Instance()->GetSpecular());
 
-	LightManager::Instance()->AddLight(light);
+	// Transfer ownership of 'light' to LightManager
+	LightManager::Instance()->AddLight(std::move(light));
 
 	return TRUE;
 }

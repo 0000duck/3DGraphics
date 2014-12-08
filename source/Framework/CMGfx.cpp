@@ -18,12 +18,14 @@
 #include "Graphics/Clipper.h"
 #include "Graphics/PrimManager.h"
 #include "Graphics/StateManager.h"
+#include "Graphics/LightManager.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
 
 #ifdef _DEBUG
+#include <vld.h>
 #define new DEBUG_NEW
 #endif
 
@@ -218,6 +220,7 @@ void CCMGfxApp::CleanUpSingletons()
 	PrimManager::Instance()->Reset();
 	Clipper::Instance()->Reset();
 	StateManager::Instance()->Reset();
+	LightManager::Instance()->Reset();
 }
 
 void CCMGfxApp::DeleteSingletons()
@@ -230,6 +233,7 @@ void CCMGfxApp::DeleteSingletons()
 	PrimManager::Instance()->DestroyInstance();
 	Clipper::Instance()->DestroyInstance();
 	StateManager::Instance()->DestroyInstance();
+	LightManager::Instance()->DestroyInstance();
 }
 
 

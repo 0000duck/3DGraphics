@@ -25,7 +25,7 @@ BOOL CCmdSpotLight::execute(CString &params)
 	float angle = DEG2RAD(args[6]);	// angle must be passed in as radians
 	float decay = args[7];
 
-	CSpotLight* light = new CSpotLight(position, direction, angle, decay);
+	std::unique_ptr<CSpotLight> light(new CSpotLight(position, direction, angle, decay));
 	light->SetAttenConstant(LightManager::Instance()->GetAttenConstant());
 	light->SetAttenLinear(LightManager::Instance()->GetAttenLinear());
 	light->SetAttenQuadratic(LightManager::Instance()->GetAttenQuadratic());
@@ -34,7 +34,8 @@ BOOL CCmdSpotLight::execute(CString &params)
 	light->SetDiffuse(LightManager::Instance()->GetDiffuse());
 	light->SetSpecular(LightManager::Instance()->GetSpecular());
 
-	LightManager::Instance()->AddLight(light);
+	// Transfer ownership of 'light' to LightManager
+	LightManager::Instance()->AddLight(std::move(light));
 
 	return TRUE;
 }

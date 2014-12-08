@@ -21,11 +21,13 @@ BOOL CCmdDirectionalLight::execute(CString &params)
 	CScriptParser::ToArray(paramStrList, numParams, args);
 	CVector3 direction(args[0], args[1], args[2]);
 
-	CDirectionalLight* light = new CDirectionalLight(direction);
+	std::unique_ptr<CDirectionalLight> light(new CDirectionalLight(direction));
 	light->SetAmbient(LightManager::Instance()->GetAmbient());
 	light->SetDiffuse(LightManager::Instance()->GetDiffuse());
 	light->SetSpecular(LightManager::Instance()->GetSpecular());
-	LightManager::Instance()->AddLight(light);
+
+	// Transfer ownership of 'light' to LightManager
+	LightManager::Instance()->AddLight(std::move(light));
 
 	return TRUE;
 }

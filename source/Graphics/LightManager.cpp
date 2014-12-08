@@ -27,6 +27,7 @@ void LightManager::DestroyInstance()
 {
 	if (spInstance)
 	{
+		spInstance->Clear();
 		delete spInstance;
 		spInstance = nullptr;
 	}
@@ -53,7 +54,7 @@ void LightManager::Reset()
 }
 // ------------------------------------------------------------------------------------------
 
-void LightManager::AddLight(CLight* light)
+void LightManager::AddLight(LightPtr light)
 {
 	mLights.push_back(std::move(light));
 }
@@ -61,11 +62,6 @@ void LightManager::AddLight(CLight* light)
 
 void LightManager::Clear()
 {
-	const int sz = mLights.size();
-	for (int i=0; i < sz; ++i)
-	{
-		delete mLights[i];
-	}
 	mLights.clear();
 }
 // ------------------------------------------------------------------------------------------
@@ -74,7 +70,7 @@ CColor LightManager::GetSurfaceColor(const CVertex3& point)
 {
 	CColor color;
 	const CVector3& viewerpos = Camera::Instance()->GetLookFrom();
-	for (auto light : mLights)
+	for (auto &light : mLights)
 	{
 		// Get the sum of the intermediate per-light values from all the lights
 		color += light->GetSurfaceColor(point, viewerpos);

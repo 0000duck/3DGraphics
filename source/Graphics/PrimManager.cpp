@@ -52,7 +52,7 @@ PrimManager::PrimManager()
 
 void PrimManager::Reset()
 {
-	mpCurrentPrim.release();
+	mpCurrentPrim.reset();
 	mReadingVerticies = false;
 	mPrimitiveList.clear();
 	mVertList.clear();
@@ -365,8 +365,7 @@ void PrimManager::ClearPrimitive()
 {
 	if (mpCurrentPrim)
 	{
-		mpCurrentPrim.release();
-		mpCurrentPrim = nullptr;
+		mpCurrentPrim.reset();
 	}
 }
 // ------------------------------------------------------------------------------------------

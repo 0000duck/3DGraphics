@@ -25,7 +25,8 @@ class LightManager : private NonCopyable
 	LightManager();
 	~LightManager();
 
-	typedef std::vector<CLight*> Lights;
+	typedef std::unique_ptr<CLight> LightPtr;
+	typedef std::vector<LightPtr> Lights;
 public:
 
 	// Singleton accessor
@@ -38,7 +39,7 @@ public:
 	// Obtains ownership of an existing light and adds it to the global list.
 	// New lights are created with the current ambient/diffuse/specular values.
 	// Point and spot lights are also given the current attenuation values.
-	void AddLight(CLight* light);
+	void AddLight(LightPtr light);
 
 	// Deletes the global list of lights
 	void Clear();
