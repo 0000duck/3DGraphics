@@ -19,14 +19,14 @@ CLine::CLine()
 CLine::CLine(float x1, float y1, float x2, float y2, const CColor& c1, const CColor& c2)
 	:	CPrimitive(PrimType::Line)
 	,	mVertCount(0)
-	,	mFrom(x1, y1, c1)
-	,	mTo(x2, y2, c2)
+	,	mFrom(x1, y1, 0.0f, c1)
+	,	mTo(x2, y2, 0.0f, c2)
 {
 	mSlope = CalcSlope();
 }
 // ------------------------------------------------------------------------------------------
 
-CLine::CLine(const CVector2& p1, const CVector2& p2, const CColor& c1, const CColor& c2)
+CLine::CLine(const CVector3& p1, const CVector3& p2, const CColor& c1, const CColor& c2)
 	:	CPrimitive(PrimType::Line)
 	,	mVertCount(0)
 	,	mFrom(p1, c1)
@@ -36,7 +36,17 @@ CLine::CLine(const CVector2& p1, const CVector2& p2, const CColor& c1, const CCo
 }
 // ------------------------------------------------------------------------------------------
 
-CLine::CLine(const CVertex2& p1, const CVertex2& p2)
+CLine::CLine(const CVector2& p1, const CVector2& p2, const CColor& c1, const CColor& c2)
+	:	CPrimitive(PrimType::Line)
+	,	mVertCount(0)
+	,	mFrom(p1.x, p1.y, 0.0f, c1)
+	,	mTo(p2.x, p2.y, 0.0f, c2)
+{
+	mSlope = CalcSlope();
+}
+// ------------------------------------------------------------------------------------------
+
+CLine::CLine(const CVertex3& p1, const CVertex3& p2)
 	:	CPrimitive(PrimType::Line)
 	,	mVertCount(2)
 	,	mFrom(p1)
@@ -60,6 +70,7 @@ CLine& CLine::operator=(const CLine& rhs)
 		mVertCount = rhs.mVertCount;
 		mFrom = rhs.mFrom;
 		mTo = rhs.mTo;
+		mSlope = rhs.mSlope;
 	}
 	return *this;
 }
@@ -76,7 +87,7 @@ bool CLine::IsValid() const
 }
 // ------------------------------------------------------------------------------------------
 
-void CLine::AddVertex(const CVertex2& vert)
+void CLine::AddVertex(const CVertex3& vert)
 {
 	if (mVertCount == 0)
 	{
@@ -121,7 +132,7 @@ CVector2 CLine::GetPivot() const
 
 float CLine::GetZDepth()
 {
-	return ((mFrom.z + mTo.z) * 0.5f);
+	return ((mFrom.point.z + mTo.point.z) * 0.5f);
 }
 // ------------------------------------------------------------------------------------------
 
@@ -130,8 +141,8 @@ void CLine::Transform(const CMatrix33& tm)
 	CMatrix33 a = CreateTransformAroundCenter(GetPivot(), tm);
 
 	// Apply transformation matrix to verts
-	mFrom.point = Transform3HC(mFrom.point, tm);
-	mTo.point = Transform3HC(mTo.point, tm);
+	//mFrom.point = Transform3HC(mFrom.Get2DPoint(), tm);
+	//mTo.point = Transform3HC(mTo.point, tm);
 }
 // ------------------------------------------------------------------------------------------
 
@@ -158,7 +169,7 @@ void CLine::SetVertexColors(const CColor& color)
 }
 // ------------------------------------------------------------------------------------------
 
-void CLine::SetVerts(const CVertex2& v1, const CVertex2& v2)
+void CLine::SetVerts(const CVertex3& v1, const CVertex3& v2)
 {
 	mFrom = v1;
 	mTo = v2;
@@ -205,13 +216,13 @@ void CLine::DrawPoints()
 
 float CLine::CalcSlope() const
 {
-	return ::CalcSlope(mFrom.point, mTo.point);
+	return ::CalcSlope(mFrom.Get2DPoint(), mTo.Get2DPoint());
 }
 // ------------------------------------------------------------------------------------------
 
 float CLine::CalcInvSlope() const
 {
-	return ::CalcInvSlope(mFrom.point, mTo.point);
+	return ::CalcInvSlope(mFrom.Get2DPoint(), mTo.Get2DPoint());
 }
 // ------------------------------------------------------------------------------------------
 
@@ -304,7 +315,7 @@ float CalcInvSlope(const CVector2& from, const CVector2& to)
 }
 // ------------------------------------------------------------------------------------------
 
-void DrawHorizontalLine(const CVertex2& from, const CVertex2& to)
+void DrawHorizontalLine(const CVertex3& from, const CVertex3& to)
 {
 	DrawHorizontalLine(from.point.x, to.point.x, from.point.y, from.color, to.color);
 }
@@ -328,7 +339,7 @@ void DrawHorizontalLine(float fromX, float toX, float y, const CColor& cfrom, co
 }
 // ------------------------------------------------------------------------------------------
 
-void DrawVerticalLine(const CVertex2& from, const CVertex2& to)
+void DrawVerticalLine(const CVertex3& from, const CVertex3& to)
 {
 	DrawVerticalLine(from.point.y, to.point.y, from.point.x, from.color, to.color);
 }
@@ -352,9 +363,9 @@ void DrawVerticalLine(float fromY, float toY, float x, const CColor& cfrom, cons
 }
 // ------------------------------------------------------------------------------------------
 
-void DrawHorizontalLine_Z(const CVertex2& from, const CVertex2& to)
+void DrawHorizontalLine_Z(const CVertex3& from, const CVertex3& to)
 {
-	DrawHorizontalLine_Z(from.point.x, to.point.x, from.point.y, from.z, to.z, from.color, to.color);
+	DrawHorizontalLine_Z(from.point.x, to.point.x, from.point.y, from.point.z, to.point.z, from.color, to.color);
 }
 // ------------------------------------------------------------------------------------------
 
@@ -367,10 +378,11 @@ void DrawHorizontalLine_Z(float fromX, float toX, float y, float z1, float z2, c
 	float divisor = CalcTimeDivisor(fromX, toX);
 	int inc = (divisor < 0.0f) ? -1 : 1;
 
+	CColor pixelColor;
 	for (int x = _from; x != _to; x += inc)
 	{
 		float t = (x - _from) * divisor;
-		CColor pixelColor = LerpColor(cfrom, cto, t);
+		pixelColor = LerpColor(cfrom, cto, t);
 
 		float z = Lerp(z1, z2, t);
 		DrawVertex_Z(x, _axis, z, pixelColor);
@@ -378,7 +390,7 @@ void DrawHorizontalLine_Z(float fromX, float toX, float y, float z1, float z2, c
 }
 // ------------------------------------------------------------------------------------------
 
-void DrawHLine_Z_Phong(const CVertex2& from, const CVertex2& to)
+void DrawHLine_Z_Phong(const CVertex3& from, const CVertex3& to)
 {
 	const int _axis = RoundPixel(to.point.y);
 	const int _from = RoundPixel(from.point.x);
@@ -387,27 +399,35 @@ void DrawHLine_Z_Phong(const CVertex2& from, const CVertex2& to)
 	float divisor = CalcTimeDivisor(from.point.x, to.point.x);
 	int inc = (divisor < 0.0f) ? -1 : 1;
 
+	CColor pixelColor;
+	CVector3 normal, worldpos;
 	for (int x = _from; x != _to; x += inc)
 	{
 		float t = (x - _from) * divisor;
-		CColor pixelColor = LerpColor(from.color, to.color, t);
+		pixelColor = LerpColor(from.color, to.color, t);
 		
-		CVector3 normal = Normalize(LerpVector3(from.normal, to.normal, t));
-		CVector3 worldpos = LerpVector3(from.worldPoint, to.worldPoint, t);
+		normal = from.normal;
+		normal.LerpVector3(to.normal, t);
+		normal.Normalize();
+		//normal = Normalize(LerpVector3(from.normal, to.normal, t));
+		worldpos = from.worldPoint;
+		worldpos.LerpVector3(to.worldPoint, t);
+		//worldpos = LerpVector3(from.worldPoint, to.worldPoint, t);
+
 		CVertex3 v(worldpos, pixelColor, from.material, normal);
 		pixelColor *= LightManager::Instance()->ComputeLighting(v);
 
 		//pixelColor = CColor( normal.x, normal.y, normal.z );
 
-		float z = Lerp(from.z, to.z, t);
+		float z = Lerp(from.point.z, to.point.z, t);
 		DrawVertex_Z(x, _axis, z, pixelColor);
 		//DrawVertex(x, _axis, pixelColor);
 	}
 }
 
-void DrawVerticalLine_Z(const CVertex2& from, const CVertex2& to)
+void DrawVerticalLine_Z(const CVertex3& from, const CVertex3& to)
 {
-	DrawVerticalLine_Z(from.point.x, to.point.x, from.point.y, from.z, to.z, from.color, to.color);
+	DrawVerticalLine_Z(from.point.x, to.point.x, from.point.y, from.point.z, to.point.z, from.color, to.color);
 }
 // ------------------------------------------------------------------------------------------
 
@@ -420,10 +440,11 @@ void DrawVerticalLine_Z(float fromY, float toY, float x, float z1, float z2, con
 	float divisor = CalcTimeDivisor(fromY, toY);
 	int inc = (divisor < 0.0f) ? -1 : 1;
 
+	CColor pixelColor;
 	for (int y = _from; y != _to; y += inc)
 	{
 		float t = (y - _from) * divisor;
-		CColor pixelColor = LerpColor(cfrom, cto, t);
+		pixelColor = LerpColor(cfrom, cto, t);
 
 		float z = Lerp(z1, z2, t);
 		DrawVertex_Z(_axis, y, z, pixelColor);
@@ -431,11 +452,11 @@ void DrawVerticalLine_Z(float fromY, float toY, float x, float z1, float z2, con
 }
 // ------------------------------------------------------------------------------------------
 
-void FastDrawLine(const CVertex2& from, const CVertex2& to)
+void FastDrawLine(const CVertex3& from, const CVertex3& to)
 {
 	// Get slope and y intercept
-	float m = CalcSlope(from.point, to.point);
-	float b = GetYIntercept(from.point, m);;
+	float m = CalcSlope(from.Get2DPoint(), to.Get2DPoint());
+	float b = GetYIntercept(from.Get2DPoint(), m);;
 
 	// Only iterate over x for slopes between 0 and 1
 	if (fabs(m) > 1.0f)
@@ -479,13 +500,13 @@ void FastDrawLine(const CVertex2& from, const CVertex2& to)
 }
 // ------------------------------------------------------------------------------------------
 
-void DrawLine(const CVertex2& from, const CVertex2& to)
+void DrawLine(const CVertex3& from, const CVertex3& to)
 {
-	if (IsHorizontal(from.point, to.point))
+	if (IsHorizontal(from.Get2DPoint(), to.Get2DPoint()))
 	{
 		DrawHorizontalLine(from, to);
 	}
-	else if (IsVertical(from.point, to.point))
+	else if (IsVertical(from.Get2DPoint(), to.Get2DPoint()))
 	{
 		DrawVerticalLine(from, to);
 	}
@@ -493,11 +514,4 @@ void DrawLine(const CVertex2& from, const CVertex2& to)
 	{
 		FastDrawLine(from, to);
 	}
-}
-// ------------------------------------------------------------------------------------------
-
-void DrawLine(const CVector2& from, const CVector2& to, 
-			  const CColor& cfrom, const CColor& cto)
-{
-	DrawLine(CVertex2(from, cfrom), CVertex2(to, cto));
 }

@@ -18,7 +18,7 @@ BOOL CCmdVertex2::execute(CString &params)
 		return FALSE;
 	}
 
-	CVertex2 vert;
+	CVertex3 vert;
 	POSITION coord = paramStrList.GetHeadPosition();
 	
 	// Cast the x and y coords to floats and store them in the vertex
@@ -26,6 +26,7 @@ BOOL CCmdVertex2::execute(CString &params)
 	vert.point.x = (float)(wcstod(paramStr, NULL));
 	paramStr = paramStrList.GetNext(coord);
 	vert.point.y = (float)(wcstod(paramStr, NULL));
+	vert.point.z = 0.0f;
 
 	// Get the current draw color from StateManager
 	vert.color = StateManager::Instance()->GetColor();

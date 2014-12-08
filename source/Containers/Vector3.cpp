@@ -106,7 +106,8 @@ DistanceSquared(const CVector3& p0, const CVector3& p1)
 //-------------------------------------------------------------------------------
 float CVector3::Length() const
 {
-	return (sqrt(Dot(CVector3(x, y, z))));
+	return FastLength3(LoadV3(*this));
+	//return (sqrt(Dot(CVector3(x, y, z))));
 
 } // End of ::Length()
 

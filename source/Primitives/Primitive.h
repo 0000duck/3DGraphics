@@ -9,7 +9,7 @@
 #ifndef INCLUDED_PRIMITIVE_H
 #define INCLUDED_PRIMITIVE_H
 
-#include "Containers/Vertex2.h"
+#include "Containers/Vertex3.h"
 #include "Containers/Vector3.h"
 #include "3DGFXTypes.h"
 #include <vector>
@@ -29,7 +29,7 @@ public:
 	virtual bool IsValid() const;
 
 	// Adds a vertex to the primitive
-	virtual void AddVertex(const CVertex2& vert) = 0;
+	virtual void AddVertex(const CVertex3& vert) = 0;
 
 	// Returns number of verticies the primitive has been assigned
 	virtual const int VertexCount() const = 0;

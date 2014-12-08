@@ -40,7 +40,6 @@ public:
 	void Reset();
 
 	// Sets mpCurrentPrim to a Primitive type
-	void CreatePrimitive(CPrimitive* pPrim);
 	void CreatePrimitive(const PrimType::Type primType);
 
 	// Enable/disable reading verticies into the current primitive
@@ -58,7 +57,7 @@ public:
 	// Add a vertex to the current primitive.
 	// If the current primitive has the max amount of verticies
 	// it is added to the list and a new primitive is allocated.
-	void AddVertex(const CVertex2& vert);
+	void AddVertToCurrentPrim(const CVertex3& vert);
 
 	// New overloaded version to work with 3D verticies.
 	void AddVertex(CVertex3& vert);

@@ -98,10 +98,10 @@ eState Clipper::ClipPoint(CVertex2& v, const CRect2& vp)
 eState Clipper::ClipLine(CLine& line, const CRect2& vp)
 {
 	// Computer the regions of the 2 points
-	CVertex2 v1(line.mFrom);
-	CVertex2 v2(line.mTo);
-	REGION r1 = ComputeRegion(v1.point, vp);
-	REGION r2 = ComputeRegion(v2.point, vp);
+	CVertex3 v1(line.mFrom);
+	CVertex3 v2(line.mTo);
+	REGION r1 = ComputeRegion(v1.Get2DPoint(), vp);
+	REGION r2 = ComputeRegion(v2.Get2DPoint(), vp);
 
 	// If the result isn't 0 then we don't need to consider it
 	// as both points are outside the viewport.
@@ -128,10 +128,10 @@ eState Clipper::ClipLine(CLine& line, const CRect2& vp)
 }
 // ------------------------------------------------------------------------------------------
 
-void Clipper::TrimLine(CVertex2& v, const CLine& line, const CRect2& vp)
+void Clipper::TrimLine(CVertex3& v, const CLine& line, const CRect2& vp)
 {
 	// Compute the region the point is in and trim until it is inside the viewport
-	REGION r = ComputeRegion(v.point, vp);
+	REGION r = ComputeRegion(v.Get2DPoint(), vp);
 	while (r != Inside)
 	{
 		int x = RoundPixel(v.point.x);
@@ -176,7 +176,7 @@ void Clipper::TrimLine(CVertex2& v, const CLine& line, const CRect2& vp)
 		v.point.y = static_cast<float>(y);
 
 		// Recompute the region
-		r = ComputeRegion(v.point, vp);
+		r = ComputeRegion(v.Get2DPoint(), vp);
 	}
 }
 // ------------------------------------------------------------------------------------------

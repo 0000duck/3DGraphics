@@ -26,14 +26,16 @@ public:
 	// Constructors
 	CLine();
 	CLine(float x1, float y1, float x2, float y2, const CColor& c1, const CColor& c2);
+	CLine(const CVector3& p1, const CVector3& p2, const CColor& c1, const CColor& c2);
 	CLine(const CVector2& p1, const CVector2& p2, const CColor& c1, const CColor& c2);
-	CLine(const CVertex2& p1, const CVertex2& p2);
-	CLine(const CLine& rhs);
-	CLine& operator=(const CLine& rhs);
+	CLine(const CVertex3& p1, const CVertex3& p2);
+	CLine(const CLine& other);
+	CLine& operator=(const CLine& other);
+
 
 	// Inherited from CPrimitive
 	virtual bool IsValid() const;
-	virtual void AddVertex(const CVertex2& vert);
+	virtual void AddVertex(const CVertex3& vert);
 	virtual const int VertexCount() const;
 	virtual const int MaxVerticies() const;
 	virtual void Draw(FillMode::Mode mode);
@@ -44,7 +46,7 @@ public:
 	virtual void SetVertexNormals(const CVector3& normal);
 	virtual void SetVertexColors(const CColor& color);
 
-	void SetVerts(const CVertex2& v1, const CVertex2& v2);
+	void SetVerts(const CVertex3& v1, const CVertex3& v2);
 	void DrawHorizontal();
 	void DrawVertical();
 
@@ -63,8 +65,8 @@ protected:
 
 public:
 	int mVertCount;		// Number of verticies assigned
-	CVertex2 mFrom;
-	CVertex2 mTo;
+	CVertex3 mFrom;
+	CVertex3 mTo;
 	float mSlope;
 };
 
@@ -81,20 +83,19 @@ float GetYIntercept(const int fromX, const int fromY, const float slope);
 float CalcSlope(const CVector2& from, const CVector2& to);
 float CalcInvSlope(const CVector2& from, const CVector2& to);
 
-void FastDrawLine(const CVertex2& from, const CVertex2& to);
-void DrawLine(const CVertex2& from, const CVertex2& to);
-void DrawLine(const CVector2& from, const CVector2& to, const CColor& cfrom, const CColor& cto);
+void FastDrawLine(const CVertex3& from, const CVertex3& to);
+void DrawLine(const CVertex3& from, const CVertex3& to);
 
-void DrawHorizontalLine(const CVertex2& from, const CVertex2& to);
+void DrawHorizontalLine(const CVertex3& from, const CVertex3& to);
 void DrawHorizontalLine(float fromX, float toX, float y, const CColor& cfrom, const CColor& cto);
-void DrawVerticalLine(const CVertex2& from, const CVertex2& to);
+void DrawVerticalLine(const CVertex3& from, const CVertex3& to);
 void DrawVerticalLine(float fromY, float toY, float x, const CColor& cfrom, const CColor& cto);
 
-void DrawHorizontalLine_Z(const CVertex2& from, const CVertex2& to);
+void DrawHorizontalLine_Z(const CVertex3& from, const CVertex3& to);
 void DrawHorizontalLine_Z(float fromX, float toX, float y, float z1, float z2, const CColor& cfrom, const CColor& cto);
-void DrawVerticalLine_Z(const CVertex2& from, const CVertex2& to);
+void DrawVerticalLine_Z(const CVertex3& from, const CVertex3& to);
 void DrawVerticalLine_Z(float fromY, float toY, float x, float z1, float z2, const CColor& cfrom, const CColor& cto);
 
-void DrawHLine_Z_Phong(const CVertex2& from, const CVertex2& to);
+void DrawHLine_Z_Phong(const CVertex3& from, const CVertex3& to);
 
 #endif

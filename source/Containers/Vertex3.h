@@ -2,6 +2,7 @@
 #define INCLUDED_VERTEX4_H
 
 #include "Color.h"
+#include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Common.h"
@@ -11,6 +12,7 @@ struct CVertex3
 {
 	CColor color;
 	CVector4 point;
+	CVector3 worldPoint;
 	CVector3 normal;
 	CMaterial material;
 
@@ -33,32 +35,30 @@ struct CVertex3
 	}
 
 	inline CVector3 Get3DPoint() const { return CVector3(point.x, point.y, point.z); }
-
-	friend bool operator==(const CVertex3& lhs, const CVertex3& rhs)
-	{
-		if (lhs.point.x == rhs.point.x &&
-			lhs.point.y == rhs.point.y &&
-			lhs.point.z == rhs.point.z &&
-			lhs.point.w == rhs.point.w &&
-			lhs.color == rhs.color)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	friend bool operator!=(const CVertex3& lhs, const CVertex3& rhs)
-	{
-		return !(lhs == rhs);
-	}
+	inline CVector2 Get2DPoint() const { return CVector2(point.x, point.y); }
 };
 
-inline void Vertex3Round(CVertex3 &v)
+inline CVertex3 Vertex3Round(const CVertex3 &v)
 {
-	v.point.x = (float)RoundPixel(v.point.x);
-	v.point.y = (float)RoundPixel(v.point.y);
-	v.point.z = (float)RoundPixel(v.point.z);
-	v.point.w = (float)RoundPixel(v.point.w);
+	CVertex3 result(v);
+	result.point.x = ceilf(v.point.x);
+	result.point.y = ceilf(v.point.y);
+	result.point.z = ceilf(v.point.z);
+	result.point.w = ceilf(v.point.w);
+	return result;
+}
+
+inline CVertex3 Vertex3Lerp(const CVertex3 &v1, const CVertex3 &v2, const float t)
+{
+	CVertex3 result;
+	result.point.x = v1.point.x + t * (v2.point.x - v1.point.x);
+	result.point.y = v1.point.y + t * (v2.point.y - v1.point.y);
+	result.point.z = v1.point.z + t * (v2.point.z - v1.point.z);
+
+	result.color = LerpColor(v1.color, v2.color, t);
+	result.normal = LerpVector3(v1.normal, v2.normal, t);
+	result.worldPoint = LerpVector3(v1.worldPoint, v2.worldPoint, t);
+	return result;
 }
 
 #endif // __VERTEX_H__

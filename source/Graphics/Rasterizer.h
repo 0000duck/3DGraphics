@@ -2,6 +2,7 @@
 #define __RASTERIZER_H__
 
 #include "Containers/Vertex2.h"
+#include "Containers/Vertex3.h"
 #include <vector>
 
 class CRasterizer
@@ -30,6 +31,11 @@ public:
 	void DrawVertex_ZEnabled(const CVertex2& vert);
 	void DrawVertex_ZEnabled(const int x, const int y, const float z, const CColor& color);
 };
+
+inline static void DrawVertex(const CVertex3& vert) 
+{ 
+	CRasterizer::Instance()->DrawVertex(vert.point.x, vert.point.y, vert.color); 
+}
 
 inline static void DrawVertex(const CVertex2& vert) 
 { 

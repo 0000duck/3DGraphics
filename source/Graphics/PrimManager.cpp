@@ -146,6 +146,7 @@ void PrimManager::AddVertex(CVertex3& vert)
 {
 	if (mReadingVerticies)
 	{
+		// Check if the normal was set by the user
 		if (mNormalInitialized)
 		{
 			// Set vert's normal to what was specified by user.
@@ -158,7 +159,7 @@ void PrimManager::AddVertex(CVertex3& vert)
 }
 // ------------------------------------------------------------------------------------------
 
-void PrimManager::AddVertex(const CVertex2& vert)
+void PrimManager::AddVertToCurrentPrim(const CVertex3& vert)
 {
 	if (mReadingVerticies && mpCurrentPrim)
 	{
@@ -247,15 +248,14 @@ void PrimManager::TransformNoShading()
 		CVector4 vWorld = tm.localToWorld * vert.point;
 		CVector3 worldNorm = tm.localToWorld.TransformNormal(vert.normal);
 
-		CVector4 v =  tm.worldToView * vWorld;
+		CVector4 v = tm.worldToView * vWorld;
 		v = tm.projection * v;	// Project the point
 		v = tm.ndcToScreen * v;	// Transform the point back to screen space
 
-		// Add the now 2D point to the current primitive type to be drawn
-		CVertex2 vert2(v.x, v.y, vert.color, worldNorm, v.z);
-		vert2.worldPoint = vWorld.ToV3();	// store original world position
-		vert2.material = vert.material;
-		AddVertex(vert2);
+		// Add the vert to the current primitive
+		vert.point = v;
+		vert.normal = worldNorm;
+		AddVertToCurrentPrim(vert);
 	}
 }
 // ------------------------------------------------------------------------------------------
@@ -280,11 +280,10 @@ void PrimManager::TransformWithShading()
 		v = tm.projection * v;	// Project the point
 		v = tm.ndcToScreen * v;	// Transform the point back to screen space
 
-		// Add the now 2D point to the current primitive type to be drawn
-		CVertex2 vert2(v.x, v.y, vert.color, vert.normal, v.z);
-		vert2.worldPoint = vert.point.ToV3();	// store original world position
-		vert2.material = vert.material;
-		AddVertex(vert2);
+		// Add the vert to the current primitive
+		vert.point = v;
+		vert.normal = worldNorm;
+		AddVertToCurrentPrim(vert);
 	}
 }
 // ------------------------------------------------------------------------------------------
@@ -320,11 +319,10 @@ void PrimManager::TransformFlatShading()
 		v = tm.projection * v;	// Project the point
 		v = tm.ndcToScreen * v;	// Transform the point back to screen space
 
-		// Add the now 2D point to the current primitive type to be drawn
-		CVertex2 vert2(v.x, v.y, vert.color, vert.normal, v.z);
-		vert2.worldPoint = vert.point.ToV3();	// store original world position
-		vert2.material = vert.material;
-		AddVertex(vert2);
+		// Add the vert to the current primitive
+		vert.point = v;
+		vert.normal = worldNorm;
+		AddVertToCurrentPrim(vert);
 	}
 }
 // ------------------------------------------------------------------------------------------

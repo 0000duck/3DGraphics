@@ -29,12 +29,14 @@ class CVector3
 public:
     // constructor/destructor
     inline CVector3() 
-		:	x(0.0f), y(0.0f), z(0.0f) {}
-    inline CVector3(float _x, float _y, float _z) :
-        x(_x), y(_y), z(_z)
+		: x(0.0f), y(0.0f), z(0.0f)
+	{
+	}
+    inline CVector3(float _x, float _y, float _z)
+        : x(_x), y(_y), z(_z)
     {
     }
-    inline ~CVector3() {}
+    //inline ~CVector3() {}
 
     // copy operations
     CVector3(const CVector3& other);
@@ -72,6 +74,7 @@ public:
     inline void Zero(); // sets all elements to 0
 	inline void Invert();
 	void Normalize();
+	inline void LerpVector3(const CVector3 to, const float t);
 
     // operators
 
@@ -107,6 +110,22 @@ private:
 //-------------------------------------------------------------------------------
 //-- Inlines --------------------------------------------------------------------
 //-------------------------------------------------------------------------------
+
+// Loads vector3 into SSE register
+inline __m128 LoadV3(const CVector3& v)
+{
+	__m128 x = _mm_load_ss(&v.x);
+	__m128 y = _mm_load_ss(&v.y);
+	__m128 z = _mm_load_ss(&v.z);
+	__m128 xy = _mm_movelh_ps(x, y);
+	return _mm_shuffle_ps(xy, z, _MM_SHUFFLE(2, 0, 2, 0));
+}
+
+// http://fastcpp.blogspot.ca/2012/02/calculating-length-of-3d-vector-using.html
+inline float FastLength3(__m128 v)
+{
+	return _mm_cvtss_f32(_mm_sqrt_ss(_mm_dp_ps(v, v, 0x71)));
+}
 
 //-------------------------------------------------------------------------------
 // @ CVector3::Set()
@@ -144,6 +163,13 @@ inline void CVector3::Invert()
 	x = -x;
 	y = -y;
 	z = -z;
+}
+
+inline void CVector3::LerpVector3(const CVector3 to, const float t)
+{
+	x = x + (t * (to.x - x));
+	y = y + (t * (to.y - y));
+	z = z + (t * (to.z - z));
 }
 
 inline CVector3 LerpVector3(const CVector3& from, const CVector3 to, const float t)

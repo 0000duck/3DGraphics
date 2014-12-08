@@ -23,33 +23,15 @@ struct CVertex2
 		:	point(x, y), z(_z), color(c) {}
 	CVertex2(float x, float y, const CColor& c, const CVector3& _normal, float _z = 0.0f)
 		:	point(x, y), normal(_normal), z(_z), color(c) {}
-
-	inline void Ceil();		// Round up all the verticies
-	inline void Floor();    // Round down all the vertices
-
-	friend bool operator==(const CVertex2& lhs, const CVertex2& rhs)
-	{
-		if (lhs.point.x == rhs.point.x &&
-			lhs.point.y == rhs.point.y &&
-			lhs.z == rhs.z &&
-			lhs.color == rhs.color)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	friend bool operator!=(const CVertex2& lhs, const CVertex2& rhs)
-	{
-		return !(lhs == rhs);
-	}
 };
 
-inline void Vertex2Round(CVertex2 &v)
+inline CVertex2 Vertex2Round(const CVertex2 &v)
 {
 	// Round up
-	v.point.x = ceilf(v.point.x);
-	v.point.y = ceilf(v.point.y);
+	CVertex2 ret(v);
+	ret.point.x = ceilf(v.point.x);
+	ret.point.y = ceilf(v.point.y);
+	return ret;
 }
 
 inline CVertex2 Vertex2Lerp(const CVertex2 &v1, const CVertex2 &v2, const float t)
@@ -61,16 +43,6 @@ inline CVertex2 Vertex2Lerp(const CVertex2 &v1, const CVertex2 &v2, const float 
 	result.color.g = v1.color.g + t * (v2.color.g - v1.color.g);
 	result.color.b = v1.color.b + t * (v2.color.b - v1.color.b);
 	return result;
-}
-
-inline void CVertex2::Ceil()
-{
-	point.Ceil();
-}
-
-inline void CVertex2::Floor()
-{
-	point.Floor();
 }
 
 #endif // __VERTEX_H__
