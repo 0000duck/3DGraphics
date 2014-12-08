@@ -31,8 +31,7 @@ const float MAX_COLOR = 1.0f;
 			std::string message;\
 			message += (buffer);\
 			message += "\n";\
-			OutputDebugStringA(message.c_str());\
-			DebugBreak();\
+			_asm {int 3};\
 		}\
 	}
 #else

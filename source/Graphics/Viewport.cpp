@@ -127,7 +127,7 @@ bool Viewport::CheckZDepth(const int x, const int y, const FLOAT z)
 	if (x < mOrigin.x || y < mOrigin.y || x >= mWidth || y >= mHeight)
 		return false;
 
-	return mZBuffer.CompareAndSet(x, y, z);
+	return mZBuffer.CompareAndSet(x-mOrigin.x, y-mOrigin.y, z);
 }
 // ------------------------------------------------------------------------------------------
 

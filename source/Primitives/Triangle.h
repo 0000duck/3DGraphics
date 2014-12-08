@@ -56,6 +56,7 @@ protected:
 
 	// Draws a flat top or flat bottom triangle
 	void DrawSection(const CLine& left, const CLine& right);
+	void DrawSection_Phong(const CLine& left, const CLine& right);
 
 //private:
 	int mVertIndex;					// Current number of verticies

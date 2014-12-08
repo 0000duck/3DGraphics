@@ -4,8 +4,10 @@
 #include "Graphics/Rasterizer.h"
 #include "Graphics/StateManager.h"
 #include "Graphics/Viewport.h"
+#include "Graphics/PrimManager.h"
 #include "Containers/Matrix33.h"
 #include "Containers/Vector3.h"
+#include "Containers/Vertex3.h"
 #include "Containers/Point.h"
 #include "Utility/Transforms.h"
 #include "Utility/MiniMath.h"
@@ -223,26 +225,78 @@ void CTriangle::DrawSection(const CLine& left, const CLine& right)
 }
 // ------------------------------------------------------------------------------------------
 
+void CTriangle::DrawSection_Phong(const CLine& left, const CLine& right)
+{
+	bool zEnabled = Viewport::Instance()->ZbufferEnabled();
+
+	// Precompute inverse slope of the lines
+	const float leftM = left.CalcInvSlope();
+	const float rightM = right.CalcInvSlope();
+	const int y1 = RoundPixel(left.mFrom.point.y);
+	const int y2 = RoundPixel(left.mTo.point.y);
+	float leftX = left.mFrom.point.x;
+	float rightX = right.mFrom.point.x;
+
+	CVertex2 lp, rp; 
+	float divisor = CalcTimeDivisor(left.mFrom.point.y, left.mTo.point.y);
+	for (int y=y1; y < y2; ++y)
+	{
+		float t = (y - y1) * divisor;
+		lp = Vertex2Lerp(left.mFrom, left.mTo, t);
+		rp = Vertex2Lerp(right.mFrom, right.mTo, t);
+
+		lp.material = left.mFrom.material;
+		rp.material = right.mFrom.material;
+
+		lp.z = Lerp(left.mFrom.z, left.mTo.z, t);
+		rp.z = Lerp(right.mFrom.z, right.mTo.z, t);
+
+		//lp.color = left.GetColorAtY(y);
+		//rp.color = right.GetColorAtY(y);
+
+		lp.normal = LerpVector3(left.mFrom.normal, left.mTo.normal, t);
+		rp.normal = LerpVector3(right.mFrom.normal, right.mTo.normal, t);
+
+		// Lerp the world coordinates -> used for lighting calculations
+		lp.worldPoint = LerpVector3(left.mFrom.worldPoint, left.mTo.worldPoint, t);
+		rp.worldPoint = LerpVector3(right.mFrom.worldPoint, right.mTo.worldPoint, t);
+
+		DrawHLine_Z_Phong(lp, rp);
+
+		// Increment by the inverse of the slope
+		leftX += leftM;
+		rightX += rightM;
+	}
+}
+// ------------------------------------------------------------------------------------------
+
 void CTriangle::Fill()
 {
 	// Sort the verts from top to bottom
 	CVertex2 v1(mV1), v2(mV2), v3(mV3);
 	v1.Ceil(); v2.Ceil(); v3.Ceil();	// Prevent edge fighting
 	SortVertsY(v1, v2, v3);
+	bool phong = (StateManager::Instance()->GetShadingMode() == ShadingMode::Phong) ? true : false;
 
 	if (CompareFloat(v1.point.y, v2.point.y))
 	{
 		// Flat top
 		CLine left = (IsLeft(v1, v2)) ? CLine(v1, v3) : CLine(v2, v3);
 		CLine right = (!IsLeft(v1, v2)) ? CLine(v1, v3) : CLine(v2, v3);
-		DrawSection(left, right);
+		if (!phong)
+			DrawSection(left, right);
+		else
+			DrawSection_Phong(left, right);
 	}
 	else if (CompareFloat(v2.point.y, v3.point.y))
 	{
 		// Flat bottom
 		CLine left = (IsLeft(v2, v3)) ? CLine(v1, v2) : CLine(v1, v3);
 		CLine right = (!IsLeft(v2, v3)) ? CLine(v1, v2) : CLine(v1, v3);
-		DrawSection(left, right);
+		if (!phong)
+			DrawSection(left, right);
+		else
+			DrawSection_Phong(left, right);
 	}
 	else
 	{
@@ -252,14 +306,30 @@ void CTriangle::Fill()
 		if (IsLeft(v2, v4))
 		{
 			// v2 is on the left
-			DrawSection(CLine(v1, v2), CLine(v1, v4));	// Top half
-			DrawSection(CLine(v2, v3), CLine(v4, v3));	// Bottom half
+			if (!phong)
+			{
+				DrawSection(CLine(v1, v2), CLine(v1, v4));	// Top half
+				DrawSection(CLine(v2, v3), CLine(v4, v3));	// Bottom half
+			}
+			else
+			{
+				DrawSection_Phong(CLine(v1, v2), CLine(v1, v4));	// Top half
+				DrawSection_Phong(CLine(v2, v3), CLine(v4, v3));	// Bottom half
+			}
 		}
 		else
 		{
 			// v2 is on the right
-			DrawSection(CLine(v1, v4), CLine(v1, v2));
-			DrawSection(CLine(v4, v3), CLine(v2, v3));
+			if (!phong)
+			{
+				DrawSection(CLine(v1, v4), CLine(v1, v2));
+				DrawSection(CLine(v4, v3), CLine(v2, v3));
+			}
+			else
+			{
+				DrawSection_Phong(CLine(v1, v4), CLine(v1, v2));
+				DrawSection_Phong(CLine(v4, v3), CLine(v2, v3));
+			}
 		}
 	}
 }
@@ -274,6 +344,9 @@ CVertex2 CTriangle::GetSplitPoint(const CVertex2& v1, const CVertex2& v2, const 
 	v4.point.x = Lerp(v1.point.x, v3.point.x, t);
 	v4.z = Lerp(v1.z, v3.z, t);
 	v4.point.y = v2.point.y;
+	v4.worldPoint = LerpVector3(v1.worldPoint, v3.worldPoint, t);
+	v4.normal = LerpVector3(v1.normal, v3.normal, t);
+	v4.material = v1.material;
 
 	// Create a temp line to find the color at that intersection
 	CLine l(v1, v3);

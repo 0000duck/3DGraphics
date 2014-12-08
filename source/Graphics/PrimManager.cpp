@@ -33,6 +33,7 @@ void PrimManager::DestroyInstance()
 {
 	if (spInstance)
 	{
+		spInstance->ClearAll();
 		delete spInstance;
 		spInstance = nullptr;
 	}
@@ -217,72 +218,114 @@ void PrimManager::Apply2DTransformations()
 
 void PrimManager::Apply3DTransformations()
 {
-	// Cache all our matricies
-	const CMatrix44& transform = MatrixManager::Instance()->GetMatrix3D();
-	const CMatrix44& WTV = Camera::Instance()->GetWorldToViewMatrix();
-	const CMatrix44& projection = Camera::Instance()->GetPerspectiveMatrix();
-	const CMatrix44& NDCtoScreen = Viewport::Instance()->GetNDCToScreenMatrix();
-
-	// Create the model view and transform it by the current matrix.
-	// Note: since modelview is just an identity matrix we can just assign the transform directly.
-	CMatrix44 modelView = WTV * transform;
-
-	int vertCount = 0;
 	ShadingMode::Mode shadingmode = StateManager::Instance()->GetShadingMode();
-
-	VertList::iterator it = mVertList.begin();
-	for (it; it != mVertList.end(); ++it)
+	switch (shadingmode)
 	{
-		// Put point and normal into world space.
-		CVector4 v = transform * it->point;
-		// worldNorm = normal in worldspace.
-		CVector3 worldNorm = transform.TransformNormal(it->normal);
-
-		if (shadingmode != ShadingMode::None)
-		{
-			CVertex3 temp(v.ToV3(), it->color, it->material, worldNorm );
-			CColor lighting = ComputeLighting(shadingmode, temp, vertCount);
-			it->color *= lighting;
-		}
-
-		// Transform into camera space
-		v = WTV * v;
-
-		// Project the point
-		v = projection * v;
-
-		// Convert back to legal HC matrix
-		if (v.w != 1.0f)
-		{
-			v /= v.w;
-			v.w = 1.0f;
-		}
-
-		// Transform the point back to screen space
-		v = NDCtoScreen * v;
-
-		// Add the now 2D point to the current primitive type to be drawn
-		AddVertex(CVertex2(v.x, v.y, it->color, it->normal, v.z));
+	case ShadingMode::None:
+	case ShadingMode::Phong:
+		TransformNoShading();
+		break;
+	case ShadingMode::Flat:
+		TransformFlatShading();
+		break;
+	case ShadingMode::Gouraud:
+		TransformWithShading();
+		break;
 	}
 }
 // ------------------------------------------------------------------------------------------
 
-CColor PrimManager::ComputeLighting(ShadingMode::Mode mode, CVertex3& point, int& vertCount)
+void PrimManager::TransformNoShading()
 {
-	CColor color;
+	const TMatrices tm = MatrixManager::Instance()->GetTransformMatricies();
+
+	// Since we don't need to worry about lighting, we can combine the WTV and local to world
+	CMatrix44 modelview = tm.worldToView * tm.localToWorld;
+	for (auto vert : mVertList)
+	{
+		// Transform from local to world to camera
+		CVector4 vWorld = tm.localToWorld * vert.point;
+		CVector3 worldNorm = tm.localToWorld.TransformNormal(vert.normal);
+
+		CVector4 v =  tm.worldToView * vWorld;
+		v = tm.projection * v;	// Project the point
+		v = tm.ndcToScreen * v;	// Transform the point back to screen space
+
+		// Add the now 2D point to the current primitive type to be drawn
+		CVertex2 vert2(v.x, v.y, vert.color, worldNorm, v.z);
+		vert2.worldPoint = vWorld.ToV3();	// store original world position
+		vert2.material = vert.material;
+		AddVertex(vert2);
+	}
+}
+// ------------------------------------------------------------------------------------------
+
+void PrimManager::TransformWithShading()
+{
+	const TMatrices tm = MatrixManager::Instance()->GetTransformMatricies();
+	LightManager& lightManager = *LightManager::Instance();
+
+	for (auto vert : mVertList)
+	{
+		// Put point and normal into world space.
+		CVector4 v = tm.localToWorld * vert.point;
+		CVector3 worldNorm = tm.localToWorld.TransformNormal(vert.normal);
+
+		// Get 3D components for lighting calculations
+		CVertex3 temp(v.ToV3(), vert.color, vert.material, worldNorm);
+		CColor lighting = lightManager.ComputeLighting(temp);
+		vert.color *= lighting;	// Apply the lighting
+
+		v = tm.worldToView * v;	// Transform into camera space
+		v = tm.projection * v;	// Project the point
+		v = tm.ndcToScreen * v;	// Transform the point back to screen space
+
+		// Add the now 2D point to the current primitive type to be drawn
+		CVertex2 vert2(v.x, v.y, vert.color, vert.normal, v.z);
+		vert2.worldPoint = vert.point.ToV3();	// store original world position
+		vert2.material = vert.material;
+		AddVertex(vert2);
+	}
+}
+// ------------------------------------------------------------------------------------------
+
+void PrimManager::TransformFlatShading()
+{
+	const TMatrices tm = MatrixManager::Instance()->GetTransformMatricies();
+	LightManager& lightManager = *LightManager::Instance();
+
+	int vertCount = 0;
+	CColor currentLighting;
 	int numVerts = mpCurrentPrim->MaxVerticies();
-	if (mode == ShadingMode::Flat && (vertCount % numVerts) == 0)
+
+	for (auto vert : mVertList)
 	{
+		// Put point and normal into world space.
+		CVector4 v = tm.localToWorld * vert.point;
+		CVector3 worldNorm = tm.localToWorld.TransformNormal(vert.normal);
+
+		// Get 3D components for lighting calculations
+		CVertex3 temp(v.ToV3(), vert.color, vert.material, worldNorm);
+
 		// Only compute lighting when we move to a new face
-		color = LightManager::Instance()->ComputeLighting(point);
+		if ((vertCount % numVerts) == 0)
+		{
+			currentLighting = lightManager.ComputeLighting(temp);
+		}
+		// Apply the lighting
+		vert.color *= currentLighting;
+		++vertCount;
+
+		v = tm.worldToView * v;	// Transform into camera space
+		v = tm.projection * v;	// Project the point
+		v = tm.ndcToScreen * v;	// Transform the point back to screen space
+
+		// Add the now 2D point to the current primitive type to be drawn
+		CVertex2 vert2(v.x, v.y, vert.color, vert.normal, v.z);
+		vert2.worldPoint = vert.point.ToV3();	// store original world position
+		vert2.material = vert.material;
+		AddVertex(vert2);
 	}
-	else
-	{
-		// Otherwise calculate lighting for each vert
-		color = LightManager::Instance()->ComputeLighting(point);
-	}
-	++vertCount;
-	return color;
 }
 // ------------------------------------------------------------------------------------------
 
@@ -315,8 +358,6 @@ bool CompareZ(PrimPtr& p1, PrimPtr& p2)
 void PrimManager::DepthSort()
 {
 	std::sort(mPrimitiveList.begin(), mPrimitiveList.end(), CompareZ);
-	//const int sz = mPrimitiveList.size();
-
 }
 // ------------------------------------------------------------------------------------------
 

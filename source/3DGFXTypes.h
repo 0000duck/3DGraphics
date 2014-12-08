@@ -60,14 +60,15 @@ static const CString ModeString[NumModes] =
 
 namespace ShadingMode
 {
-const int NumModes = 3;
+const int NumModes = 4;
 
 enum Mode
 {
 	Invalid = -1,
 	None,
 	Flat,
-	Gouraud
+	Gouraud,
+	Phong
 };
 	 
 // String version of the modes
@@ -75,15 +76,11 @@ static const CString ModeString[NumModes] =
 {
 	L"none",
 	L"flat",
-	L"gouraud"
+	L"gouraud",
+	L"phong"
 };
 
 } // namespace ShadingMode
-
-//typedef std::pair<const CString*, const int> ModeList;
-//ModeList ShadingModes = std::make_pair(ShadingMode::ModeString, ShadingMode::NumModes);
-//ModeList FillModes = std::make_pair(FillMode::ModeString, FillMode::NumModes);
-//ModeList PrimTypes = std::make_pair(PrimType::TypeString, PrimType::NumTypes);
 
 //====================================================================================================
 // Type helpers

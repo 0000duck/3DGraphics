@@ -1033,6 +1033,13 @@ CMatrix44::operator*( const CVector4& other ) const
     result.z = mV[2]*other.x + mV[6]*other.y + mV[10]*other.z + mV[14]*other.w;
     result.w = mV[3]*other.x + mV[7]*other.y + mV[11]*other.z + mV[15]*other.w;
 
+	// Convert back to legal HC matrix
+	if (result.w > 1.0f)
+	{
+		result /= result.w;
+		result.w = 1.0f;
+	}
+
     return result;
 
 }   // End of CMatrix44::operator*()

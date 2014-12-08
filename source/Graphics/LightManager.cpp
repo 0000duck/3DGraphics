@@ -10,7 +10,7 @@
 // static singleton member initialization
 LightManager* LightManager::spInstance = nullptr;
 
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 // Singleton accessor
 LightManager* LightManager::Instance()
@@ -21,7 +21,7 @@ LightManager* LightManager::Instance()
 	}
 	return spInstance;
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 void LightManager::DestroyInstance()
 {
@@ -31,7 +31,7 @@ void LightManager::DestroyInstance()
 		spInstance = nullptr;
 	}
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 LightManager::LightManager()
 	:	mAttenConstant(0.0f)
@@ -39,25 +39,25 @@ LightManager::LightManager()
 	,	mAttenQuadratic(0.0f)
 {
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 LightManager::~LightManager()
 {
 	Clear();
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 void LightManager::Reset()
 {
 	Clear();
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 void LightManager::AddLight(CLight* light)
 {
 	mLights.push_back(std::move(light));
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 void LightManager::Clear()
 {
@@ -68,12 +68,12 @@ void LightManager::Clear()
 	}
 	mLights.clear();
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 CColor LightManager::GetSurfaceColor(const CVertex3& point)
 {
-	const CVector3& viewerpos = Camera::Instance()->GetLookFrom();
 	CColor color;
+	const CVector3& viewerpos = Camera::Instance()->GetLookFrom();
 	for (auto light : mLights)
 	{
 		// Get the sum of the intermediate per-light values from all the lights
@@ -83,7 +83,7 @@ CColor LightManager::GetSurfaceColor(const CVertex3& point)
 	//return ((mWorldAmbient * point.material.ambient) + point.material.emissive) + color;
 	return (point.material.ambient + point.material.emissive) + color;
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 CColor LightManager::ComputeLighting(CVertex3& point)
 {
@@ -93,10 +93,12 @@ CColor LightManager::ComputeLighting(CVertex3& point)
 	case ShadingMode::Flat:
 		return ComputeFlatShading(point);
 	case ShadingMode::Gouraud:
+	case ShadingMode::Phong:
 		return ComputeGouraudShading(point);
 	}
 	return CColor(1.0f, 1.0f, 1.0f);
 }
+// ------------------------------------------------------------------------------------------
 
 CColor LightManager::ComputeFlatShading(CVertex3& point)
 {
@@ -106,11 +108,13 @@ CColor LightManager::ComputeFlatShading(CVertex3& point)
 
 	return GetSurfaceColor(point);
 }
+// ------------------------------------------------------------------------------------------
 
 CColor LightManager::ComputeGouraudShading(CVertex3& point)
 {
 	return GetSurfaceColor(point);
 }
+// ------------------------------------------------------------------------------------------
 
 void LightManager::SetMaterialColor(Material::Type mat, const CColor& color)
 {
@@ -130,7 +134,7 @@ void LightManager::SetMaterialColor(Material::Type mat, const CColor& color)
 		break;
 	}
 }
-// --------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
 
 void LightManager::SetAttenuation(LightType::Attenuation atten, float val)
 {

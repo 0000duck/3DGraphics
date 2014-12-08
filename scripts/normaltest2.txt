@@ -4,7 +4,7 @@ zbuffer on
 clip on
 backfacecull on
 
-cameraPersp 0 0 10 0 0 0
+cameraPersp 0 0 5 0 0 0
 cameraFOV 90
 cameraNear 0.1
 cameraFar 1000.0
@@ -19,13 +19,13 @@ lightSpecular 1 1 1
 # attenLinear 0.05
 
 clearLights
-directionalLight -0.5 -1 1
+directionalLight 0 -0.1 0
 #spotLight -2 3 -5 0 0 1 60 1
 
 lightDiffuse .5 .5 .5
 #pointLight -5 3 -4
 
-matrix3DRotate 0 1 0
+matrix3DRotate 0 0 0
 matrix3DTranslate 0 0 0
 
 fillmode fill
@@ -34,8 +34,8 @@ color 1 1 0
 
 materialAmbient 0.1 0.1 0.1
 materialDiffuse 0.9 0.1 0.1
-materialSpecular 1 1 1
-materialShininess 16.0
+materialSpecular 0.9 0.9 0.1
+materialShininess 5.0
 
 drawbegin triangle
 normal -0.378084 -0.907920 0.180922
@@ -2054,4 +2054,5 @@ vertex3 -2.613126 2.828427 -1.082392
 drawend
 # 
  
+
 

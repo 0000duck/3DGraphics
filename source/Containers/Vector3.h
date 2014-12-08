@@ -146,4 +146,13 @@ inline void CVector3::Invert()
 	z = -z;
 }
 
+inline CVector3 LerpVector3(const CVector3& from, const CVector3 to, const float t)
+{
+	CVector3 v;
+	v.x = from.x + (t * (to.x - from.x));
+	v.y = from.y + (t * (to.y - from.y));
+	v.z = from.z + (t * (to.z - from.z));
+	return v;
+}
+
 #endif

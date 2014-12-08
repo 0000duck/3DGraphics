@@ -1,14 +1,14 @@
-viewport 10 10 600 500
+viewport 0 0 400 300
 showviewport on
 clip on
 backfacecull off
 
-cameraPersp 0 0 -5 0 0 1
+cameraPersp 0 0 3 0 0 0
 cameraFOV 90
 cameraNear 0.1
 cameraFar 1000.0
 
-matrix3DRotate 0 0 1
+matrix3DRotate 0 0 0
 
 fillmode fill
 
@@ -17,11 +17,7 @@ drawbegin triangle
 color 1 1 0
 vertex3 -1 1 1
 vertex3 -1 -1 1
-vertex3 1 1 1
-
-vertex3 -1 -1 1
-vertex3 1 -1 1
-vertex3 1 1 1
+vertex3  1 1 1
 
 drawend
 

@@ -4,6 +4,8 @@
 #include "Containers/Vector3.h"
 #include "Containers/Vector4.h"
 #include "Utility/MiniMath.h"
+#include "Camera.h"
+#include "Viewport.h"
 
 // static singleton member initialization
 MatrixManager* MatrixManager::spInstance = nullptr;
@@ -157,4 +159,15 @@ const CMatrix33& MatrixManager::GetMatrix2D() const
 const CMatrix44& MatrixManager::GetMatrix3D() const
 {
 	return mMatrix44;
+}
+// ------------------------------------------------------------------------------------------
+
+TMatrices MatrixManager::GetTransformMatricies() const
+{
+	TMatrices tm;
+	tm.localToWorld	= mMatrix44;
+	tm.worldToView	= Camera::Instance()->GetWorldToViewMatrix();
+	tm.projection	= Camera::Instance()->GetPerspectiveMatrix();
+	tm.ndcToScreen	= Viewport::Instance()->GetNDCToScreenMatrix();
+	return tm;
 }

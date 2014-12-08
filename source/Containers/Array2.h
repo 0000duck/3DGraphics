@@ -501,6 +501,10 @@ template< class T >
 const T& Array2<T>::Get(std::size_t x, std::size_t y) const
 {
 	//AIAssertMsg(x < mWidth && y < mHeight, "Array subscript out of range");
+	if (x >= mWidth || y >= mHeight)
+	{
+		int a = 1;
+	}
 	assert(x < mWidth && y < mHeight);
 	return (*(mData + (x + (mWidth * y))));
 }

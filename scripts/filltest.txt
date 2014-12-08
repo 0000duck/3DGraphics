@@ -7,13 +7,7 @@ drawbegin triangle
 
 color 1 0 0
 vertex2 200 10
-color 0 1 0
 vertex2 20 200
-color 0 1 1
 vertex2 350 200
 
 drawend
-
-matrix2DTranslate 25 10
-
-showviewport on

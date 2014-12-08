@@ -14,6 +14,7 @@
 #include "Utility/NonCopyable.h"
 #include "Primitives/Primitive.h"
 #include "Containers/Material.h"
+#include "Containers/Vertex3.h"
 #include <vector>
 #include <memory>
 
@@ -52,6 +53,7 @@ public:
 	void SetMaterial(Material::Type type, const CColor& color);
 	void SetMaterialShine(float shine);
 	const CMaterial& GetCurrentMaterial() const { return mCurrentMaterial; }
+	VertList GetVertList() const { return mVertList; }
 	
 	// Add a vertex to the current primitive.
 	// If the current primitive has the max amount of verticies
@@ -94,7 +96,9 @@ private:
 	// Sorts the primitives in ascending Z order
 	void DepthSort();
 
-	CColor ComputeLighting(ShadingMode::Mode mode, CVertex3& point, int& vertCount);
+	void TransformNoShading();
+	void TransformWithShading();
+	void TransformFlatShading();
 
 private:
 	// Static instance

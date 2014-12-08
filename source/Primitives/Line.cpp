@@ -2,7 +2,9 @@
 #include "Line.h"
 #include "Graphics/StateManager.h"
 #include "Graphics/Rasterizer.h"
+#include "Graphics/LightManager.h"
 #include "Containers/Vector3.h"
+#include "Containers/Vertex3.h"
 #include "Containers/Matrix33.h"
 #include "Utility/Transforms.h"
 
@@ -375,6 +377,33 @@ void DrawHorizontalLine_Z(float fromX, float toX, float y, float z1, float z2, c
 	}
 }
 // ------------------------------------------------------------------------------------------
+
+void DrawHLine_Z_Phong(const CVertex2& from, const CVertex2& to)
+{
+	const int _axis = RoundPixel(to.point.y);
+	const int _from = RoundPixel(from.point.x);
+	const int _to = RoundPixel(to.point.x);
+
+	float divisor = CalcTimeDivisor(from.point.x, to.point.x);
+	int inc = (divisor < 0.0f) ? -1 : 1;
+
+	for (int x = _from; x != _to; x += inc)
+	{
+		float t = (x - _from) * divisor;
+		CColor pixelColor = LerpColor(from.color, to.color, t);
+		
+		CVector3 normal = Normalize(LerpVector3(from.normal, to.normal, t));
+		CVector3 worldpos = LerpVector3(from.worldPoint, to.worldPoint, t);
+		CVertex3 v(worldpos, pixelColor, from.material, normal);
+		pixelColor *= LightManager::Instance()->ComputeLighting(v);
+
+		//pixelColor = CColor( normal.x, normal.y, normal.z );
+
+		float z = Lerp(from.z, to.z, t);
+		DrawVertex_Z(x, _axis, z, pixelColor);
+		//DrawVertex(x, _axis, pixelColor);
+	}
+}
 
 void DrawVerticalLine_Z(const CVertex2& from, const CVertex2& to)
 {

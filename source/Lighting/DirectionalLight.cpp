@@ -26,5 +26,9 @@ CColor CDirectionalLight::GetSurfaceColor(const CVertex3& sp, const CVector3& vi
 	CColor diffuse = ComputeDiffuse(intensity, pointToLight, sp);
 	CColor specular = ComputeSpecular(intensity, pointToLight,  viewerPos, sp);
 
+	if (specular.r  == 1.0f && specular.g == 1.0f && specular.b == 1.0f)
+	{
+		int i=0;
+	}
 	return (ambient + diffuse + specular);
 }

@@ -18,6 +18,14 @@
 class CVector2;
 class CVector3;
 
+struct TMatrices
+{
+	CMatrix44 localToWorld;
+	CMatrix44 worldToView;
+	CMatrix44 projection;
+	CMatrix44 ndcToScreen;
+};
+
 class MatrixManager : private NonCopyable
 {
 	// Constructor
@@ -63,6 +71,7 @@ public:
 	// Accessors
 	const CMatrix33& GetMatrix2D() const;
 	const CMatrix44& GetMatrix3D() const;
+	TMatrices GetTransformMatricies() const;
 
 private:
 	// Static instance

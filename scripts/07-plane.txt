@@ -1,14 +1,14 @@
 viewport 10 10 400 300
 showviewport on
 clip on
-backfacecull on
+backfacecull off
 
 cameraPersp 0 10 -30 0 0 0
 cameraFOV 90
 cameraNear 0.1
 cameraFar 1000.0
 
-shadingmode none
+shadingmode gouraud
 
 lightAmbient 0.1 0.1 0.1
 lightDiffuse 0.8 0.8 0.8
@@ -19,7 +19,7 @@ attenLinear 0.1
 
 clearLights
 #directionalLight 0 1 -1
-pointLight 0 3 -2
+pointLight 0 3 -4
 #spotLight 0 5 0 0 -1 0 60 1
 
 matrix3DRotate 0 1 0

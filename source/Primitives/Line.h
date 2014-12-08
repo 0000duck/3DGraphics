@@ -95,4 +95,6 @@ void DrawHorizontalLine_Z(float fromX, float toX, float y, float z1, float z2, c
 void DrawVerticalLine_Z(const CVertex2& from, const CVertex2& to);
 void DrawVerticalLine_Z(float fromY, float toY, float x, float z1, float z2, const CColor& cfrom, const CColor& cto);
 
+void DrawHLine_Z_Phong(const CVertex2& from, const CVertex2& to);
+
 #endif
