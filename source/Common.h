@@ -17,6 +17,7 @@ const float MAX_COLOR = 1.0f;
 //====================================================================================================
 
 #define CLAMP(x, low, high)  (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
+#define SUB_PIX(a) (ceil(a)-a)
 
 #if defined(_DEBUG)
 	#define AIASSERT(condition, format, ...)\

@@ -18,12 +18,23 @@ public:
 		CLAMP(b, 0.0f, 1.0f);
 	}
 
+	friend CColor Clamp(const CColor& col)
+	{
+		CColor c(col);
+		CLAMP(c.r, 0.0f, 1.0f);
+		CLAMP(c.g, 0.0f, 1.0f);
+		CLAMP(c.b, 0.0f, 1.0f);
+		return c;
+	}
+
 	bool IsValid() const
 	{
 		// Valid range is from 0.0 to 1.0
 		return (r >= 0.0f && g >= 0.0f && b >= 0.0f &&
 				r <= 1.0f && g <= 1.0f && b <= 1.0f);
 	}
+
+	inline void Lerp(const CColor& other, float t);
 
 	friend CColor operator+( const CColor &lhs, const CColor &rhs )
 	{

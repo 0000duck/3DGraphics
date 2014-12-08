@@ -106,7 +106,7 @@ DistanceSquared(const CVector3& p0, const CVector3& p1)
 //-------------------------------------------------------------------------------
 float CVector3::Length() const
 {
-	return FastLength3(LoadV3(*this));
+	return length3(LoadV3(*this));
 	//return (sqrt(Dot(CVector3(x, y, z))));
 
 } // End of ::Length()
@@ -187,8 +187,10 @@ CVector3 Cross(const CVector3& a, const CVector3& b)
 
 CVector3 Reflect(const CVector3& v, const CVector3& normal)
 {
-	CVector3 temp = Dot(v, normal) * normal;
-	return CVector3(v - (2.0f * temp));
+	//CVector3 temp = Dot(v, normal) * normal;
+	//return CVector3(v - (2.0f * temp));
+	return CVector3(v - 2.0f * normal * (Dot(normal, v)));
+	//return CVector3(2.0f * Dot(v, normal) * (normal - v));
 }
 
 //-------------------------------------------------------------------------------

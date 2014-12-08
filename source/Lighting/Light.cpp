@@ -27,10 +27,8 @@ CColor CLight::ComputeSpecular(const float intensity, const CVector3& pToL, cons
 	float shine = PrimManager::Instance()->GetCurrentMaterial().shine;
 	if (Dot(pToL, sp.normal) > 0.0f)
 	{
-		//CVector3 pointToViewer = Normalize(sp.Get3DPoint() - viewerPos);	
 		CVector3 pointToViewer = Normalize(sp.Get3DPoint() - viewerPos);	
-		CVector3 reflected = Normalize(Reflect(pToL, sp.normal));
-
+		CVector3 reflected = Reflect(pToL, sp.normal);
 		float angle = pow(Dot(reflected, pointToViewer), shine);
 		specular = intensity * mSpecular * max(0.0f, angle) * sp.material.specular;
 	}

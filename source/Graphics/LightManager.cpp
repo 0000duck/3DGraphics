@@ -68,47 +68,16 @@ void LightManager::Clear()
 
 CColor LightManager::GetSurfaceColor(const CVertex3& point)
 {
-	CColor color;
+	CMaterial mat;
 	const CVector3& viewerpos = Camera::Instance()->GetLookFrom();
 	for (auto &light : mLights)
 	{
-		// Get the sum of the intermediate per-light values from all the lights
-		color += light->GetSurfaceColor(point, viewerpos);
+		// Each light adds their own light to the material
+		light->GetSurfaceColor(point, viewerpos, mat);
 	}
-	// Me + Wa * Ma + SumLights(Ca + Cd + Cs)
-	//return ((mWorldAmbient * point.material.ambient) + point.material.emissive) + color;
-	return (point.material.ambient + point.material.emissive) + color;
-}
-// ------------------------------------------------------------------------------------------
-
-CColor LightManager::ComputeLighting(CVertex3& point)
-{
-	ShadingMode::Mode shadingmode = StateManager::Instance()->GetShadingMode();
-	switch (shadingmode)
-	{
-	case ShadingMode::Flat:
-		return ComputeFlatShading(point);
-	case ShadingMode::Gouraud:
-	case ShadingMode::Phong:
-		return ComputeGouraudShading(point);
-	}
-	return CColor(1.0f, 1.0f, 1.0f);
-}
-// ------------------------------------------------------------------------------------------
-
-CColor LightManager::ComputeFlatShading(CVertex3& point)
-{
-	//CVector2 midpoint = prim->GetPivot();
-	//float z = prim->GetZDepth();
-	//CVector3 v3(midpoint.x, midpoint.y, z);
-
-	return GetSurfaceColor(point);
-}
-// ------------------------------------------------------------------------------------------
-
-CColor LightManager::ComputeGouraudShading(CVertex3& point)
-{
-	return GetSurfaceColor(point);
+	// Apply the lighting to the vertex's color.
+	// Specular needs to be added separately or it won't be white
+	return Clamp(((mat.ambient + mat.diffuse) * point.color) + mat.specular);
 }
 // ------------------------------------------------------------------------------------------
 

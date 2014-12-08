@@ -187,14 +187,10 @@ void CTriangle::DrawSection(const CLine& left, const CLine& right)
 
 		// Draw the horizontal span between the two points
 		if (zEnabled)
-		{
 			DrawHorizontalLine_Z(leftX, rightX, (float)y, leftZ, rightZ, lc, rc);
-		}
 		else
-		{
 			// No need for depth checks
 			DrawHorizontalLine(leftX, rightX, (float)y, lc, rc);
-		}
 
 		// Increment by the inverse of the slope
 		leftX += leftM;
@@ -215,7 +211,7 @@ void CTriangle::DrawSection_Phong(const CLine& left, const CLine& right)
 	float leftX = left.mFrom.point.x;
 	float rightX = right.mFrom.point.x;
 
-	CVertex3 lp, rp; 
+	CVertex3 lp, rp;
 	lp.material = left.mFrom.material;
 	rp.material = right.mFrom.material;
 
@@ -226,7 +222,10 @@ void CTriangle::DrawSection_Phong(const CLine& left, const CLine& right)
 		lp = Vertex3Lerp(left.mFrom, left.mTo, t);
 		rp = Vertex3Lerp(right.mFrom, right.mTo, t);
 
-		DrawHLine_Z_Phong(lp, rp);
+		if (zEnabled)
+			DrawHLine_Z_Phong(lp, rp);
+		else
+			DrawHLine_Phong(lp, rp);
 
 		// Increment by the inverse of the slope
 		leftX += leftM;

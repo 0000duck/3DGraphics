@@ -20,20 +20,21 @@ public:
 	CLight(const LightType::Type type);
 
 	// Computes the per-light part of the combined lighting equation
-	virtual CColor GetSurfaceColor(const CVertex3& point, const CVector3& viewerPos) = 0;
+	virtual void GetSurfaceColor(const CVertex3& point, const CVector3& viewerPos, CMaterial& outmat) = 0;
 
 	// Mutators
 	void SetAmbient(const CColor& c)	{ mAmbient = c; }
 	void SetDiffuse(const CColor& c)	{ mDiffuse = c; }
 	void SetSpecular(const CColor& c)	{ mSpecular = c; }
 
-protected:
 	// Light type specific
 	virtual float CalculateIntensity(const CVector3& pointToLight) = 0;
 
 	virtual CColor ComputeAmbient(const float intensity, const CColor& spAmbient);
 	virtual CColor ComputeDiffuse(const float intensity, const CVector3& pToL, const CVertex3& point);
 	virtual CColor ComputeSpecular(const float intensity, const CVector3& pToL, const CVector3& viewerPos, const CVertex3& point);
+
+	const CVector3& GetPosition() const { return mPosition; }
 
 protected:
 	const LightType::Type mType;

@@ -16,6 +16,8 @@ struct CVertex3
 	CVector3 normal;
 	CMaterial material;
 
+	static CVertex3 lerpResult;
+
 	inline CVertex3() {}
 	inline CVertex3(const CVector4& p, const CColor& c)
 		:	point(p), color(c) 
@@ -32,6 +34,18 @@ struct CVertex3
 	inline CVertex3(float x, float y, float z, const CColor& c)
 		:	point(x, y, z, 1.0f), color(c) 
 	{
+	}
+	inline CVertex3& operator=(const CVertex3& rhs)
+	{
+		if (this != &rhs)
+		{
+			color = rhs.color;
+			point = rhs.point;
+			worldPoint = rhs.worldPoint;
+			normal = rhs.normal;
+			material = rhs.material;
+		}
+		return *this;
 	}
 
 	inline CVector3 Get3DPoint() const { return CVector3(point.x, point.y, point.z); }
@@ -50,15 +64,15 @@ inline CVertex3 Vertex3Round(const CVertex3 &v)
 
 inline CVertex3 Vertex3Lerp(const CVertex3 &v1, const CVertex3 &v2, const float t)
 {
-	CVertex3 result;
-	result.point.x = v1.point.x + t * (v2.point.x - v1.point.x);
-	result.point.y = v1.point.y + t * (v2.point.y - v1.point.y);
-	result.point.z = v1.point.z + t * (v2.point.z - v1.point.z);
+	CVertex3::lerpResult.point.x = v1.point.x + t * (v2.point.x - v1.point.x);
+	CVertex3::lerpResult.point.y = v1.point.y + t * (v2.point.y - v1.point.y);
+	CVertex3::lerpResult.point.z = v1.point.z + t * (v2.point.z - v1.point.z);
 
-	result.color = LerpColor(v1.color, v2.color, t);
-	result.normal = LerpVector3(v1.normal, v2.normal, t);
-	result.worldPoint = LerpVector3(v1.worldPoint, v2.worldPoint, t);
-	return result;
+	CVertex3::lerpResult.color = LerpColor(v1.color, v2.color, t);
+	CVertex3::lerpResult.normal = LerpVector3(v1.normal, v2.normal, t);
+	CVertex3::lerpResult.worldPoint = LerpVector3(v1.worldPoint, v2.worldPoint, t);
+	CVertex3::lerpResult.material = v1.material;	// prevent material from being overwritten
+	return CVertex3::lerpResult;
 }
 
 #endif // __VERTEX_H__

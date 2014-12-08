@@ -273,8 +273,7 @@ void PrimManager::TransformWithShading()
 
 		// Get 3D components for lighting calculations
 		CVertex3 temp(v.ToV3(), vert.color, vert.material, worldNorm);
-		CColor lighting = lightManager.ComputeLighting(temp);
-		vert.color *= lighting;	// Apply the lighting
+		vert.color = lightManager.GetSurfaceColor(temp);
 
 		v = tm.worldToView * v;	// Transform into camera space
 		v = tm.projection * v;	// Project the point
@@ -309,10 +308,9 @@ void PrimManager::TransformFlatShading()
 		// Only compute lighting when we move to a new face
 		if ((vertCount % numVerts) == 0)
 		{
-			currentLighting = lightManager.ComputeLighting(temp);
+			currentLighting = lightManager.GetSurfaceColor(temp);
 		}
-		// Apply the lighting
-		vert.color *= currentLighting;
+		vert.color = currentLighting;
 		++vertCount;
 
 		v = tm.worldToView * v;	// Transform into camera space

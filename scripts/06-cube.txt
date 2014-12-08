@@ -1,27 +1,67 @@
-viewport 10 10 600 500
+viewport 10 10 400 300
 showviewport on
 clip on
-backfacecull off
+backfacecull on
+zbuffer off
 
-cameraPersp 0 0 -5 0 0 1
+cameraPersp 0 3 -5 0 0 1
 cameraFOV 90
 cameraNear 0.1
 cameraFar 1000.0
 
-matrix3DRotate 0 0 1
+matrix3DRotate 0 0.5 0
 
 fillmode fill
 
 drawbegin triangle
 
 color 1 1 0
-vertex3 -1 1 1
-vertex3 -1 -1 1
-vertex3 1 1 1
+vertex3 -1  1  1
+vertex3 -1 -1  1
+vertex3  1 -1  1
+vertex3 -1  1  1
+vertex3  1 -1  1
+vertex3  1  1  1
 
-vertex3 -1 -1 1
-vertex3 1 -1 1
-vertex3 1 1 1
+color 1 0 1
+vertex3 -1  1 -1
+vertex3  1 -1 -1
+vertex3 -1 -1 -1
+vertex3 -1  1 -1
+vertex3  1  1 -1
+vertex3  1 -1 -1
+
+color 0 1 1
+vertex3  1  1  1
+vertex3  1 -1  1
+vertex3  1 -1 -1
+vertex3  1  1  1
+vertex3  1 -1 -1
+vertex3  1  1 -1
+
+color 1 0 0
+vertex3 -1  1  1
+vertex3 -1  1 -1
+vertex3 -1 -1 -1
+vertex3 -1  1  1
+vertex3 -1 -1 -1
+vertex3 -1 -1  1
+
+color 0 1 0
+vertex3 -1  1 -1
+vertex3 -1  1  1
+vertex3  1  1  1
+vertex3 -1  1 -1
+vertex3  1  1  1
+vertex3  1  1 -1
+
+color 0 0 1
+vertex3 -1 -1 -1
+vertex3  1 -1  1
+vertex3 -1 -1  1
+vertex3 -1 -1 -1
+vertex3  1 -1 -1
+vertex3  1 -1  1
 
 drawend
 

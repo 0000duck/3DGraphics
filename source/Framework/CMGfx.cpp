@@ -25,7 +25,7 @@
 #include <crtdbg.h>
 
 #ifdef _DEBUG
-#include <vld.h>
+//#include <vld.h>
 #define new DEBUG_NEW
 #endif
 

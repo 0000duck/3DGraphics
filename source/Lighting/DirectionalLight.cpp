@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "DirectionalLight.h"
-//#include "C:\Program Files (x86)\Visual Leak Detector\include\vld.h"
+#include "Containers/Color.h"
+
 
 CDirectionalLight::CDirectionalLight(const CVector3& direction)
 	:	CLight(LightType::Directional)
@@ -17,18 +18,12 @@ float CDirectionalLight::CalculateIntensity(const CVector3& sp)
 }
 // ------------------------------------------------------------------------------------------
 
-CColor CDirectionalLight::GetSurfaceColor(const CVertex3& sp, const CVector3& viewerPos)
+void CDirectionalLight::GetSurfaceColor(const CVertex3& sp, const CVector3& viewerPos, CMaterial& outmat)
 {
-	float intensity = CalculateIntensity(sp.Get3DPoint());
+	float intensity = 1.0f;
 
 	CVector3 pointToLight = Normalize(-mPosition);
-	CColor ambient = ComputeAmbient(intensity, sp.material.ambient);
-	CColor diffuse = ComputeDiffuse(intensity, pointToLight, sp);
-	CColor specular = ComputeSpecular(intensity, pointToLight,  viewerPos, sp);
-
-	if (specular.r  == 1.0f && specular.g == 1.0f && specular.b == 1.0f)
-	{
-		int i=0;
-	}
-	return (ambient + diffuse + specular);
+	outmat.ambient += ComputeAmbient(intensity, sp.material.ambient);
+	outmat.diffuse += ComputeDiffuse(intensity, pointToLight, sp);
+	outmat.specular += ComputeSpecular(intensity, pointToLight, viewerPos, sp);
 }

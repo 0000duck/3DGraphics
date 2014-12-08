@@ -8,6 +8,7 @@
 #include "Containers/Matrix33.h"
 #include "Utility/Transforms.h"
 
+CVertex3 CVertex3::lerpResult = CVertex3();
 
 CLine::CLine() 
 	:	CPrimitive(PrimType::Line)
@@ -403,27 +404,50 @@ void DrawHLine_Z_Phong(const CVertex3& from, const CVertex3& to)
 	CVector3 normal, worldpos;
 	for (int x = _from; x != _to; x += inc)
 	{
+		float t = (x - _from) * divisor;	// Get how far along the span we are
+		pixelColor = LerpColor(from.color, to.color, t);	// Local, natural color
+		
+		// Lerp the normal and world position across the span; used for lighting
+		normal = Normalize(LerpVector3(from.normal, to.normal, t));
+		worldpos = LerpVector3(from.worldPoint, to.worldPoint, t);
+		// Create a temp with our world position and world normal for accurate lighting
+		CVertex3 v(worldpos, pixelColor, from.material, normal);
+		pixelColor = LightManager::Instance()->GetSurfaceColor(v);
+
+		// Lerp the Z to be used by the ZBuffer
+		float z = Lerp(from.point.z, to.point.z, t);
+		DrawVertex_Z(x, _axis, z, pixelColor);
+	}
+}
+// ------------------------------------------------------------------------------------------
+
+void DrawHLine_Phong(const CVertex3& from, const CVertex3& to)
+{
+	const int _axis = RoundPixel(to.point.y);
+	const int _from = RoundPixel(from.point.x);
+	const int _to = RoundPixel(to.point.x);
+
+	float divisor = CalcTimeDivisor(from.point.x, to.point.x);
+	int inc = (divisor < 0.0f) ? -1 : 1;
+
+	CColor pixelColor;
+	CVector3 normal, worldpos;
+	for (int x = _from; x != _to; x += inc)
+	{
 		float t = (x - _from) * divisor;
 		pixelColor = LerpColor(from.color, to.color, t);
 		
-		normal = from.normal;
-		normal.LerpVector3(to.normal, t);
-		normal.Normalize();
-		//normal = Normalize(LerpVector3(from.normal, to.normal, t));
-		worldpos = from.worldPoint;
-		worldpos.LerpVector3(to.worldPoint, t);
-		//worldpos = LerpVector3(from.worldPoint, to.worldPoint, t);
-
+		// Lerp the normal and world position across the span; used for lighting
+		normal = Normalize(LerpVector3(from.normal, to.normal, t));
+		worldpos = LerpVector3(from.worldPoint, to.worldPoint, t);
+		// Create a temp with our world position and world normal for accurate lighting
 		CVertex3 v(worldpos, pixelColor, from.material, normal);
-		pixelColor *= LightManager::Instance()->ComputeLighting(v);
+		pixelColor = LightManager::Instance()->GetSurfaceColor(v);
 
-		//pixelColor = CColor( normal.x, normal.y, normal.z );
-
-		float z = Lerp(from.point.z, to.point.z, t);
-		DrawVertex_Z(x, _axis, z, pixelColor);
-		//DrawVertex(x, _axis, pixelColor);
+		DrawVertex(x, _axis, pixelColor);
 	}
 }
+// ------------------------------------------------------------------------------------------
 
 void DrawVerticalLine_Z(const CVertex3& from, const CVertex3& to)
 {

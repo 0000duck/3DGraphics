@@ -122,9 +122,25 @@ inline __m128 LoadV3(const CVector3& v)
 }
 
 // http://fastcpp.blogspot.ca/2012/02/calculating-length-of-3d-vector-using.html
-inline float FastLength3(__m128 v)
+inline float length3(__m128 v)
 {
+	// _mm_dp_ps multiply the three lower floats of v with themselves and store 
+	// the sum of the product in the lowest float of the result.
+	// Since only the lowest float of the result is used, we can use the single 
+	// float square root _mm_sqrt_ss and convert the result to the native C++ datatype
 	return _mm_cvtss_f32(_mm_sqrt_ss(_mm_dp_ps(v, v, 0x71)));
+}
+
+inline __m128 normalize3(__m128 v)
+{
+	__m128 inverse_norm = _mm_rsqrt_ps(_mm_dp_ps(v, v, 0x77));
+	return _mm_mul_ps(v, inverse_norm);
+}
+
+inline __m128 normalize3_accurate(__m128 v)
+{
+	__m128 norm = _mm_sqrt_ps(_mm_dp_ps(v, v, 0x7F));
+	return _mm_div_ps(v, norm);
 }
 
 //-------------------------------------------------------------------------------

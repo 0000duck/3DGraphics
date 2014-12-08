@@ -9,6 +9,8 @@ cameraFOV 90
 cameraNear 0.1
 cameraFar 1000.0
 
+#shadingmode flat
+#shadingmode gouraud
 shadingmode phong
 
 lightAmbient 0.1 0.1 0.1
@@ -19,7 +21,7 @@ lightSpecular 1 1 1
 # attenLinear 0.05
 
 clearLights
-directionalLight -0.5 -1 1
+directionalLight 1 0 0
 #spotLight -2 3 -5 0 0 1 60 1
 
 lightDiffuse .5 .5 .5
@@ -30,7 +32,7 @@ matrix3DTranslate 0 0 0
 
 fillmode fill
 
-color 1 1 0
+color 1 0 0
 
 materialAmbient 0.1 0.1 0.1
 materialDiffuse 0.9 0.1 0.1

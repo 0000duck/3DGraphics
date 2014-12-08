@@ -47,10 +47,6 @@ public:
 	// Computes the color at the given surface point with the combined lighting equation
 	CColor GetSurfaceColor(const CVertex3& point);
 
-	CColor ComputeLighting(CVertex3& point);
-	CColor ComputeFlatShading(CVertex3& point);
-	CColor ComputeGouraudShading(CVertex3& point);
-
 	inline bool SceneHasLights() const { return (mLights.size() > 0); }
 
 public:	// Mutators/Accessors

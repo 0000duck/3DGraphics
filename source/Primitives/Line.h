@@ -96,6 +96,7 @@ void DrawHorizontalLine_Z(float fromX, float toX, float y, float z1, float z2, c
 void DrawVerticalLine_Z(const CVertex3& from, const CVertex3& to);
 void DrawVerticalLine_Z(float fromY, float toY, float x, float z1, float z2, const CColor& cfrom, const CColor& cto);
 
-void DrawHLine_Z_Phong(const CVertex3& from, const CVertex3& to);
+void DrawHLine_Z_Phong(const CVertex3& from, const CVertex3& to);	// Lerps Z, worldpos and world normal
+void DrawHLine_Phong(const CVertex3& from, const CVertex3& to);		// Lerps worldpos and world normal
 
 #endif
