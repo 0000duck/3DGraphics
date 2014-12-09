@@ -56,6 +56,9 @@
     <Filter Include="Commands\Shading">
       <UniqueIdentifier>{94db81b5-053f-417e-adb8-e6919bed41be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commands\Texturing">
+      <UniqueIdentifier>{257049cb-f213-4916-be98-1a01e7c5ae28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\stdafx.cpp">
@@ -291,6 +294,30 @@
     </ClCompile>
     <ClCompile Include="..\..\source\Commands\CmdShadingMode.cpp">
       <Filter>Commands\Shading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Utility\TextureLoadBMP.cpp">
+      <Filter>Common\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Graphics\TextureManager.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Primitives\Texture.cpp">
+      <Filter>Common\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdTextureBoundary.cpp">
+      <Filter>Commands\Texturing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdLoadTexture.cpp">
+      <Filter>Commands\Texturing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdClearTextures.cpp">
+      <Filter>Commands\Texturing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdTextureID.cpp">
+      <Filter>Commands\Texturing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\Commands\CmdTextureCoord.cpp">
+      <Filter>Commands\Texturing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -569,6 +596,33 @@
     </ClInclude>
     <ClInclude Include="..\..\source\3DGFXTypes.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Utility\TextureLoad.h">
+      <Filter>Common\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Utility\TextureLoadBMP.h">
+      <Filter>Common\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Graphics\TextureManager.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Primitives\Texture.h">
+      <Filter>Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdTextureBoundary.h">
+      <Filter>Commands\Texturing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdLoadTexture.h">
+      <Filter>Commands\Texturing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdClearTextures.h">
+      <Filter>Commands\Texturing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdTextureID.h">
+      <Filter>Commands\Texturing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\Commands\CmdTextureCoord.h">
+      <Filter>Commands\Texturing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

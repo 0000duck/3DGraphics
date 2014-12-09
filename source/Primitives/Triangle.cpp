@@ -7,6 +7,7 @@
 #include "Graphics/PrimManager.h"
 #include "Containers/Matrix33.h"
 #include "Containers/Vector3.h"
+#include "Containers/Vector2.h"
 #include "Containers/Vertex3.h"
 #include "Containers/Point.h"
 #include "Utility/Transforms.h"
@@ -306,7 +307,10 @@ CVertex3 CTriangle::GetSplitPoint(const CVertex3& v1, const CVertex3& v2, const 
 
 	v4.worldPoint = LerpVector3(v1.worldPoint, v3.worldPoint, t);
 	v4.normal = LerpVector3(v1.normal, v3.normal, t);
+
 	v4.material = v1.material;
+	v4.textureId = v1.textureId;
+	v4.UVCoord = LerpVector2(v1.UVCoord, v2.UVCoord, t);
 
 	// Create a temp line to find the color at that intersection
 	CLine l(v1, v3);

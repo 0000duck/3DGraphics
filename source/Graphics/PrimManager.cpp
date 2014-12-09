@@ -46,6 +46,8 @@ PrimManager::PrimManager()
 	,	mReadingVerticies(false)
 	,	mCurrentNormal(0.0f, 0.1f, 0.0f)
 	,	mNormalInitialized(false)
+	,	mCurrentTextureID(0)
+	,	mTexturing(false)
 {
 }
 // ------------------------------------------------------------------------------------------
@@ -146,6 +148,13 @@ void PrimManager::AddVertex(CVertex3& vert)
 {
 	if (mReadingVerticies)
 	{
+		if (mTexturing)
+		{
+			// Associate the vert's texture ID with the current one
+			vert.textureId = mCurrentTextureID;
+			vert.UVCoord = mCurrentTexCoord;
+		}
+
 		// Check if the normal was set by the user
 		if (mNormalInitialized)
 		{

@@ -134,4 +134,13 @@ inline CVector2 Max(const CVector2& lhs, const CVector2& rhs)
 	return CVector2(max(lhs.x, rhs.x), max(lhs.y, rhs.y));
 }
 
+inline CVector2 LerpVector2(const CVector2& from, const CVector2 to, const float t)
+{
+	CVector2 v;
+	v.x = from.x + (t * (to.x - from.x));
+	v.y = from.y + (t * (to.y - from.y));
+	return v;
+}
+
+
 #endif

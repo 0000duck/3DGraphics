@@ -82,6 +82,28 @@ static const CString ModeString[NumModes] =
 
 } // namespace ShadingMode
 
+namespace Texturing
+{
+const int NumModes = 3;
+
+enum Boundary
+{
+	Invalid = -1,
+	None,
+	Wrap,
+	Clamp
+};
+	 
+// String version of the modes
+static const CString ModeString[NumModes] =
+{
+	L"none",
+	L"wrap",
+	L"clamp",
+};
+
+} // namespace ShadingMode
+
 //====================================================================================================
 // Type helpers
 //====================================================================================================

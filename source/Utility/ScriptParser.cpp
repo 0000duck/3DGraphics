@@ -57,6 +57,12 @@ CScriptParser::CScriptParser(void)
 	m_CommandDictionary.insert(std::make_pair(CString("materialspecular"), new CCmdMaterialSpecular));
 	m_CommandDictionary.insert(std::make_pair(CString("materialshininess"), new CCmdMaterialShininess));
 	m_CommandDictionary.insert(std::make_pair(CString("shadingmode"), new CCmdShadingMode));
+
+	m_CommandDictionary.insert(std::make_pair(CString("cleartextures"), new CCmdClearTextures));
+	m_CommandDictionary.insert(std::make_pair(CString("loadtexture"), new CCmdLoadTexture));
+	m_CommandDictionary.insert(std::make_pair(CString("textureboundary"), new CCmdTextureBoundary));
+	m_CommandDictionary.insert(std::make_pair(CString("texturecoord"), new CCmdTextureCoord));
+	m_CommandDictionary.insert(std::make_pair(CString("textureid"), new CCmdTextureID));
 }
 
 CScriptParser::~CScriptParser(void)

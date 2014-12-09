@@ -136,6 +136,7 @@
     <ClCompile Include="..\..\source\Commands\CmdCameraNear.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdCameraPersp.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdClearLights.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdClearTextures.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdClip.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdColor.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdDirectionalLight.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="..\..\source\Commands\CmdLightAmbient.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdLightDiffuse.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdLightSpecular.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdLoadTexture.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdMaterialAmbient.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdMaterialDiffuse.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdMaterialEmissive.cpp" />
@@ -165,6 +167,9 @@
     <ClCompile Include="..\..\source\Commands\CmdShadingMode.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdShowViewport.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdSpotLight.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdTextureBoundary.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdTextureCoord.cpp" />
+    <ClCompile Include="..\..\source\Commands\CmdTextureID.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdVertex2.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdVertex3.cpp" />
     <ClCompile Include="..\..\source\Commands\CmdViewport.cpp" />
@@ -194,6 +199,7 @@
     <ClCompile Include="..\..\source\Graphics\PrimManager.cpp" />
     <ClCompile Include="..\..\source\Graphics\Rasterizer.cpp" />
     <ClCompile Include="..\..\source\Graphics\StateManager.cpp" />
+    <ClCompile Include="..\..\source\Graphics\TextureManager.cpp" />
     <ClCompile Include="..\..\source\Graphics\Viewport.cpp" />
     <ClCompile Include="..\..\source\Lighting\DirectionalLight.cpp" />
     <ClCompile Include="..\..\source\Lighting\Light.cpp" />
@@ -201,9 +207,11 @@
     <ClCompile Include="..\..\source\Lighting\SpotLight.cpp" />
     <ClCompile Include="..\..\source\Primitives\Line.cpp" />
     <ClCompile Include="..\..\source\Primitives\Primitive.cpp" />
+    <ClCompile Include="..\..\source\Primitives\Texture.cpp" />
     <ClCompile Include="..\..\source\Primitives\Triangle.cpp" />
     <ClCompile Include="..\..\source\stdafx.cpp" />
     <ClCompile Include="..\..\source\Utility\ScriptParser.cpp" />
+    <ClCompile Include="..\..\source\Utility\TextureLoadBMP.cpp" />
     <ClCompile Include="..\..\source\Utility\Transforms.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +225,7 @@
     <ClInclude Include="..\..\source\Commands\CmdCameraNear.h" />
     <ClInclude Include="..\..\source\Commands\CmdCameraPersp.h" />
     <ClInclude Include="..\..\source\Commands\CmdClearLights.h" />
+    <ClInclude Include="..\..\source\Commands\CmdClearTextures.h" />
     <ClInclude Include="..\..\source\Commands\CmdClip.h" />
     <ClInclude Include="..\..\source\Commands\CmdColor.h" />
     <ClInclude Include="..\..\source\Commands\CmdCommand.h" />
@@ -228,6 +237,7 @@
     <ClInclude Include="..\..\source\Commands\CmdLightAmbient.h" />
     <ClInclude Include="..\..\source\Commands\CmdLightDiffuse.h" />
     <ClInclude Include="..\..\source\Commands\CmdLightSpecular.h" />
+    <ClInclude Include="..\..\source\Commands\CmdLoadTexture.h" />
     <ClInclude Include="..\..\source\Commands\CmdMaterialAmbient.h" />
     <ClInclude Include="..\..\source\Commands\CmdMaterialDiffuse.h" />
     <ClInclude Include="..\..\source\Commands\CmdMaterialEmissive.h" />
@@ -247,6 +257,9 @@
     <ClInclude Include="..\..\source\Commands\CmdShadingMode.h" />
     <ClInclude Include="..\..\source\Commands\CmdShowViewport.h" />
     <ClInclude Include="..\..\source\Commands\CmdSpotLight.h" />
+    <ClInclude Include="..\..\source\Commands\CmdTextureBoundary.h" />
+    <ClInclude Include="..\..\source\Commands\CmdTextureCoord.h" />
+    <ClInclude Include="..\..\source\Commands\CmdTextureID.h" />
     <ClInclude Include="..\..\source\Commands\CmdVertex2.h" />
     <ClInclude Include="..\..\source\Commands\CmdVertex3.h" />
     <ClInclude Include="..\..\source\Commands\CmdViewport.h" />
@@ -284,6 +297,7 @@
     <ClInclude Include="..\..\source\Graphics\PrimManager.h" />
     <ClInclude Include="..\..\source\Graphics\Rasterizer.h" />
     <ClInclude Include="..\..\source\Graphics\StateManager.h" />
+    <ClInclude Include="..\..\source\Graphics\TextureManager.h" />
     <ClInclude Include="..\..\source\Graphics\Viewport.h" />
     <ClInclude Include="..\..\source\Lighting\DirectionalLight.h" />
     <ClInclude Include="..\..\source\Lighting\Light.h" />
@@ -292,12 +306,15 @@
     <ClInclude Include="..\..\source\Lighting\SpotLight.h" />
     <ClInclude Include="..\..\source\Primitives\Line.h" />
     <ClInclude Include="..\..\source\Primitives\Primitive.h" />
+    <ClInclude Include="..\..\source\Primitives\Texture.h" />
     <ClInclude Include="..\..\source\Primitives\Triangle.h" />
     <ClInclude Include="..\..\source\resource.h" />
     <ClInclude Include="..\..\source\stdafx.h" />
     <ClInclude Include="..\..\source\Utility\MiniMath.h" />
     <ClInclude Include="..\..\source\Utility\NonCopyable.h" />
     <ClInclude Include="..\..\source\Utility\ScriptParser.h" />
+    <ClInclude Include="..\..\source\Utility\TextureLoad.h" />
+    <ClInclude Include="..\..\source\Utility\TextureLoadBMP.h" />
     <ClInclude Include="..\..\source\Utility\Transforms.h" />
   </ItemGroup>
   <ItemGroup>

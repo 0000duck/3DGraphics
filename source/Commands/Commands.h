@@ -63,7 +63,13 @@
 #include "CmdMaterialEmissive.h"
 #include "CmdMaterialShininess.h"
 #include "CmdMaterialSpecular.h"
-
 #include "CmdShadingMode.h"
+
+// Texturing
+#include "CmdClearTextures.h"
+#include "CmdLoadTexture.h"
+#include "CmdTextureBoundary.h"
+#include "CmdTextureCoord.h"
+#include "CmdTextureID.h"
 
 #endif

@@ -48,11 +48,17 @@ public:
 
 	// Sets the current normal that read in verts take on
 	void SetCurrentNormal(const CVector3& norm);
+	
+	void SetTexturingEnabled(bool state)		{ mTexturing = state; }
+	void SetCurrentTexCoord(const CVector2& uv) { mCurrentTexCoord = uv; }
+	void SetCurrentTexture(const int id)		{ mCurrentTextureID = id; }
+	const CVector2& GetCurrentTexCoord() const	{ return mCurrentTexCoord; }
+	int GetCurrentTexture() const				{ return mCurrentTextureID; }
 
 	void SetMaterial(Material::Type type, const CColor& color);
 	void SetMaterialShine(float shine);
 	const CMaterial& GetCurrentMaterial() const { return mCurrentMaterial; }
-	VertList GetVertList() const { return mVertList; }
+	VertList GetVertList() const				{ return mVertList; }
 	
 	// Add a vertex to the current primitive.
 	// If the current primitive has the max amount of verticies
@@ -110,6 +116,10 @@ private:
 	CVector3 mCurrentNormal;	// Normal of the verts being read in
 	bool mNormalInitialized;	// Normal was explicitly declared in script
 	CMaterial mCurrentMaterial;
+
+	bool mTexturing;
+	int mCurrentTextureID;
+	CVector2 mCurrentTexCoord;
 };
 
 #endif

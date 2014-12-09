@@ -15,24 +15,26 @@ struct CVertex3
 	CVector3 worldPoint;
 	CVector3 normal;
 	CMaterial material;
+	CVector2 UVCoord;
+	int textureId;
 
 	static CVertex3 lerpResult;
 
 	inline CVertex3() {}
 	inline CVertex3(const CVector4& p, const CColor& c)
-		:	point(p), color(c) 
+		:	point(p), color(c), textureId(-1)
 	{
 	}
 	inline CVertex3(const CVector3& p, const CColor& c)
-		:	point(p.x, p.y, p.z, 1.0f), color(c) 
+		:	point(p.x, p.y, p.z, 1.0f), color(c), textureId(-1)
 	{
 	}
 	inline CVertex3(const CVector3& p, const CColor& c, const CMaterial& mat, const CVector3& norm)
-		:	point(p.x, p.y, p.z, 1.0f), color(c), material(mat), normal(norm)
+		:	point(p.x, p.y, p.z, 1.0f), color(c), material(mat), normal(norm), textureId(-1)
 	{
 	}
 	inline CVertex3(float x, float y, float z, const CColor& c)
-		:	point(x, y, z, 1.0f), color(c) 
+		:	point(x, y, z, 1.0f), color(c), textureId(-1)
 	{
 	}
 	inline CVertex3& operator=(const CVertex3& rhs)
@@ -44,6 +46,8 @@ struct CVertex3
 			worldPoint = rhs.worldPoint;
 			normal = rhs.normal;
 			material = rhs.material;
+			UVCoord = rhs.UVCoord;
+			textureId = rhs.textureId;
 		}
 		return *this;
 	}

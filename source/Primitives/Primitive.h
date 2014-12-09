@@ -68,6 +68,7 @@ protected:
 
 protected:
 	const PrimType::Type mType;
+	int mTextureID;
 };
 
 #endif
