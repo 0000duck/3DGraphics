@@ -316,30 +316,6 @@ float CalcInvSlope(const CVector2& from, const CVector2& to)
 }
 // ------------------------------------------------------------------------------------------
 
-void DrawHorizontalLine(const CVertex3& from, const CVertex3& to)
-{
-	DrawHorizontalLine(from.point.x, to.point.x, from.point.y, from.color, to.color);
-}
-// ------------------------------------------------------------------------------------------
-
-void DrawHorizontalLine(float fromX, float toX, float y, const CColor& cfrom, const CColor& cto)
-{
-	const int _axis = RoundPixel(y);
-	const int _from = RoundPixel(fromX);
-	const int _to = RoundPixel(toX);
-
-	float divisor = CalcTimeDivisor(fromX, toX);
-	int inc = (divisor < 0.0f) ? -1 : 1;
-
-	for (int x = _from; x != _to; x += inc)
-	{
-		float t = (x - _from) * divisor;
-		CColor pixelColor = LerpColor(cfrom, cto, t);
-		DrawVertex(x, _axis, pixelColor);
-	}
-}
-// ------------------------------------------------------------------------------------------
-
 void DrawVerticalLine(const CVertex3& from, const CVertex3& to)
 {
 	DrawVerticalLine(from.point.y, to.point.y, from.point.x, from.color, to.color);
@@ -348,18 +324,42 @@ void DrawVerticalLine(const CVertex3& from, const CVertex3& to)
 
 void DrawVerticalLine(float fromY, float toY, float x, const CColor& cfrom, const CColor& cto)
 {
-	const int _axis = RoundPixel(x);
-	const int _from = RoundPixel(fromY);
-	const int _to = RoundPixel(toY);
-
 	float divisor = CalcTimeDivisor(fromY, toY);
 	int inc = (divisor < 0.0f) ? -1 : 1;
+
+	const int _axis = RoundPixel(x);
+	const int _from = RoundPixel(fromY);
+	const int _to = RoundPixel(toY) + inc;
 
 	for (int y = _from; y != _to; y += inc)
 	{
 		float t = (y - _from) * divisor;
 		CColor pixelColor = LerpColor(cfrom, cto, t);
 		DrawVertex(_axis, y, pixelColor);
+	}
+}
+// ------------------------------------------------------------------------------------------
+
+void DrawHorizontalLine(const CVertex3& from, const CVertex3& to)
+{
+	DrawHorizontalLine(from.point.x, to.point.x, from.point.y, from.color, to.color);
+}
+// ------------------------------------------------------------------------------------------
+
+void DrawHorizontalLine(float fromX, float toX, float y, const CColor& cfrom, const CColor& cto)
+{
+	float divisor = CalcTimeDivisor(fromX, toX);
+	int inc = (divisor < 0.0f) ? -1 : 1;
+
+	const int _axis = RoundPixel(y);
+	const int _from = RoundPixel(fromX);
+	const int _to = RoundPixel(toX) + inc;
+
+	for (int x = _from; x != _to; x += inc)
+	{
+		float t = (x - _from) * divisor;
+		CColor pixelColor = LerpColor(cfrom, cto, t);
+		DrawVertex(x, _axis, pixelColor);
 	}
 }
 // ------------------------------------------------------------------------------------------
@@ -372,12 +372,12 @@ void DrawHorizontalLine_Z(const CVertex3& from, const CVertex3& to)
 
 void DrawHorizontalLine_Z(float fromX, float toX, float y, float z1, float z2, const CColor& cfrom, const CColor& cto)
 {
-	const int _axis = RoundPixel(y);
-	const int _from = RoundPixel(fromX);
-	const int _to = RoundPixel(toX);
-
 	float divisor = CalcTimeDivisor(fromX, toX);
 	int inc = (divisor < 0.0f) ? -1 : 1;
+
+	const int _axis = RoundPixel(y);
+	const int _from = RoundPixel(fromX);
+	const int _to = RoundPixel(toX) + inc;
 
 	CColor pixelColor;
 	for (int x = _from; x != _to; x += inc)
@@ -393,12 +393,12 @@ void DrawHorizontalLine_Z(float fromX, float toX, float y, float z1, float z2, c
 
 void DrawHLine_Z_Phong(const CVertex3& from, const CVertex3& to)
 {
-	const int _axis = RoundPixel(to.point.y);
-	const int _from = RoundPixel(from.point.x);
-	const int _to = RoundPixel(to.point.x);
-
 	float divisor = CalcTimeDivisor(from.point.x, to.point.x);
 	int inc = (divisor < 0.0f) ? -1 : 1;
+
+	const int _axis = RoundPixel(to.point.y);
+	const int _from = RoundPixel(from.point.x);
+	const int _to = RoundPixel(to.point.x) + inc;
 
 	CColor pixelColor;
 	CVector3 normal, worldpos;
@@ -423,12 +423,12 @@ void DrawHLine_Z_Phong(const CVertex3& from, const CVertex3& to)
 
 void DrawHLine_Phong(const CVertex3& from, const CVertex3& to)
 {
-	const int _axis = RoundPixel(to.point.y);
-	const int _from = RoundPixel(from.point.x);
-	const int _to = RoundPixel(to.point.x);
-
 	float divisor = CalcTimeDivisor(from.point.x, to.point.x);
 	int inc = (divisor < 0.0f) ? -1 : 1;
+
+	const int _axis = RoundPixel(to.point.y);
+	const int _from = RoundPixel(from.point.x);
+	const int _to = RoundPixel(to.point.x) + inc;
 
 	CColor pixelColor;
 	CVector3 normal, worldpos;
@@ -457,12 +457,12 @@ void DrawVerticalLine_Z(const CVertex3& from, const CVertex3& to)
 
 void DrawVerticalLine_Z(float fromY, float toY, float x, float z1, float z2, const CColor& cfrom, const CColor& cto)
 {
-	const int _axis = RoundPixel(x);
-	const int _from = RoundPixel(fromY);
-	const int _to = RoundPixel(toY);
-
 	float divisor = CalcTimeDivisor(fromY, toY);
 	int inc = (divisor < 0.0f) ? -1 : 1;
+
+	const int _axis = RoundPixel(x);
+	const int _from = RoundPixel(fromY);
+	const int _to = RoundPixel(toY) + inc;
 
 	CColor pixelColor;
 	for (int y = _from; y != _to; y += inc)
@@ -490,7 +490,7 @@ void FastDrawLine(const CVertex3& from, const CVertex3& to)
 		int inc = (divisor < 0.0f) ? -1 : 1;	// +/- direction
 
 		const int y1 = RoundPixel(from.point.y);
-		const int y2 = RoundPixel(to.point.y);
+		const int y2 = RoundPixel(to.point.y) + inc;
 
 		for (int y = y1; y != y2; y += inc)
 		{
@@ -509,7 +509,7 @@ void FastDrawLine(const CVertex3& from, const CVertex3& to)
 		int inc = (divisor < 0.0f) ? -1 : 1;	// +/- direction
 
 		const int x1 = RoundPixel(from.point.x);
-		const int x2 = RoundPixel(to.point.x);
+		const int x2 = RoundPixel(to.point.x) + inc;
 
 		for (int x = x1; x != x2; x += inc)
 		{

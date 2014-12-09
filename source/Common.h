@@ -92,7 +92,7 @@ inline float Lerp(float p0, float p1, float t)
 
 inline int RoundPixel(float val)
 {
-	return static_cast<int>(ceilf(val));
+	return static_cast<int>((val + 0.5f));
 }
 
 // Referencd from Quake III Arena (including original comments because lol)

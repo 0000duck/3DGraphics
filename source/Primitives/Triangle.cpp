@@ -187,10 +187,10 @@ void CTriangle::DrawSection(const CLine& left, const CLine& right)
 
 		// Draw the horizontal span between the two points
 		if (zEnabled)
-			DrawHorizontalLine_Z(leftX, rightX, (float)y, leftZ, rightZ, lc, rc);
+			DrawHorizontalLine_Z(leftX, rightX, y, leftZ, rightZ, lc, rc);
 		else
 			// No need for depth checks
-			DrawHorizontalLine(leftX, rightX, (float)y, lc, rc);
+			DrawHorizontalLine(leftX, rightX, y, lc, rc);
 
 		// Increment by the inverse of the slope
 		leftX += leftM;
